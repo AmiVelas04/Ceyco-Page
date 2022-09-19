@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, FormLabel } from "react-bootstrap";
+import { Container, Form, FormLabel, InputGroup } from "react-bootstrap";
 import axios from "axios";
 
 export const ComboCli = () => {
   const URLget1 = "cliente/todos";
 
   const getCli = async () => {
-    console.log(URLget1);
+    //  console.log(URLget1);
     const response = axios.get(URLget1);
 
     return response;
@@ -32,11 +32,16 @@ export const ComboCli = () => {
         <Form>
           <Form.Group className="mb-3">
             <FormLabel>Cliente</FormLabel>
-            <Form.Select aria-label="Default select example">
-              {clientes.map((dato) => (
-                <option className="form-group">{dato.nombre}</option>
-              ))}
-            </Form.Select>
+            <InputGroup>
+              <InputGroup.Text>
+                <i className="bi bi-person-fill"></i>
+              </InputGroup.Text>
+              <Form.Select aria-label="Default select example">
+                {clientes.map((dato) => (
+                  <option className="form-group">{dato.nombre}</option>
+                ))}
+              </Form.Select>
+            </InputGroup>
           </Form.Group>
         </Form>
       </div>

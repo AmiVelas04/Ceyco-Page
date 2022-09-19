@@ -1,10 +1,9 @@
-import React, { useState, useEffect, Container } from "react";
+import React, { useState } from "react";
 import "../css/login.css";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { FormControl } from "react-bootstrap";
+import { InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useParams } from "react-router-dom";
 
 export const Login = () => {
   const Url = "Usuario/log/";
@@ -43,30 +42,44 @@ export const Login = () => {
   };
 
   return (
-    <div className="containerPrincipal">
-      <div className="containerSecundario">
-        <div className="form-group">
-          <label>Usuario</label>
-          <input
-            type="text"
-            className="form-control"
-            name="user"
-            placeholder="Ingrese su usuario"
-            onChange={handleChange}
-          />
-          <br />
-          <label>Contraseña</label>
-          <input
-            type="password"
-            className="form-control"
-            name="pass"
-            placeholder="Ingrese su contraseña"
-            onChange={handleChange}
-          />
-          <br />
-          <button className="btn btn-primary" onClick={() => iniciarSesion()}>
-            Iniciar Sesion
-          </button>
+    <div className="login">
+      <div className="containerPrincipal">
+        <div className="containerSecundario">
+          <div className="form-group">
+            <label>Usuario</label>
+            <InputGroup>
+              <InputGroup.Text>
+                {" "}
+                <i className="bi bi-person-fill"></i>
+              </InputGroup.Text>
+              <input
+                type="text"
+                className="form-control"
+                name="user"
+                placeholder="Ingrese su usuario"
+                onChange={handleChange}
+              />
+              <br />
+            </InputGroup>
+            <br />
+            <label>Contraseña</label>
+            <InputGroup>
+              <InputGroup.Text>
+                <i className="bi bi-key-fill"></i>
+              </InputGroup.Text>
+              <input
+                type="password"
+                className="form-control"
+                name="pass"
+                placeholder="Ingrese su contraseña"
+                onChange={handleChange}
+              />
+            </InputGroup>
+            <br />
+            <button className="btn btn-primary" onClick={() => iniciarSesion()}>
+              Iniciar Sesion
+            </button>
+          </div>
         </div>
       </div>
     </div>

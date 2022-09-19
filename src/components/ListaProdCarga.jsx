@@ -13,7 +13,7 @@ import {
   Col,
 } from "react-bootstrap";
 
-export const ListProdOp = ({ prods, handleElim, Edita }) => {
+export const ListaProdCarga = ({ prods, handleElim, Edita }) => {
   const [precio, setPrecio] = useState("0");
   const [canti, setCanti] = useState("0");
   const [Lprods, setLprods] = useState([]);
@@ -44,20 +44,6 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
     // 👇️ prevent page refresh
     event.preventDefault();
   };
-
-  /*const handleEliminarprod = (indice) => {
-    prods.splice(indice);
-    setProdu(prods);
-  };*/
-
-  /* const handleEditar = (id) => {
-    Lprods.map((datos) => {
-      if (datos.id_prod === id) {
-        datos.cantidad = precio;
-        datos.pven = canti;
-      }
-    });
-  };*/
 
   const handleSave = () => {
     Edita(dataModal.id, dataModal.canti, dataModal.precios);
@@ -187,7 +173,7 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
         <Row>
           <Col>
             <Button size="lg" variant="success">
-              Realizar Venta
+              Cargar Ruta
             </Button>
           </Col>
           <Col align="right">
@@ -222,7 +208,7 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
                 placeholder="Precio"
                 value={dataModal.precios}
                 onChange={handleChangeModal}
-                required
+                disabled
               />
             </Form.Group>
 
@@ -254,4 +240,4 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
   );
 };
 
-export default ListProdOp;
+export default ListaProdCarga;

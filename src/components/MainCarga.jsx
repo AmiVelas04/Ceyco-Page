@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { Container, Card, CardGroup } from "react-bootstrap";
-import { BuscProd } from "./BuscProd";
-import { ComboCli } from "./ComboCli";
+import { Card, Container, CardGroup } from "react-bootstrap";
+import CardHeader from "react-bootstrap/esm/CardHeader";
+import BuscProd from "./BuscProd";
+import ComboVende from "./ComboVende";
+import ListaProdCarga from "./ListaProdCarga";
 
-import { ListProdOp } from "./ListProdOp";
-import { TipoVen } from "./TipoVen";
-
-export const MainVenta = () => {
+export const MainCarga = () => {
   const [produ, setProdu] = useState([]);
-  const [lista, setLista] = useState(<ListProdOp prods={produ} />);
+  const [lista, setLista] = useState(<ListaProdCarga prods={produ} />);
 
   const obtenProdu = (prod) => {
     produ.push(prod);
@@ -56,29 +55,32 @@ export const MainVenta = () => {
 
   const listado = (produc) => {
     setLista(
-      <ListProdOp prods={produc} handleElim={elimProd} Edita={editProd} />
+      <ListaProdCarga prods={produc} handleElim={elimProd} Edita={editProd} />
     );
   };
 
   return (
     <Container>
-      <CardGroup>
-        <Card>
-          <Card.Body>
-            <BuscProd DevProd={obtenProdu} />
-            <TipoVen></TipoVen>
-          </Card.Body>
-        </Card>
-
-        <Card>
-          <Card.Body>
-            <ComboCli></ComboCli>
-          </Card.Body>
-        </Card>
-      </CardGroup>
-
+      <br></br>
+      <Card>
+        <CardHeader>
+          <h3>Carga de productos a vendedor</h3>
+        </CardHeader>
+        <CardGroup>
+          <Card>
+            <Card.Body>
+              <BuscProd DevProd={obtenProdu} />
+            </Card.Body>
+          </Card>
+          <Card>
+            <Card.Body>
+              <ComboVende></ComboVende>
+            </Card.Body>
+          </Card>
+        </CardGroup>
+      </Card>
       <br />
-      <h3 className="text-center"> Listado de productos para venta</h3>
+      <h3 className="text-center"> Listado de productos de ruta</h3>
       <Card>{lista}</Card>
     </Container>
   );

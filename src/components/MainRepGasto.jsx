@@ -49,11 +49,13 @@ export const MainRepGasto = () => {
             <ListGroup.Item>
               <Container>
                 <Button variant="primary" onClick={() => mostrar()}>
-                  Generar Reporte Individual
+                  Generar Reporte Individual{" "}
+                  <i className="bi bi-layout-text-sidebar"></i>
                 </Button>
                 <label> &nbsp;&nbsp;&nbsp;&nbsp; </label>
                 <Button variant="success" onClick={() => mostrar()}>
-                  Generar Reporte General
+                  Generar Reporte General{" "}
+                  <i className="bi bi-layout-text-sidebar"></i>
                 </Button>
               </Container>
             </ListGroup.Item>

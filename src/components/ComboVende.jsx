@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, FormLabel } from "react-bootstrap";
+import { Container, Form, FormLabel, InputGroup } from "react-bootstrap";
 import axios from "axios";
 
 export const ComboVende = ({ vend }) => {
@@ -10,18 +10,11 @@ export const ComboVende = ({ vend }) => {
   };
   // const [cli, setCli] = useState("1");
   const [vende, setVende] = useState([]);
-  const [sele, setSele] = useState(0);
 
   /*const handleChangeCli = (e) => {
     e.preventDefault();
     setCli(e.value);
   };*/
-
-  const HandelChange = async (e) => {
-    setSele(e.target.value);
-    console.log(sele);
-    //usua = sele;
-  };
 
   useEffect(() => {
     //usefect body
@@ -36,13 +29,18 @@ export const ComboVende = ({ vend }) => {
       <Form>
         <Form.Group className="mb-3">
           <FormLabel>Vendedor</FormLabel>
-          <Form.Select aria-label="" onChange={vend} name="vendedor">
-            {vende.map((dato) => (
-              <option className="form-group" value={dato.id_usu}>
-                {dato.nombre}
-              </option>
-            ))}
-          </Form.Select>
+          <InputGroup>
+            <InputGroup.Text>
+              <i className="bi bi-person-fill"></i>
+            </InputGroup.Text>
+            <Form.Select aria-label="" onChange={vend} name="vendedor">
+              {vende.map((dato) => (
+                <option className="form-group" value={dato.id_usu}>
+                  {dato.nombre}
+                </option>
+              ))}
+            </Form.Select>
+          </InputGroup>
         </Form.Group>
       </Form>
     </Container>

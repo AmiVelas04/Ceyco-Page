@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { Container, Form, Row, Col, Button, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert";
 
 export const BuscProd = ({ DevProd, Lista }) => {
-  const URL = "producto/prodxcod";
+  const URL = "producto/prod1cod";
   const getDataProd = async (cod) => {
     const response = await axios.get(URL + "/" + cod);
     try {
@@ -50,8 +50,8 @@ export const BuscProd = ({ DevProd, Lista }) => {
       return;
     }
     getDataProd(codi).then((response) => {
-      if (response != 0) {
-        console.log(response.data);
+      if (response !== 0) {
+        //console.log(response.data);
         DevProd(response.data);
       } else {
         Swal(
@@ -73,13 +73,19 @@ export const BuscProd = ({ DevProd, Lista }) => {
               </Form.Label>
             </Col>
             <Col>
-              <Form.Control
-                type="text"
-                name="id_cli"
-                placeholder="Codigo"
-                onChange={handleChangeCod}
-                value={codi}
-              />
+              <InputGroup>
+                <InputGroup.Text>
+                  {" "}
+                  <i className="bi bi-cart-plus-fill"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  name="id_cli"
+                  placeholder="Codigo"
+                  onChange={handleChangeCod}
+                  value={codi}
+                />
+              </InputGroup>
             </Col>
             <Col xs lg="3">
               <Button

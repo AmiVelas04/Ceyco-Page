@@ -44,9 +44,15 @@ export const MainRepSalario = () => {
 
           <ListGroup.Item>
             <Container>
-              <Button variant="primary">Generar Reporte Individual</Button>
+              <Button variant="primary">
+                Generar Reporte Individual{" "}
+                <i className="bi bi-layout-text-sidebar"></i>
+              </Button>
               <label> &nbsp;&nbsp;&nbsp;&nbsp; </label>
-              <Button variant="success">Generar Reporte General</Button>
+              <Button variant="success">
+                Generar Reporte General{" "}
+                <i className="bi bi-layout-text-sidebar"></i>
+              </Button>
             </Container>
           </ListGroup.Item>
         </ListGroup>

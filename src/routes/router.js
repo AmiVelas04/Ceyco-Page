@@ -12,6 +12,7 @@ import{ RepGasto} from "../containers/RepGasto";
 import { RepVenta } from "../containers/RepVenta";
 import { RepSalario } from "../containers/RepSalario";
 import { RepCompra } from "../containers/RepCompra";
+import { CargaVenta } from "../containers/CargaVenta";
 
 
 
@@ -33,6 +34,7 @@ function router() {
    <Route  exact path='/repsala' element={<RepSalario/>}  ></Route>
    <Route  exact path='/repcomp' element={<RepCompra/>}  ></Route>
    <Route  exact path='/repconse' element={<RepGasto/>}  ></Route>
+    <Route  exact path='/carga' element={<CargaVenta/>}  ></Route>
 
 
        

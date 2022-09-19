@@ -39,7 +39,9 @@ export const MainRepCompra = () => {
 
           <ListGroup.Item>
             <Container>
-              <Button variant="primary">Generar Reporte</Button>
+              <Button variant="primary">
+                Generar Reporte <i className="bi bi-layout-text-sidebar"></i>
+              </Button>
             </Container>
           </ListGroup.Item>
         </ListGroup>
