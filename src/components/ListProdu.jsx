@@ -31,8 +31,18 @@ export const ListProdu = () => {
     setshowModal(false);
   };
   const handleOpenModal = (datos) => {
+    const valo = {
+      id_prod: datos.id_prod,
+      nombre: datos.nombre,
+      descrip: datos.descrip,
+      costo: datos.costo,
+      cantidad: datos.cantidad,
+      pmin: datos.pmin,
+      pven: datos.pven,
+      caduc: moment(datos.caduc).format("yyyy-MM-DD"),
+    };
     setshowModal(true);
-    setDataModal(datos);
+    setDataModal(valo);
   };
   const handleChangeModal = ({ target }) => {
     setDataModal({
@@ -109,6 +119,7 @@ export const ListProdu = () => {
                   className="btn btn-warning"
                   onClick={() => handleOpenModal(prod)}
                 >
+                  <i className="bi bi-pencil"> </i>
                   Editar
                 </button>
               </td>

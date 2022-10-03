@@ -39,18 +39,18 @@ export const MainRepVenta = () => {
           </ListGroup.Item>
 
           <ListGroup.Item>
-            <ComboVende></ComboVende>
+            <ComboVende vend={handleChange}></ComboVende>
           </ListGroup.Item>
 
           <ListGroup.Item>
             <Container>
               <Button variant="primary">
-                Generar Reporte Individual{" "}
+                Generar Reporte Individual
                 <i className="bi bi-layout-text-sidebar"></i>
               </Button>
               <label> &nbsp;&nbsp;&nbsp;&nbsp; </label>
               <Button variant="success">
-                Generar Reporte General{" "}
+                Generar Reporte General
                 <i className="bi bi-layout-text-sidebar"></i>
               </Button>
             </Container>

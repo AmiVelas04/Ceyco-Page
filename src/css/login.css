@@ -5,7 +5,7 @@
     transform: translate(-50%,-50%);
     border: 1px solid black;
     padding: 40px;
-    background: rgba(172,226,204,1);
+    background: #E9EEF4;
  
 
 
@@ -21,5 +21,5 @@
     left: 0;
     height: 100%;
     width: 100%;
-background: rgb(64,144,112)
+background: #326789
 }

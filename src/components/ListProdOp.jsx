@@ -185,11 +185,7 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
 
       <div>
         <Row>
-          <Col>
-            <Button size="lg" variant="success">
-              Realizar Venta
-            </Button>
-          </Col>
+          <Col></Col>
           <Col align="right">
             <h3>
               <FormLabel>Total Q.{totGen()}</FormLabel>

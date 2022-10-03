@@ -171,11 +171,7 @@ export const ListaProdCarga = ({ prods, handleElim, Edita }) => {
 
       <div>
         <Row>
-          <Col>
-            <Button size="lg" variant="success">
-              Cargar Ruta
-            </Button>
-          </Col>
+          <Col></Col>
           <Col align="right">
             <h3>
               <FormLabel>Total Q.{totGen()}</FormLabel>

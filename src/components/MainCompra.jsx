@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Container, Card, CardGroup, Button } from "react-bootstrap";
 import { BuscProd } from "./BuscProd";
-import { ComboCli } from "./ComboCli";
 
 import { ListProdOp } from "./ListProdOp";
-import { TipoVen } from "./TipoVen";
+import { Link } from "react-router-dom";
+import { ComboProve } from "./ComboProve";
+import BuscProdCompra from "./BuscProdCompra";
 
-export const MainVenta = () => {
+export const MainCompra = () => {
   const [produ, setProdu] = useState([]);
   const [lista, setLista] = useState(<ListProdOp prods={produ} />);
 
@@ -14,7 +15,6 @@ export const MainVenta = () => {
     produ.push(prod);
     listado(produ);
   };
-
   const editProd = (indice, cant, precio) => {
     produ.map((elem, index) => {
       let canti = 0,
@@ -61,18 +61,25 @@ export const MainVenta = () => {
   };
 
   return (
-    <Container>
+    <div>
       <CardGroup>
         <Card>
           <Card.Body>
             <BuscProd DevProd={obtenProdu} />
-            <TipoVen></TipoVen>
           </Card.Body>
         </Card>
 
         <Card>
           <Card.Body>
-            <ComboCli></ComboCli>
+            <ComboProve></ComboProve>
+          </Card.Body>
+        </Card>
+      </CardGroup>
+      <CardGroup>
+        <Card>
+          <Card.Header>Datos del producto</Card.Header>
+          <Card.Body>
+            <BuscProdCompra></BuscProdCompra>
           </Card.Body>
         </Card>
       </CardGroup>
@@ -82,8 +89,8 @@ export const MainVenta = () => {
       <Card>{lista}</Card>
       <br />
       <Button size="lg" variant="success">
-        Realizar Venta
+        Proeder con la compra
       </Button>
-    </Container>
+    </div>
   );
 };

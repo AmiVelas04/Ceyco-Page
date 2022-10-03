@@ -101,6 +101,7 @@ export const ListProve = () => {
                     className="btn btn-warning"
                     onClick={() => handleOpenModal(prov)}
                   >
+                    <i className="bi bi-pencil"> </i>
                     Editar
                   </button>
                 </div>

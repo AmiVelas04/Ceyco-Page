@@ -97,6 +97,7 @@ export const ListCli = () => {
                     className="btn btn-warning"
                     onClick={() => handleOpenModal(clien)}
                   >
+                    <i className="bi bi-pencil"> </i>
                     Editar
                   </button>
                 </td>

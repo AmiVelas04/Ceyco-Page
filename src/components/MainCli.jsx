@@ -18,7 +18,6 @@ export const MainCli = () => {
           <ListGroup.Item>
             <ButtonGroup className="me-2" aria-label="First group">
               <Button variant="success" icon="">
-                {" "}
                 + Agregar Cliente <Link to="/" className="nav-link"></Link>
               </Button>
             </ButtonGroup>

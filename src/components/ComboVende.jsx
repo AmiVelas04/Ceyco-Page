@@ -33,7 +33,7 @@ export const ComboVende = ({ vend }) => {
             <InputGroup.Text>
               <i className="bi bi-person-fill"></i>
             </InputGroup.Text>
-            <Form.Select aria-label="" onChange={vend} name="vendedor">
+            <Form.Select aria-label="" onChange={vend} name="id_usu">
               {vende.map((dato) => (
                 <option className="form-group" value={dato.id_usu}>
                   {dato.nombre}

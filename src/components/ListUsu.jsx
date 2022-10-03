@@ -106,9 +106,10 @@ export const ListUsu = () => {
               <td>{Usu.rol}</td>
               <td>
                 <button
-                  className="btn btn-info"
+                  className="btn btn-warning"
                   onClick={() => handleOpenModal(Usu)}
                 >
+                  <i className="bi bi-pencil"> </i>
                   Editar
                 </button>
               </td>

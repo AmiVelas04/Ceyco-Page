@@ -65,22 +65,23 @@ export const BuscProd = ({ DevProd, Lista }) => {
   return (
     <Container>
       <Form>
-        <Row>
-          <Form.Group className="md-6 row">
+        <Form.Group className="md-6 row">
+          <Row>
             <Col xs lg="12">
               <Form.Label htmlFor="inputPassword5">
                 Codigo del producto
               </Form.Label>
             </Col>
-            <Col>
+          </Row>
+          <Row>
+            <Col xs lg="9">
               <InputGroup>
                 <InputGroup.Text>
-                  {" "}
                   <i className="bi bi-cart-plus-fill"></i>
                 </InputGroup.Text>
                 <Form.Control
                   type="text"
-                  name="id_cli"
+                  name="id_prod"
                   placeholder="Codigo"
                   onChange={handleChangeCod}
                   value={codi}
@@ -88,15 +89,12 @@ export const BuscProd = ({ DevProd, Lista }) => {
               </InputGroup>
             </Col>
             <Col xs lg="3">
-              <Button
-                className="btn btn-warnig mb-3"
-                onClick={() => BuscaProd()}
-              >
-                Buscar
+              <Button size="md" onClick={() => BuscaProd()}>
+                <i className="bi bi-search"></i> Buscar
               </Button>
             </Col>
-          </Form.Group>
-        </Row>
+          </Row>
+        </Form.Group>
       </Form>
     </Container>
   );
