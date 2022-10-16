@@ -4,6 +4,7 @@ import {
   Table,
   Modal,
   Form,
+  Button,
   ModalTitle,
   ModalBody,
   ModalFooter,
@@ -13,7 +14,7 @@ import Swal from "sweetalert";
 
 export const ListUsu = () => {
   const URL = "/usuario/usurol";
-  const URLUPD = "/usuario/update";
+  const URLUPD = "/usuario/";
 
   const [usua, setUsua] = useState([]);
   const [showModal, setshowModal] = useState(false);
@@ -21,7 +22,7 @@ export const ListUsu = () => {
 
   const getData = async () => {
     const response = axios.get(URL);
-    console.log(URL);
+    //console.log(URL);
     return response;
   };
 
@@ -50,15 +51,16 @@ export const ListUsu = () => {
   };
 
   const handleSave = async (e) => {
-    const response = await axios.put(URLUPD, dataModal);
-    console.log(dataModal);
-    console.log(URLUPD);
     try {
+      console.log(dataModal);
+      console.log(URLUPD);
+      const response = await axios.put(URLUPD, dataModal);
+
       if (response.status === 200) {
         await Swal(
           "Actualizado",
           "El usuario ha sido actualizado con exito",
-          "Success"
+          "success"
         );
       } else {
         await Swal(
@@ -97,11 +99,11 @@ export const ListUsu = () => {
           <tbody>
             <tr>
               <td>{index + 1}</td>
-              <td>{Usu.idusu}</td>
+              <td>{Usu.id_usu}</td>
               <td>{Usu.nombre}</td>
               <td>{Usu.direccion}</td>
               <td>{Usu.telefono}</td>
-              <td>{Usu.usuario}</td>
+              <td>{Usu.usu}</td>
               <td>{Usu.pass}</td>
               <td>{Usu.rol}</td>
               <td>
@@ -122,14 +124,14 @@ export const ListUsu = () => {
         <Modal.Header>
           <ModalTitle>Actualizar Datos</ModalTitle>
         </Modal.Header>
-        <Form onSubmit={handleSave}>
+        <Form>
           <ModalBody>
             <Form.Group className="mb-3">
               <Form.Control
                 type="text"
-                name="idusu"
+                name="id_usu"
                 placeholder="Codigo"
-                value={dataModal.idusu}
+                value={dataModal.id_usu}
                 disabled
               />
             </Form.Group>
@@ -158,7 +160,7 @@ export const ListUsu = () => {
 
             <Form.Group className="mb-3">
               <Form.Control
-                type="text"
+                type="number"
                 name="telefono"
                 placeholder="Telefono"
                 value={dataModal.telefono}
@@ -170,9 +172,9 @@ export const ListUsu = () => {
             <Form.Group className="mb-3">
               <Form.Control
                 type="text"
-                name="usuario"
+                name="usu"
                 placeholder="Usuario"
-                value={dataModal.usuario}
+                value={dataModal.usu}
                 onChange={handleChangeModal}
                 required
               />
@@ -182,7 +184,7 @@ export const ListUsu = () => {
               <Form.Control
                 type="text"
                 name="pass"
-                placeholder="Conraseña"
+                placeholder="Contraseña"
                 value={dataModal.pass}
                 onChange={handleChangeModal}
                 required
@@ -190,9 +192,9 @@ export const ListUsu = () => {
             </Form.Group>
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-success" onClick={() => handleSave()}>
+            <Button className="btn btn-success" onClick={() => handleSave()}>
               Guardar cambios
-            </button>
+            </Button>
             <button
               className="btn btn-danger"
               onClick={() => handleCloseModal()}

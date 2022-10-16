@@ -10,7 +10,7 @@ import Swal from "sweetalert";
 export const MainCarga = () => {
   //Url de direccion
   const UrlSgen = "ruta/saverut";
-  const UrlSdet = "/ruta/saverutdet";
+  const UrlSdet = "ruta/saverutdet";
 
   //Obtener fecha actual
   const getFecha = () => {
@@ -32,9 +32,6 @@ export const MainCarga = () => {
       fecha: getFecha(),
       estado: "Cargado",
     };
-    // setRuta({ ...ruta, [valo.name]: valo.value });
-    // console.log(valo);
-
     saveGen(valo);
   };
 

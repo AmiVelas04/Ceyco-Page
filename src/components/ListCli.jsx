@@ -16,6 +16,7 @@ import Swal from "sweetalert";
 export const ListCli = () => {
   const URL = "Cliente/todos";
   const URLSAVE = "cliente/Update";
+
   const getData = async () => {
     const response = axios.get(URL);
     return response;
@@ -35,6 +36,31 @@ export const ListCli = () => {
       ...dataModal,
       [target.name]: target.value,
     });
+  };
+
+  const listade = () => {
+    const resp = list.map((clien, index) => (
+      <tbody>
+        <tr>
+          <td>{index + 1}</td>
+          <td>{clien.nombre}</td>
+          <td>{clien.negocio}</td>
+          <td>{clien.direccion}</td>
+          <td>{clien.telefono}</td>
+          <td>
+            <button
+              className="btn btn-warning"
+              onClick={() => handleOpenModal(clien)}
+            >
+              <i className="bi bi-pencil"> </i>
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    ));
+
+    return resp;
   };
 
   const handleSave = async (e) => {
@@ -67,6 +93,7 @@ export const ListCli = () => {
     getData().then((response) => {
       //hacer alggo con esa respuesta
       setList(response.data);
+      listade();
       //console.log(response.data);
     });
   }, []);
@@ -84,26 +111,7 @@ export const ListCli = () => {
               <th>Acciones</th>
             </tr>
           </thead>
-          {list.map((clien, index) => (
-            <tbody>
-              <tr>
-                <td>{index + 1}</td>
-                <td>{clien.nombre}</td>
-                <td>{clien.negocio}</td>
-                <td>{clien.direccion}</td>
-                <td>{clien.telefono}</td>
-                <td>
-                  <button
-                    className="btn btn-warning"
-                    onClick={() => handleOpenModal(clien)}
-                  >
-                    <i className="bi bi-pencil"> </i>
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          ))}
+          {listade}
         </Table>
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -159,6 +167,7 @@ export const ListCli = () => {
               <Form.Control
                 type="text"
                 name="telefono"
+                maxLength="8"
                 placeholder="Telefono"
                 value={dataModal.telefono}
                 onChange={handleChangeModal}

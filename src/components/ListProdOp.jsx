@@ -45,20 +45,6 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
     event.preventDefault();
   };
 
-  /*const handleEliminarprod = (indice) => {
-    prods.splice(indice);
-    setProdu(prods);
-  };*/
-
-  /* const handleEditar = (id) => {
-    Lprods.map((datos) => {
-      if (datos.id_prod === id) {
-        datos.cantidad = precio;
-        datos.pven = canti;
-      }
-    });
-  };*/
-
   const handleSave = () => {
     Edita(dataModal.id, dataModal.canti, dataModal.precios);
 

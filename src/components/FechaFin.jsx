@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, FormControl, FormGroup, FloatingLabel } from "react-bootstrap";
-
 export const FechaFin = ({ fecha }) => {
   return (
     <div>
@@ -12,9 +11,9 @@ export const FechaFin = ({ fecha }) => {
             className="mb-3"
           >
             <FormControl
-              type="Date"
+              type="date"
               name="fechaf"
-              placeholder="Fecha"
+              placeholder="fechahoy"
               onChange={fecha}
               required
             ></FormControl>

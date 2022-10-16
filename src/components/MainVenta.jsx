@@ -10,6 +10,14 @@ export const MainVenta = () => {
   const [produ, setProdu] = useState([]);
   const [lista, setLista] = useState(<ListProdOp prods={produ} />);
 
+  const getFecha = () => {
+    const fech = new Date();
+    const respu = `${fech.getFullYear()}/${
+      fech.getMonth() + 1
+    }/${fech.getDate()}`;
+    return respu;
+  };
+
   const obtenProdu = (prod) => {
     produ.push(prod);
     listado(produ);

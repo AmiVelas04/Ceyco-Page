@@ -10,7 +10,7 @@ export const BuscProd = ({ DevProd, Lista }) => {
     try {
       //console.log(response.status);
       if (response.status === 200) {
-        if ((await response).data.length > 0) {
+        if (response.data.length > 0) {
           return response;
         } else {
           return 0;

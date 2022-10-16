@@ -24,11 +24,6 @@ export const NavBar = () => {
       <Nav className="me-auto">
         <NavDropdown title="Operaciones" id="navbarScrollingDropdown">
           <NavDropdown.Item>
-            <Link to="/vent" className="nav-link" bg="success">
-              Ventas
-            </Link>
-          </NavDropdown.Item>
-          <NavDropdown.Item>
             <Link to="/comp" className="nav-link">
               Compras
             </Link>

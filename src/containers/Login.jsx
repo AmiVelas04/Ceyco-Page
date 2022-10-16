@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import { InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Loading from "../components/Loading";
+import Swal from "sweetalert";
 
 export const Login = () => {
   const Url = "Usuario/log/";
@@ -43,7 +44,12 @@ export const Login = () => {
       }
     } catch (err) {
       setLog(false);
-      console.log("Error" + err);
+      Swal(
+        "Error de inicio",
+        "No se ha podido iniciar sesion, porfavor verifique el error: \n" + err,
+        "warning"
+      );
+      // console.log("Error" + err);
     }
   };
   if (log) {

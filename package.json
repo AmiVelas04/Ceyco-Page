@@ -2,14 +2,16 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://localhost:44373/api/",
+  "proxy": "http://cloudfma2022-001-site1.itempurl.com/api/",
   "dependencies": {
+    "@react-pdf/renderer": "^3.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
+    "buffer": "^6.0.3",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.37",
     "react": "^18.2.0",
@@ -22,6 +24,7 @@
     "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
+"homepage": "http://amkdeveloper-001-site3.gtempurl.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -109,9 +109,9 @@ export const ListProdu = () => {
               <td>{prod.id_prod}</td>
               <td>{prod.nombre}</td>
               <td>{prod.descrip}</td>
-              <td>{prod.costo}</td>
-              <td>{prod.pmin}</td>
-              <td>{prod.pven}</td>
+              <td>Q.{prod.costo}</td>
+              <td>Q.{prod.pmin}</td>
+              <td>Q.{prod.pven}</td>
               <td>{prod.cantidad}</td>
               <td>{moment(prod.caduc).format("DD/MM/yyyy")}</td>
               <td>
