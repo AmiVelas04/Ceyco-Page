@@ -24,6 +24,7 @@ export const ComboVende = ({ vend }) => {
       //console.log(response.data);
     });
   }, []);
+
   return (
     <Container>
       <Form>

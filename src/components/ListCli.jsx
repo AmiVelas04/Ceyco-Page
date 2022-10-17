@@ -22,6 +22,7 @@ export const ListCli = () => {
     return response;
   };
   const [list, setList] = useState([]);
+  const [desglo, setDesglo] = useState(null);
   const [showModal, setshowModal] = useState(false);
   const [dataModal, setDataModal] = useState([]);
   const handleCloseModal = () => {
@@ -59,8 +60,8 @@ export const ListCli = () => {
         </tr>
       </tbody>
     ));
-
-    return resp;
+    // return resp;
+    setDesglo(resp);
   };
 
   const handleSave = async (e) => {
@@ -111,7 +112,26 @@ export const ListCli = () => {
               <th>Acciones</th>
             </tr>
           </thead>
-          {listade}
+          {list.map((clien, index) => (
+            <tbody>
+              <tr>
+                <td>{index + 1}</td>
+                <td>{clien.nombre}</td>
+                <td>{clien.negocio}</td>
+                <td>{clien.direccion}</td>
+                <td>{clien.telefono}</td>
+                <td>
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => handleOpenModal(clien)}
+                  >
+                    <i className="bi bi-pencil"> </i>
+                    Editar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
         </Table>
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>

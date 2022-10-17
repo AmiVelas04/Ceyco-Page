@@ -22,7 +22,7 @@ export const ListProdu = () => {
     // console.log(response);
     return response;
   };
-
+  const [mostra, setMostra] = useState(null);
   const [list, setList] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [dataModal, setDataModal] = useState([]);
@@ -49,6 +49,33 @@ export const ListProdu = () => {
       ...dataModal,
       [target.name]: target.value,
     });
+  };
+
+  const conte = () => {
+    const valo = list.map((prod, index) => (
+      <tbody>
+        <tr>
+          <td>{prod.id_prod}</td>
+          <td>{prod.nombre}</td>
+          <td>{prod.descrip}</td>
+          <td>Q.{prod.costo}</td>
+          <td>Q.{prod.pmin}</td>
+          <td>Q.{prod.pven}</td>
+          <td>{prod.cantidad}</td>
+          <td>{moment(prod.caduc).format("DD/MM/yyyy")}</td>
+          <td>
+            <button
+              className="btn btn-warning"
+              onClick={() => handleOpenModal(prod)}
+            >
+              <i className="bi bi-pencil"> </i>
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    ));
+    setMostra(valo);
   };
 
   const handleSave = async (e) => {
@@ -83,6 +110,7 @@ export const ListProdu = () => {
     getData().then((response) => {
       //hacer alggo con esa respuesta
       setList(response.data);
+      conte();
       //console.log(response.data);
     });
   }, []);
