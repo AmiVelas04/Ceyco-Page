@@ -14,15 +14,16 @@ import Swal from "sweetalert";
 import axios from "axios";
 
 export const ListProdu = () => {
-  const URL = "/producto/todos";
-  const URLSAVE = "/producto/update";
+  // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
+  const URL = "localhost/api/producto/todos";
+  const URLSAVE =
+    "http://cloudfma2022-001-site1.itempurl.com/api/producto/update";
 
   const getData = async () => {
     const response = axios.get(URL);
-    // console.log(response);
     return response;
   };
-  const [mostra, setMostra] = useState(null);
+  const [mostra, setMostra] = useState([]);
   const [list, setList] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [dataModal, setDataModal] = useState([]);
@@ -51,31 +52,49 @@ export const ListProdu = () => {
     });
   };
 
-  const conte = () => {
-    const valo = list.map((prod, index) => (
-      <tbody>
-        <tr>
-          <td>{prod.id_prod}</td>
-          <td>{prod.nombre}</td>
-          <td>{prod.descrip}</td>
-          <td>Q.{prod.costo}</td>
-          <td>Q.{prod.pmin}</td>
-          <td>Q.{prod.pven}</td>
-          <td>{prod.cantidad}</td>
-          <td>{moment(prod.caduc).format("DD/MM/yyyy")}</td>
-          <td>
-            <button
-              className="btn btn-warning"
-              onClick={() => handleOpenModal(prod)}
-            >
-              <i className="bi bi-pencil"> </i>
-              Editar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    ));
-    setMostra(valo);
+  let conte = list.map((prod, index) => {
+    return (
+      <tr key={prod.id_prod}>
+        <td>{prod[0]}</td>
+        <td>{prod[1]}</td>
+        <td>{prod[2]}</td>
+        <td>Q.{prod[3]}</td>
+        <td>Q.{prod[4]}</td>
+        <td>Q.{prod[5]}</td>
+        <td>{prod[6]}</td>
+        <td>{moment(prod[7]).format("DD/MM/yyyy")}</td>
+        <td>
+          <button
+            className="btn btn-warning"
+            onClick={() => handleOpenModal(prod)}
+          >
+            <i className="bi bi-pencil"> </i>
+            Editar
+          </button>
+        </td>
+      </tr>
+    );
+  });
+
+  const convtoArr = (ArrJson) => {
+    var Into = [{}];
+    console.log(ArrJson);
+    for (let indi in ArrJson) {
+      console.log(ArrJson.length);
+      Into.push([
+        ArrJson[indi].id_prod,
+        ArrJson[indi].nombre,
+        ArrJson[indi].descrip,
+        ArrJson[indi].costo,
+        ArrJson[indi].pmin,
+        ArrJson[indi].pven,
+        ArrJson[indi].cantidad,
+        ArrJson[indi].caduc,
+      ]);
+    }
+    // Into.splice(0, 1);
+
+    return Into;
   };
 
   const handleSave = async (e) => {
@@ -109,9 +128,12 @@ export const ListProdu = () => {
     //usefect body
     getData().then((response) => {
       //hacer alggo con esa respuesta
-      setList(response.data);
-      conte();
-      //console.log(response.data);
+      console.log(URL);
+      console.log(response.data);
+
+      const devol = convtoArr(response.data);
+      setList(devol);
+      // console.log(list);
     });
   }, []);
 
@@ -121,7 +143,7 @@ export const ListProdu = () => {
         <thead>
           <tr>
             <th>Codigo</th>
-            <th>Produto</th>
+            <th>Producto</th>
             <th>Descripcion</th>
             <th>Costo</th>
             <th>Precio Minimo</th>
@@ -131,29 +153,7 @@ export const ListProdu = () => {
             <th>Acciones</th>
           </tr>
         </thead>
-        {list.map((prod, index) => (
-          <tbody>
-            <tr>
-              <td>{prod.id_prod}</td>
-              <td>{prod.nombre}</td>
-              <td>{prod.descrip}</td>
-              <td>Q.{prod.costo}</td>
-              <td>Q.{prod.pmin}</td>
-              <td>Q.{prod.pven}</td>
-              <td>{prod.cantidad}</td>
-              <td>{moment(prod.caduc).format("DD/MM/yyyy")}</td>
-              <td>
-                <button
-                  className="btn btn-warning"
-                  onClick={() => handleOpenModal(prod)}
-                >
-                  <i className="bi bi-pencil"> </i>
-                  Editar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        ))}
+        <tbody>{conte}</tbody>
       </Table>
 
       <Modal show={showModal} onhide={handleCloseModal}>
