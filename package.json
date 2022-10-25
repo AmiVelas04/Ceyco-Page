@@ -26,6 +26,7 @@
     "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
+  
 
   "scripts": {
     "start": "react-scripts start react-scripts --openssl-legacy-provider start",
