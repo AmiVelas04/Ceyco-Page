@@ -15,9 +15,8 @@ import axios from "axios";
 
 export const ListProdu = () => {
   // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
-  const URL = "localhost/api/producto/todos";
-  const URLSAVE =
-    "http://cloudfma2022-001-site1.itempurl.com/api/producto/update";
+  const URL = "producto/todos";
+  const URLSAVE = "producto/update";
 
   const getData = async () => {
     const response = axios.get(URL);
@@ -128,9 +127,8 @@ export const ListProdu = () => {
     //usefect body
     getData().then((response) => {
       //hacer alggo con esa respuesta
-      console.log(URL);
-      console.log(response.data);
-
+      // console.log(URL);
+      //console.log(response.data);
       const devol = convtoArr(response.data);
       setList(devol);
       // console.log(list);
