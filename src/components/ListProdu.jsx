@@ -15,9 +15,9 @@ import axios from "axios";
 
 export const ListProdu = () => {
   // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
-  const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos/";
+  const URL = "https://cloudfma2022-001-site1.itempurl.com/api/producto/todos/";
   const URLSAVE =
-    "http://cloudfma2022-001-site1.itempurl.com/api/producto/update/";
+    "https://cloudfma2022-001-site1.itempurl.com/api/producto/update/";
 
   const getData = async () => {
     const response = axios.get(URL);
