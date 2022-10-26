@@ -15,8 +15,8 @@ import axios from "axios";
 
 export const ListProdu = () => {
   // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
-  const URL = "producto/todos";
-  const URLSAVE = "producto/update";
+  const URL = "/producto/todos";
+  const URLSAVE = "/producto/update";
 
   const getData = async () => {
     const response = axios.get(URL);
@@ -77,9 +77,9 @@ export const ListProdu = () => {
 
   const convtoArr = (ArrJson) => {
     var Into = [{}];
-    console.log(ArrJson);
+    //console.log(ArrJson);
     for (let indi in ArrJson) {
-      console.log(ArrJson.length);
+      // console.log(ArrJson.length);
       Into.push([
         ArrJson[indi].id_prod,
         ArrJson[indi].nombre,
