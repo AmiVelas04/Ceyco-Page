@@ -26,6 +26,7 @@ export const Login = () => {
   };
 
   const iniciarSesion = async () => {
+    console.log(Url);
     setLog(true);
     try {
       const dire = Url + state.user + "/" + state.pass;
