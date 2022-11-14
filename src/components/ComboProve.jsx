@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Form, FormLabel, InputGroup } from "react-bootstrap";
 import axios from "axios";
 
-export const ComboProve = () => {
+export const ComboProve = ({ Prov }) => {
   const URLget1 = "proveedor/todos";
 
   const getProve = async () => {
@@ -16,12 +16,14 @@ export const ComboProve = () => {
   const handleChangeCli = (e) => {
     e.preventDefault();
     setProve(e.value);
+    Prov(prove);
   };
   useEffect(() => {
     //usefect body
     getProve().then((response) => {
       //hacer alggo con esa respuesta
       setProveedor(response.data);
+      Prov(prove);
       //console.log(response.data);
     });
   }, []);
@@ -35,9 +37,19 @@ export const ComboProve = () => {
               <InputGroup.Text>
                 <i className="bi bi-person-fill"></i>
               </InputGroup.Text>
-              <Form.Select aria-label="Default select example">
+              <Form.Select
+                aria-label="Default select example"
+                onChange={Prov}
+                name="id_prov"
+              >
                 {proveedor.map((dato) => (
-                  <option className="form-group">{dato.nombre}</option>
+                  <option
+                    className="form-group"
+                    key={dato.id_prov}
+                    value={dato.id_prov}
+                  >
+                    {dato.nombre}
+                  </option>
                 ))}
               </Form.Select>
             </InputGroup>

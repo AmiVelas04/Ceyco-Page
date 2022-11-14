@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardGroup, Button } from "react-bootstrap";
 import { BuscProd } from "./BuscProd";
 import { ListProdOp } from "./ListProdOp";
@@ -7,110 +7,199 @@ import { ComboProve } from "./ComboProve";
 import BuscProdCompra from "./BuscProdCompra";
 import axios from "axios";
 import Swal from "sweetalert";
+import Cookies from "universal-cookie";
 
 export const MainCompra = () => {
-  const UrlSgen = "/compra/incomp";
+  const cookies = new Cookies();
+  const UrlSgen = "/compra/incomp/";
   const UrlSdet = "/Compra/IncompDet/";
   const UrlElimDet = "/Compra/DelCompDet/";
   const UrlCantiProd = "producto/cantiprod/";
   const UrlUpdProd = "/Producto/Update";
+  const idComp = "/compra/idComp/";
+  const idCompDeta = "/compra/idCompDet/";
 
+  const [options, setOptions] = useState({});
   const [produ, setProdu] = useState([]);
+  const [total, setTotal] = useState();
+  const [dataProve, setDataProve] = useState([]);
   const [lista, setLista] = useState(<ListProdOp prods={produ} />);
+  const [user, setUser] = useState();
 
   const getFecha = () => {
     const fech = new Date();
-    const respu = `${fech.getDate()}/${
+
+    const respu = `${fech.getDate()}-${
       fech.getMonth() + 1
-    }/${fech.getFullYear()}`;
+    }-${fech.getFullYear()}`;
     return respu;
   };
 
-  const preparar = () => {
-    const valo = {
-      id_compra: 1, //buscar id de compra
-      id_usu: 1, // buscar id de que realiza compra
-      id_prov: 1, // buscar id del proveedor
-      fecha: getFecha(),
-      estado: "Activa",
-      factura: "C/F",
-      pago: handleTot(),
+  const handleChangeProve = ({ target }) => {
+    setDataProve({
+      ...dataProve,
+      [target.name]: target.value,
+    });
+    //console.log(dataProve);
+    // console.log(cookies.get("id"));
+  };
+
+  const ultiComp = async () => {
+    // console.log(cookies);
+    try {
+      const respo = await axios.get(idComp);
+      if (respo.data === 0) {
+        return 1;
+      } else {
+        var valo = 1;
+        valo = valo + respo.data;
+        return valo;
+      }
+    } catch (error) {
+      return 0;
+    }
+  };
+  const ultiCompDet = async () => {
+    try {
+      const respo = await axios.get(idCompDeta);
+      if (respo.data === 0) {
+        return 1;
+      } else {
+        var valo = 1;
+        valo = valo + respo.data;
+        return valo;
+      }
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  const preparar = async () => {
+    var id = await ultiComp();
+    var idprov = parseInt(dataProve.id_prov);
+    let form = new FormData();
+    form.append("id_compra", id);
+    form.append("id_usu", user);
+    form.append("id_prov", idprov);
+    form.append("fecha", getFecha());
+    form.append("factura", "CF");
+    form.append("pago", total);
+    form.append("estado", "Activa");
+
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
     };
+    axios
+      .post(UrlSgen, form, config)
+      .then((response) => {
+        // console.log(response);
+        if (saveDet(id)) {
+          Swal("Exito", "La compra ha sido registrada", "success");
+        } else {
+          Swal("No guardado", "La compra no pudo ser registrada", "error");
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+        Swal(
+          "No guardado",
+          "La compra no pudo ser registrada" + error,
+          "error"
+        );
+      });
     // setRuta({ ...ruta, [valo.name]: valo.value });
     // console.log(valo);
-
-    saveGen(valo);
+    // saveGen(options);
   };
 
   const saveGen = async (datos) => {
-    console.log(datos);
     try {
-      const response = await axios.post(UrlSgen, datos);
-      // const respo = axios.get("compra/");
-      if (saveDet(datos.Id_compra)) {
-        await Swal(
-          "Guardado",
-          "los productos has sido asignados a la ruta del vendedor:",
-          "success"
-        );
-      } else if (response.status === 500) {
-        Swal(
-          "No guardado",
-          "No se ha podido guardar la ruta del vendedor",
-          "error"
-        );
-      }
+      axios
+        .request(datos)
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(datos);
+          console.error(error);
+        });
     } catch (error) {
-      console.log(datos);
       Swal(
         "No guardado",
         "No se ha podido guardar la compra , verifique el estado del servidor " +
-          error,
-        "error"
+          error +
+          "error"
       );
     }
   };
 
   const saveDet = async (compra) => {
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
     var idprod = 0,
       canti = 0,
       precio = 0,
-      subto = 0;
+      subto = 0,
+      id_det = 0;
+    var id = await ultiCompDet();
     try {
       produ.map((elem, index) => {
         elem.map((dato, index) => {
+          id_det = id++;
           idprod = dato.id_prod;
           canti = dato.cantidad;
           precio = dato.pven;
           subto = dato.cantidad * dato.pven;
         });
-        const valor = {
-          detal_compr: index + 1,
+
+        // console.log(id_det);
+
+        let form = new FormData();
+        form.append("detal_compr", id_det);
+        form.append("id_compra", compra);
+        form.append("id_prod", idprod);
+        form.append("cantidad", canti);
+        form.append("precio", precio);
+        form.append("subtotal", subto);
+
+        axios
+          .post(UrlSdet, form, config)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        //console.log(valor);
+        /*const response = axios.post(, valor); const valor = {
+          detal_compr: id_det,
           id_compra: compra,
           id_prod: idprod,
           cantidad: canti,
           precio: precio,
           subtotal: subto,
-        };
-        console.log(valor);
+        };*/
 
-        const response = axios.post(UrlSdet, valor);
-        if (!response.status === 200) {
+        /*if (!response.status === 200) {
           Swal(
             "No guardado",
             "No se pudieron guardar los productos de la ruta",
             "error"
           );
-          return false;
+          // return false;
         } else {
-          const ruta = UrlCantiProd + valor.id;
+          const ruta = UrlCantiProd + valor.id_prod;
           const RepCanti = axios.get(ruta);
           let canti = RepCanti.data + valor.cantidad;
           const datos = {
             id_prod: valor.id_prod,
             cantidad: canti,
           };
-          const respUpdProd = axios.put(UrlUpdProd, datos);
+          console.log(response.data);
+          const respUpdProd = axios.patch(UrlUpdProd, datos);
+
           if (!respUpdProd.status === 200) {
             Swal(
               "No actualizado",
@@ -118,12 +207,12 @@ export const MainCompra = () => {
               "error"
             );
           }
-        }
+        }*/
       });
     } catch (error) {
       const resp = await axios.delete(UrlElimDet);
       if (resp.status === 200) {
-        console.log(produ);
+        // console.log(produ);
         await Swal(
           "No guardado",
           "No se pudieron guardar los productos de la ruta, verifique el estado del servidor" +
@@ -143,19 +232,18 @@ export const MainCompra = () => {
     return true;
   };
 
-  const handleTot = () => {
+  /* const handleTot = () => {
     let n1 = 0,
       n2 = 0,
       tot = 0;
-
     produ.map((val) => {
       n1 = val.pven;
       n2 = val.cantidad;
       tot = n1 * n2;
-      // console.log(n1, n2, tot);
+      console.log(n1, n2, tot);
     });
     return tot;
-  };
+  };*/
 
   const obtenProdu = (prod) => {
     produ.push(prod);
@@ -203,9 +291,18 @@ export const MainCompra = () => {
 
   const listado = (produc) => {
     setLista(
-      <ListProdOp prods={produc} handleElim={elimProd} Edita={editProd} />
+      <ListProdOp
+        prods={produc}
+        handleElim={elimProd}
+        Edita={editProd}
+        Tota={setTotal}
+      />
     );
   };
+
+  useEffect(() => {
+    setUser(cookies.get("id"));
+  }, []);
 
   return (
     <div>
@@ -218,7 +315,7 @@ export const MainCompra = () => {
         </Card>
         <Card>
           <Card.Body>
-            <ComboProve></ComboProve>
+            <ComboProve Prov={handleChangeProve}></ComboProve>
           </Card.Body>
         </Card>
       </CardGroup>

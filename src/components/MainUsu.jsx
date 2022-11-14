@@ -51,7 +51,6 @@ export const MainUsu = () => {
 
   useEffect(() => {
     setDataModal({ id_rol: 1 });
-
     getId();
   }, []);
 
@@ -119,7 +118,7 @@ export const MainUsu = () => {
           <ListGroup.Item>
             <ButtonGroup className="me-2" aria-label="First group">
               <Button variant="success" onClick={() => handleOpenModal()}>
-                <i class="bi bi-person-plus"> Agregar Usuario</i>
+                <i className="bi bi-person-plus"> Agregar Usuario</i>
               </Button>
             </ButtonGroup>
           </ListGroup.Item>

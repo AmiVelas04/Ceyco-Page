@@ -97,7 +97,7 @@ export const ListUsu = () => {
         </thead>
         {usua.map((Usu, index) => (
           <tbody>
-            <tr>
+            <tr key={index}>
               <td>{index + 1}</td>
               <td>{Usu.id_usu}</td>
               <td>{Usu.nombre}</td>

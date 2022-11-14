@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Table } from "react-bootstrap";
 
 export const ReporteGen = ({ datos, cabec, contenido }) => {

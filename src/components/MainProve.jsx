@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Form,
@@ -17,9 +17,12 @@ import Swal from "sweetalert";
 import ListaProve from "./ListProve";
 
 export const MainProve = () => {
-  const URLSAVE = "/proveedor/";
+  const URLSAVE = "/proveedor/SaveProv";
+  const Urlid = "/proveedor/maxid";
+  const Urlcantid = "/proveedor/canti";
   const [dataModal, setDataModal] = useState(null);
   const [showModal, setshowModal] = useState(false);
+  const [idProv, setIdProv] = useState(0);
 
   const handleCloseModal = () => {
     setshowModal(false);
@@ -35,9 +38,33 @@ export const MainProve = () => {
     });
   };
 
+  const getId = async () => {
+    try {
+      const respo = await axios.get(Urlcantid);
+      //  console.log(respo.data);
+      if (respo.data === 0) {
+        setIdProv(1);
+      } else {
+        const response = await axios.get(Urlid);
+        console.log(response.data);
+        const id = response.data;
+        setIdProv(id + 1);
+      }
+    } catch (error) {
+      return 0;
+    }
+  };
   const handleSave = async (e) => {
-    // alert(dataModal);
-    const response = await axios.post(URLSAVE, dataModal);
+    const proveedor = {
+      id_prov: idProv,
+      nombre: dataModal.nombre,
+      direccion: dataModal.direccion,
+      telefono: dataModal.telefono,
+      nit: dataModal.nit,
+    };
+    console.log(proveedor);
+    const response = await axios.post(URLSAVE, proveedor);
+
     try {
       if (response.status === 200) {
         await Swal(
@@ -63,6 +90,9 @@ export const MainProve = () => {
     }
   };
 
+  useEffect(() => {
+    getId();
+  }, []);
   return (
     <Container>
       <h3>Lista de Proveedores</h3>
@@ -71,7 +101,7 @@ export const MainProve = () => {
           <ListGroup.Item>
             <ButtonGroup className="me-2" aria-label="First group">
               <Button variant="success" onClick={() => handleOpenModal()}>
-                <i class="bi bi-person-rolodex">+ Agregar Proveedor</i>
+                <i className="bi bi-person-rolodex">+ Agregar Proveedor</i>
               </Button>
             </ButtonGroup>
           </ListGroup.Item>
@@ -84,7 +114,7 @@ export const MainProve = () => {
 
       <Modal show={showModal} onhide={handleCloseModal}>
         <Modal.Header>
-          <ModalTitle>Ingreso de producto</ModalTitle>
+          <ModalTitle>Ingreso de Proveedor</ModalTitle>
         </Modal.Header>
 
         <Form>
@@ -100,6 +130,7 @@ export const MainProve = () => {
                   name="id_prov"
                   placeholder="Codigo de proveedor"
                   onChange={handleChangeModal}
+                  value={idProv}
                   required
                   disabled
                 />
@@ -132,6 +163,21 @@ export const MainProve = () => {
                   type="text"
                   name="direccion"
                   placeholder="Direccion"
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Teléfono"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="telefono"
+                  placeholder="Teléfono"
                   onChange={handleChangeModal}
                   required
                 />

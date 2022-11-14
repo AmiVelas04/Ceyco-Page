@@ -8,7 +8,7 @@ import Loading from "../components/Loading";
 import Swal from "sweetalert";
 
 export const Login = () => {
-  const Url = "http://cloudfma2022-001-site1.itempurl.com/api/Usuario/log/";
+  const Url = "/Usuario/log/";
   const cookies = new Cookies();
   const [log, setLog] = useState(false);
   const [state, setState] = useState({
@@ -31,13 +31,15 @@ export const Login = () => {
     try {
       const dire = Url + state.user + "/" + state.pass;
       var response = await axios.get(dire);
-
       if (response.data.length > 0) {
-        cookies.set("id", response.data.id, { path: "/" });
-        cookies.set("user", state.user, { path: "/" });
-        cookies.set("nivel", response.data.nivel, { path: "/" });
-        //  console.log("Exito");
+        var data = response.data;
+        data.forEach((elem) => {
+          cookies.set("id", elem.id_usu, { path: "/" });
+          cookies.set("user", elem.nombre, { path: "/" });
+          // cookies.set("nivel", elem.data.nivel, { path: "/" });
+        });
 
+        //  console.log("Exito");
         window.location.href = "./menu";
       } else {
         setLog(false);

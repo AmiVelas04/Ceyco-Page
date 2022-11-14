@@ -94,7 +94,7 @@ export const NavBar = () => {
             <Link to="/repven" className="nav-link">
               Salir
             </Link>
-          </NavDropdown.Item>{" "}
+          </NavDropdown.Item>
         </NavDropdown>
       </Nav>
     </Navbar>

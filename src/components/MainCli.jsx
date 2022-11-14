@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Card,
@@ -17,9 +17,12 @@ import Swal from "sweetalert";
 import ListCli from "./ListCli";
 
 export const MainCli = () => {
-  const URLSAVE = "/proveedor/";
+  const URLSAVE = "/cliente/";
+  const Urlid = "/cliente/maxid/";
+  const Urlcantid = "cliente/canti";
   const [dataModal, setDataModal] = useState(null);
   const [showModal, setshowModal] = useState(false);
+  const [idCli, setIdCli] = useState(0);
 
   const handleCloseModal = () => {
     setshowModal(false);
@@ -34,34 +37,56 @@ export const MainCli = () => {
       [target.name]: target.value,
     });
   };
+  const getId = async () => {
+    try {
+      const respo = await axios.get(Urlcantid);
+      if (respo.data === 0) {
+        setIdCli(1);
+      } else {
+        const response = await axios.get(Urlid);
+        const id = response.data;
+        setIdCli(id + 1);
+      }
+    } catch (error) {
+      return 0;
+    }
+  };
 
   const handleSave = async (e) => {
-    // alert(dataModal);
-    const response = await axios.post(URLSAVE, dataModal);
+    const cliente = {
+      id_cli: idCli,
+      nombre: dataModal.nombre,
+      direccion: dataModal.direccion,
+      telefono: dataModal.telefono,
+      negocio: dataModal.negocio,
+    };
+
     try {
+      const response = await axios.post(URLSAVE, cliente);
       if (response.status === 200) {
         await Swal(
           "Ingreso",
-          "El producto ha sido ingresado con exito",
+          "El cliente ha sido ingresado con exito",
           "success"
         );
-        handleChangeModal();
+        //  handleChangeModal();
       } else {
-        await Swal(
-          "No ingresado",
-          "El producto no pudo ser ingresado",
-          "error"
-        );
+        await Swal("No ingresado", "El cliente no pudo ser ingresado", "error");
       }
     } catch (error) {
       await Swal(
         "No ingresado",
-        "El producto no pudo ser ingresado, verifique el estado del servidor" +
+        "El cliente no pudo ser ingresado, verifique el estado del servidor" +
           error,
         "error"
       );
     }
   };
+
+  useEffect(() => {
+    getId();
+  }, []);
+
   return (
     <Container>
       <h3>Lista de clientes</h3>
@@ -83,7 +108,7 @@ export const MainCli = () => {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header>
-          <ModalTitle>Ingreso de producto</ModalTitle>
+          <ModalTitle>Ingreso de Cliente</ModalTitle>
         </Modal.Header>
 
         <Form>
@@ -99,6 +124,7 @@ export const MainCli = () => {
                   name="id_cli"
                   placeholder="Codigo del Cliente"
                   onChange={handleChangeModal}
+                  value={idCli}
                   required
                   disabled
                 />
@@ -143,7 +169,7 @@ export const MainCli = () => {
                 className="mb-3"
               >
                 <Form.Control
-                  type="number"
+                  type="text"
                   name="direccion"
                   placeholder="Direccion"
                   onChange={handleChangeModal}

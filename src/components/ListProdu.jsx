@@ -8,6 +8,7 @@ import {
   Form,
   ModalFooter,
   ModalTitle,
+  Card,
 } from "react-bootstrap";
 import moment from "moment";
 import Swal from "sweetalert";
@@ -15,9 +16,8 @@ import axios from "axios";
 
 export const ListProdu = () => {
   // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
-  const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos/";
-  const URLSAVE =
-    "http://cloudfma2022-001-site1.itempurl.com/api/producto/update/";
+  const URL = "/producto/todos/";
+  const URLSAVE = "/producto/update/";
 
   const getData = async () => {
     const response = axios.get(URL);
@@ -27,6 +27,7 @@ export const ListProdu = () => {
   const [list, setList] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [dataModal, setDataModal] = useState([]);
+  const [total, setTotal] = useState(0.0);
 
   const handleCloseModal = () => {
     setshowModal(false);
@@ -51,10 +52,19 @@ export const ListProdu = () => {
       [target.name]: target.value,
     });
   };
+  const imptot = () => {
+    var total = 0;
+    list.forEach(function (num) {
+      total += num[3] * num[6];
+    });
+    console.log(total);
+    setTotal(total);
+    return total;
+  };
 
   let conte = list.map((prod, index) => {
     return (
-      <tr key={prod.id_prod}>
+      <tr key={index}>
         <td>{prod[0]}</td>
         <td>{prod[1]}</td>
         <td>{prod[2]}</td>
@@ -92,8 +102,7 @@ export const ListProdu = () => {
         ArrJson[indi].caduc,
       ]);
     }
-    // Into.splice(0, 1);
-
+    Into.splice(0, 1);
     return Into;
   };
 
@@ -128,17 +137,16 @@ export const ListProdu = () => {
     //usefect body
     getData().then((response) => {
       //hacer alggo con esa respuesta
-      // console.log(URL);
-      //console.log(response.data);
+
       const devol = convtoArr(response.data);
       setList(devol);
-      // console.log(list);
+      imptot();
     });
   }, []);
 
   return (
     <Container>
-      <Table striped bordered hover size="sm">
+      <Table striped bordered hover size="sm" onLoad={imptot}>
         <thead>
           <tr>
             <th>Codigo</th>
@@ -155,6 +163,14 @@ export const ListProdu = () => {
         <tbody>{conte}</tbody>
       </Table>
 
+      <div>
+        <Card border="success" style={{ width: "18rem" }}>
+          <Card.Header>Total de inventario</Card.Header>
+          <Card.Body>
+            <Card.Title>Q.{total}</Card.Title>
+          </Card.Body>
+        </Card>
+      </div>
       <Modal show={showModal} onhide={handleCloseModal}>
         <Modal.Header>
           <ModalTitle>Actualizar Datos del producto</ModalTitle>

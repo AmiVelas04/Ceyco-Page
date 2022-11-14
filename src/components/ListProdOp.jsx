@@ -13,7 +13,7 @@ import {
   Col,
 } from "react-bootstrap";
 
-export const ListProdOp = ({ prods, handleElim, Edita }) => {
+export const ListProdOp = ({ prods, handleElim, Edita, Tota }) => {
   const [precio, setPrecio] = useState("0");
   const [canti, setCanti] = useState("0");
   const [Lprods, setLprods] = useState([]);
@@ -47,7 +47,6 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
 
   const handleSave = () => {
     Edita(dataModal.id, dataModal.canti, dataModal.precios);
-
     setshowModal(false);
   };
 
@@ -101,6 +100,7 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
       tot = n1 * n2;
       // console.log(n1, n2, tot);
     });
+    Tota(tot);
     return tot;
   };
 
@@ -136,7 +136,7 @@ export const ListProdOp = ({ prods, handleElim, Edita }) => {
 
           {Lprods.map((p, index) => (
             <tbody>
-              <tr>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{handleId(p)}</td>
                 <td>{handleNom(p)}</td>
