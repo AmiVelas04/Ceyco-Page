@@ -245,7 +245,7 @@ export const MainUsu = () => {
               className="btn btn-danger"
               onClick={() => handleCloseModal()}
             >
-              Cancelar
+              Cerrar
             </Button>
           </ModalFooter>
         </Form>

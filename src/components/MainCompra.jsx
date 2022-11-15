@@ -19,7 +19,6 @@ export const MainCompra = () => {
   const idComp = "/compra/idComp/";
   const idCompDeta = "/compra/idCompDet/";
 
-  const [options, setOptions] = useState({});
   const [produ, setProdu] = useState([]);
   const [total, setTotal] = useState();
   const [dataProve, setDataProve] = useState([]);

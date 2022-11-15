@@ -95,7 +95,7 @@ export const MainCli = () => {
           <ListGroup.Item>
             <ButtonGroup className="me-2" aria-label="First group">
               <Button variant="success" onClick={() => handleOpenModal()}>
-                <i class="bi bi-person-plus-fill"> Agregar Cliente</i>
+                <i className="bi bi-person-plus-fill"> Agregar Cliente</i>
               </Button>
             </ButtonGroup>
           </ListGroup.Item>

@@ -8,6 +8,7 @@ import {
   ModalTitle,
   ModalBody,
   ModalFooter,
+  FloatingLabel,
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert";
@@ -127,68 +128,104 @@ export const ListUsu = () => {
         <Form>
           <ModalBody>
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="id_usu"
-                placeholder="Codigo"
-                value={dataModal.id_usu}
-                disabled
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Codigo"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="id_usu"
+                  placeholder="Codigo"
+                  value={dataModal.id_usu}
+                  disabled
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="nombre"
-                placeholder="Nombre"
-                value={dataModal.nombre}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Nombre"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="nombre"
+                  placeholder="Nombre"
+                  value={dataModal.nombre}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="direccion"
-                placeholder="Direccion"
-                value={dataModal.direccion}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Direccion"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="direccion"
+                  placeholder="Direccion"
+                  value={dataModal.direccion}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="number"
-                name="telefono"
-                placeholder="Telefono"
-                value={dataModal.telefono}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Telefono"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="telefono"
+                  placeholder="Telefono"
+                  value={dataModal.telefono}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="usu"
-                placeholder="Usuario"
-                value={dataModal.usu}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Usuario"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="usu"
+                  placeholder="Usuario"
+                  value={dataModal.usu}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="pass"
-                placeholder="Contraseña"
-                value={dataModal.pass}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Contraseña"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="pass"
+                  placeholder="Contraseña"
+                  value={dataModal.pass}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
           </ModalBody>
           <ModalFooter>

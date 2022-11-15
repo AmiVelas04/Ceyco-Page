@@ -227,7 +227,7 @@ export const MainProdu = () => {
               className="btn btn-danger"
               onClick={() => setshowModal(false)}
             >
-              Cancelar
+              Cerrar
             </button>
           </ModalFooter>
         </Form>

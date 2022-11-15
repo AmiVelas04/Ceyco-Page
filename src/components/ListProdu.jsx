@@ -9,6 +9,9 @@ import {
   ModalFooter,
   ModalTitle,
   Card,
+  FloatingLabel,
+  Col,
+  Row,
 } from "react-bootstrap";
 import moment from "moment";
 import Swal from "sweetalert";
@@ -34,14 +37,14 @@ export const ListProdu = () => {
   };
   const handleOpenModal = (datos) => {
     const valo = {
-      id_prod: datos.id_prod,
-      nombre: datos.nombre,
-      descrip: datos.descrip,
-      costo: datos.costo,
-      cantidad: datos.cantidad,
-      pmin: datos.pmin,
-      pven: datos.pven,
-      caduc: moment(datos.caduc).format("yyyy-MM-DD"),
+      id_prod: datos[0],
+      nombre: datos[1],
+      descrip: datos[2],
+      costo: datos[3],
+      cantidad: datos[6],
+      pmin: datos[4],
+      pven: datos[5],
+      caduc: moment(datos[7].caduc).format("yyyy-MM-DD"),
     };
     setshowModal(true);
     setDataModal(valo);
@@ -52,14 +55,14 @@ export const ListProdu = () => {
       [target.name]: target.value,
     });
   };
+
   const imptot = () => {
     var total = 0;
     list.forEach(function (num) {
       total += num[3] * num[6];
     });
-    console.log(total);
+    // console.log(total);
     setTotal(total);
-    return total;
   };
 
   let conte = list.map((prod, index) => {
@@ -137,16 +140,14 @@ export const ListProdu = () => {
     //usefect body
     getData().then((response) => {
       //hacer alggo con esa respuesta
-
       const devol = convtoArr(response.data);
       setList(devol);
-      imptot();
     });
   }, []);
 
   return (
     <Container>
-      <Table striped bordered hover size="sm" onLoad={imptot}>
+      <Table striped bordered hover size="sm">
         <thead>
           <tr>
             <th>Codigo</th>
@@ -163,14 +164,22 @@ export const ListProdu = () => {
         <tbody>{conte}</tbody>
       </Table>
 
-      <div>
-        <Card border="success" style={{ width: "18rem" }}>
-          <Card.Header>Total de inventario</Card.Header>
-          <Card.Body>
-            <Card.Title>Q.{total}</Card.Title>
-          </Card.Body>
-        </Card>
-      </div>
+      <Row className="">
+        <Col md={{ span: 6, offset: 4 }}>
+          <Card border="success" style={{ width: "14rem" }}>
+            <Card.Header>Total de inventario</Card.Header>
+            <Card.Body className="text-center">
+              <Card.Title>Q.{total}</Card.Title>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={{ span: 6, offset: 4 }}>
+          <Button variant="primary" onClick={imptot}>
+            Mostrar Total de inventario
+          </Button>
+        </Col>
+      </Row>
+
       <Modal show={showModal} onhide={handleCloseModal}>
         <Modal.Header>
           <ModalTitle>Actualizar Datos del producto</ModalTitle>
@@ -178,90 +187,138 @@ export const ListProdu = () => {
         <Form>
           <ModalBody>
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="id_prod"
-                placeholder="Codigo de producto"
-                value={dataModal.id_prod}
-                disabled
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Codigo de producto"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="id_prod"
+                  placeholder="Codigo de producto"
+                  value={dataModal.id_prod}
+                  disabled
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="nombre"
-                placeholder="Nombre"
-                value={dataModal.nombre}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Nombre"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="nombre"
+                  placeholder="Nombre"
+                  value={dataModal.nombre}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="descrip"
-                placeholder="Descripcion"
-                value={dataModal.descrip}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Descripcion"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="descrip"
+                  placeholder="Descripcion"
+                  value={dataModal.descrip}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="number"
-                name="costo"
-                placeholder="Costo del producto"
-                value={dataModal.costo}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Costo del producto"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="costo"
+                  placeholder="Costo"
+                  value={dataModal.costo}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="pmin"
-                placeholder="Precio de venta minimo"
-                value={dataModal.pmin}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Precio de venta minimo"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="pmin"
+                  placeholder="Precio de venta minimo"
+                  value={dataModal.pmin}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="number"
-                name="pven"
-                placeholder="Precio de venta"
-                value={dataModal.pven}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Precio de venta"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="pven"
+                  placeholder="Precio de venta"
+                  value={dataModal.pven}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="number"
-                name="cantidad"
-                placeholder="Cantidad del producto"
-                value={dataModal.cantidad}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Cantidad"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="cantidad"
+                  placeholder="Cantidad del producto"
+                  value={dataModal.cantidad}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Control
-                type="date"
-                name="caduc"
-                placeholder="fecha de caducidad"
-                value={dataModal.caduc}
-                onChange={handleChangeModal}
-                required
-              />
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Fecha de caducidad"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="date"
+                  name="caduc"
+                  placeholder="fecha de caducidad"
+                  value={dataModal.caduc}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
             </Form.Group>
           </ModalBody>
           <ModalFooter>
