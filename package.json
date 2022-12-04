@@ -2,7 +2,7 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-"proxy":"https://localhost:44373/api/",
+"proxy":"http://cloudfma2022-001-site1.itempurl.com/api/",
   
   "dependencies": {
     "@react-pdf/renderer": "^3.0.0",

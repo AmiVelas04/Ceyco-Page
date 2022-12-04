@@ -43,7 +43,7 @@ export const Login = () => {
         window.location.href = "./menu";
       } else {
         setLog(false);
-        console.log("No ne econtro usario");
+        Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
       }
     } catch (err) {
       setLog(false);
