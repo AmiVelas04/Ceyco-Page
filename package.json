@@ -2,7 +2,8 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-"proxy":"http://amkdeveloper-002-site1.gtempurl.com/api/",
+
+"proxy":"https://localhost:44373/api/",
   
   "dependencies": {
     "@react-pdf/renderer": "^3.0.0",
@@ -29,7 +30,7 @@
   
 
   "scripts": {
-    "start": "react-scripts start react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts start react-scripts --openssl-legacy-provider serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

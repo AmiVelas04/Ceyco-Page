@@ -20,7 +20,7 @@ import axios from "axios";
 export const ListProdu = () => {
   // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
   const URL = "/producto/todos/";
-  const URLSAVE = "/producto/update/";
+  const URLSAVE = "/producto/updatepage/";
 
   const getData = async () => {
     const response = axios.get(URL);
@@ -110,9 +110,8 @@ export const ListProdu = () => {
   };
 
   const handleSave = async (e) => {
-    // alert(dataModal);
-    const response = await axios.put(URLSAVE, dataModal);
     try {
+      const response = await axios.put(URLSAVE, dataModal);
       if (response.status === 200) {
         await Swal(
           "Actualizado",
