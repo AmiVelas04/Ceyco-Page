@@ -46,6 +46,7 @@ export const ListCli = () => {
         <tr key={index}>
           <td>{index + 1}</td>
           <td>{clien.nombre}</td>
+          <td>{clien.nit}</td>
           <td>{clien.negocio}</td>
           <td>{clien.direccion}</td>
           <td>{clien.telefono}</td>
@@ -119,7 +120,7 @@ export const ListCli = () => {
               <tr>
                 <td>{index + 1}</td>
                 <td>{clien.nombre}</td>
-                <td>{clien.negocio}</td>
+                <td>{clien.nit}</td>
                 <td>{clien.negocio}</td>
                 <td>{clien.direccion}</td>
                 <td>{clien.telefono}</td>
@@ -186,7 +187,7 @@ export const ListCli = () => {
                   type="text"
                   name="nit"
                   placeholder="Nit"
-                  value={dataModal.nombre}
+                  value={dataModal.nit}
                   onChange={handleChangeModal}
                   required
                 />
