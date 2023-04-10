@@ -56,6 +56,7 @@ export const MainCli = () => {
     const cliente = {
       id_cli: idCli,
       nombre: dataModal.nombre,
+      nit:dataModal.nit,
       direccion: dataModal.direccion,
       telefono: dataModal.telefono,
       negocio: dataModal.negocio,
@@ -143,6 +144,21 @@ export const MainCli = () => {
                   placeholder="Nombre del Cliente"
                   onChange={handleChangeModal}
                   required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Nit"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="nit"
+                  placeholder="Nit"
+                  onChange={handleChangeModal}
                 />
               </FloatingLabel>
             </Form.Group>

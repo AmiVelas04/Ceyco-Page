@@ -107,6 +107,7 @@ export const ListCli = () => {
             <tr>
               <th>#</th>
               <th>Nombre</th>
+              <th>Nit</th>
               <th>Negocio</th>
               <th>Direccion</th>
               <th>Telefono</th>
@@ -118,6 +119,7 @@ export const ListCli = () => {
               <tr>
                 <td>{index + 1}</td>
                 <td>{clien.nombre}</td>
+                <td>{clien.negocio}</td>
                 <td>{clien.negocio}</td>
                 <td>{clien.direccion}</td>
                 <td>{clien.telefono}</td>
@@ -167,6 +169,23 @@ export const ListCli = () => {
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
+                  value={dataModal.nombre}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Nit"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="nit"
+                  placeholder="Nit"
                   value={dataModal.nombre}
                   onChange={handleChangeModal}
                   required
