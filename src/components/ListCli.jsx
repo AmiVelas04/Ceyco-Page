@@ -70,6 +70,7 @@ export const ListCli = () => {
     const response = await axios.put(URLSAVE, dataModal);
     try {
       if (response.status === 200) {
+        console.log(dataModal);
         await Swal(
           "Actualizado",
           "Los datos del cliente han sido actualizados con exito",

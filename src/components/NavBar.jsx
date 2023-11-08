@@ -38,6 +38,16 @@ export const NavBar = () => {
               Carga de productos
             </Link>
           </NavDropdown.Item>
+          <NavDropdown.Item>
+            <Link to="/pedi" className="nav-link">
+              Pedidos
+            </Link>
+          </NavDropdown.Item>
+          <NavDropdown.Item>
+            <Link to="/presum" className="nav-link">
+              Resumen de pedidos
+            </Link>
+          </NavDropdown.Item>
         </NavDropdown>
         <NavDropdown title="Administracion" id="navbarScrollingDropdown">
           <NavDropdown.Item>

@@ -18,7 +18,8 @@ export const MainRepVenta = () => {
     h1: "Venta",
     h2: "Cliente",
     h3: "Fecha",
-    h4: "Total",
+    h4:"Total",
+    h5:"Acciones"
   });
 
   const buscarTodo = async () => {

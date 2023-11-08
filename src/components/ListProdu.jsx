@@ -128,7 +128,7 @@ export const ListProdu = () => {
     } catch (error) {
       await Swal(
         "No Actualizado",
-        "El prodducto no pudo ser actualizado, verifique el estado del servidor" +
+        "El producto no pudo ser actualizado, verifique el estado del servidor" +
           error,
         "error"
       );
