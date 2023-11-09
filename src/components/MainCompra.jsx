@@ -75,6 +75,7 @@ export const MainCompra = () => {
 
   const preparar = async () => {
     var id = await ultiComp();
+    console.log("Proveedor: " + dataProve.id_prov);
     var idprov = parseInt(dataProve.id_prov);
     let form = new FormData();
     form.append("id_compra", id);
@@ -84,7 +85,6 @@ export const MainCompra = () => {
     form.append("factura", "CF");
     form.append("pago", total);
     form.append("estado", "Activa");
-    console.log({ form });
 
     const config = {
       headers: { "content-type": "multipart/form-data" },
@@ -302,6 +302,7 @@ export const MainCompra = () => {
 
   useEffect(() => {
     setUser(cookies.get("id"));
+    setDataProve({ id_prov: 1 });
   }, []);
 
   return (
