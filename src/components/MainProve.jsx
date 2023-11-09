@@ -54,6 +54,7 @@ export const MainProve = () => {
       return 0;
     }
   };
+
   const handleSave = async (e) => {
     const proveedor = {
       id_prov: idProv,
@@ -63,9 +64,8 @@ export const MainProve = () => {
       nit: dataModal.nit,
     };
     console.log(proveedor);
-    const response = await axios.post(URLSAVE, proveedor);
-
     try {
+      const response = await axios.post(URLSAVE, proveedor);
       if (response.status === 200) {
         await Swal(
           "Ingreso",
@@ -101,7 +101,7 @@ export const MainProve = () => {
           <ListGroup.Item>
             <ButtonGroup className="me-2" aria-label="First group">
               <Button variant="success" onClick={() => handleOpenModal()}>
-                <i className="bi bi-person-rolodex">+ Agregar Proveedor</i>
+                <i className="bi bi-person-rolodex">Agregar Proveedor</i>
               </Button>
             </ButtonGroup>
           </ListGroup.Item>
@@ -175,9 +175,10 @@ export const MainProve = () => {
                 className="mb-3"
               >
                 <Form.Control
-                  type="number"
+                  type="text"
                   name="telefono"
                   placeholder="Teléfono"
+                  maxLength={8}
                   onChange={handleChangeModal}
                   required
                 />
@@ -191,8 +192,9 @@ export const MainProve = () => {
                 className="mb-3"
               >
                 <Form.Control
-                  type="number"
+                  type="text"
                   name="nit"
+                  maxLength={10}
                   placeholder="Nit del proveedor"
                   onChange={handleChangeModal}
                   required

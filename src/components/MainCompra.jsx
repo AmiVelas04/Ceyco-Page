@@ -84,6 +84,7 @@ export const MainCompra = () => {
     form.append("factura", "CF");
     form.append("pago", total);
     form.append("estado", "Activa");
+    console.log({ form });
 
     const config = {
       headers: { "content-type": "multipart/form-data" },
@@ -102,7 +103,7 @@ export const MainCompra = () => {
         // console.log(error);
         Swal(
           "No guardado",
-          "La compra no pudo ser registrada" + error,
+          "La compra no pudo ser registrada " + error,
           "error"
         );
       });
