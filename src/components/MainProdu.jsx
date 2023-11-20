@@ -205,6 +205,38 @@ export const MainProdu = () => {
             <Form.Group className="mb-3">
               <FloatingLabel
                 controlId="floatingInput"
+                label="Precio por caja"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="precio_caja"
+                  placeholder="Precio por caja"
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Cantidad por caja"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="cant_caja"
+                  placeholder="Cantidad por caja"
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
                 label="Fecha"
                 className="mb-3"
               >

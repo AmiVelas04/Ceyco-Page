@@ -15,11 +15,11 @@ export const MainPedi = () => {
   const Urlpcarga = "ruta/saverut";
   const UrlPupd = "ruta/saverutdet";
 
-  const [datos, setDatos] = useState([{ id_usu: 0 }]);
+  const [datos, setDatos] = useState({ id_usu: 0 });
   const [prods, setProds] = useState([]);
   const [conte, setConte] = useState();
   const [pedi, setPedi] = useState(1);
-  const [vend, setVende] = useState(0);
+  const [vend, setVend] = useState(0);
   // console.log(pedi);
 
   const handleChange = ({ target }) => {
@@ -30,12 +30,15 @@ export const MainPedi = () => {
       }),
       1000
     );
+    setVend(datos.id_usu);
+
+    //console.log("Este es el cambio de id que aparece: " + datos.id_usu);
   };
 
   const produs = async () => {
     var temp = [];
     const UrlPpedi = "pedido/pedetanomxid/" + pedi;
-    //console.log(UrlPpedi);
+    console.log(pedi);
     const response = await axios.get(UrlPpedi);
     const datos = response.data;
     datos.forEach((elem) => {
@@ -73,7 +76,7 @@ export const MainPedi = () => {
                   <ComboVende vend={handleChange}></ComboVende>
                 </Col>
                 <Col className="md col6">
-                  <ComboPedi id={datos} selecpedi={setPedi} />
+                  <ComboPedi idu={vend} selecpedi={setPedi} />
                 </Col>
               </Row>
             </Col>

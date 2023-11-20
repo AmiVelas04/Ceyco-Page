@@ -44,7 +44,9 @@ export const ListProdu = () => {
       cantidad: datos[6],
       pmin: datos[4],
       pven: datos[5],
-      caduc: moment(datos[7].caduc).format("yyyy-MM-DD"),
+      precio_caja: datos[7],
+      cant_caja: datos[8],
+      caduc: moment(datos[9].caduc).format("yyyy-MM-DD"),
     };
     setshowModal(true);
     setDataModal(valo);
@@ -75,7 +77,9 @@ export const ListProdu = () => {
         <td>Q.{prod[4]}</td>
         <td>Q.{prod[5]}</td>
         <td>{prod[6]}</td>
-        <td>{moment(prod[7]).format("DD/MM/yyyy")}</td>
+        <td>Q{prod[7]}</td>
+        <td>{prod[8]}</td>
+        <td>{moment(prod[9]).format("DD/MM/yyyy")}</td>
         <td>
           <button
             className="btn btn-warning"
@@ -102,6 +106,8 @@ export const ListProdu = () => {
         ArrJson[indi].pmin,
         ArrJson[indi].pven,
         ArrJson[indi].cantidad,
+        ArrJson[indi].precio_caja,
+        ArrJson[indi].cant_caja,
         ArrJson[indi].caduc,
       ]);
     }
@@ -156,6 +162,8 @@ export const ListProdu = () => {
             <th>Precio Minimo</th>
             <th>Precio de Venta</th>
             <th>Cantidad</th>
+            <th>Precio por caja</th>
+            <th>Cantidad por caja</th>
             <th>Fecha de caducidad</th>
             <th>Acciones</th>
           </tr>
@@ -297,6 +305,40 @@ export const ListProdu = () => {
                   name="cantidad"
                   placeholder="Cantidad del producto"
                   value={dataModal.cantidad}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Precio de caja"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="precio_caja"
+                  placeholder="Precio por caja"
+                  value={dataModal.precio_caja}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Cantidad por caja"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="cant_caja"
+                  placeholder="Cantidad por caja"
+                  value={dataModal.cant_caja}
                   onChange={handleChangeModal}
                   required
                 />
