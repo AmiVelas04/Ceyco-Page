@@ -6,7 +6,12 @@ import Cookies from "universal-cookie";
 
 export const NavBar = () => {
   return (
-    <Navbar expand="md" bg="light" sticky="center">
+    <Navbar
+      expand="md"
+      bg=""
+      sticky="center"
+      style={{ backgroundColor: "#e3f2fd" }}
+    >
       <Navbar.Brand>
         <Container>
           <img
