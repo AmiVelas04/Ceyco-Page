@@ -6,7 +6,7 @@ import Cookies from "universal-cookie";
 
 export const NavBar = () => {
   return (
-    <Navbar expand="md" bg="light" variant="warning" sticky="top">
+    <Navbar expand="md" bg="light" sticky="center">
       <Navbar.Brand>
         <Container>
           <img
@@ -25,87 +25,87 @@ export const NavBar = () => {
         <NavDropdown title="Operaciones" id="navbarScrollingDropdown">
           <NavDropdown.Item>
             <Link to="/comp" className="nav-link">
-              Compras
+              <i class="bi bi-cart-check-fill"> Compras</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/gast" className="nav-link">
-              Gastos
+              <i class="bi bi-credit-card-2-back-fill"> Gastos</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/carga" className="nav-link">
-              Carga de productos
+              <i class="bi bi-truck-flatbed"> Carga de productos</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/pedi" className="nav-link">
-              Pedidos
+              <i class="bi bi-box2-fill"> Pedidos</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/presum" className="nav-link">
-              Resumen de pedidos
+              <i class="bi bi-boxes"> Resumen de pedidos</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/caja" className="nav-link">
-              Caja
+              <i class="bi bi-cash-stack"> Caja</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/salario" className="nav-link">
-              Salario
+              <i class="bi bi-piggy-bank-fill"> Salario</i>
             </Link>
           </NavDropdown.Item>
         </NavDropdown>
         <NavDropdown title="Administracion" id="navbarScrollingDropdown">
           <NavDropdown.Item>
             <Link to="/produ" className="nav-link">
-              Productos
+              <i class="bi bi-clipboard2-plus-fill"> Productos</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/usu" className="nav-link">
-              Usuarios
+              <i class="bi bi-file-person-fill"> Usuarios</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/cli" className="nav-link primary">
-              Clientes
+              <i class="bi bi-people-fill"> Clientes</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/prov" className="nav-link">
-              Proveedores
+              <i class="bi bi-person-fill-add"> Proveedores</i>
             </Link>
           </NavDropdown.Item>
         </NavDropdown>
         <NavDropdown title="Reportes" id="navbarScrollingDropdown">
           <NavDropdown.Item>
             <Link to="/repven" className="nav-link">
-              Ventas
+              <i class="bi bi-cart-fill"> Ventas</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/repcomp" className="nav-link">
-              Compras
+              <i class="bi bi-bag-check-fill"> Compras</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/repconce" className="nav-link">
-              Conseciones
+              <i class="bi bi-person-up"> Conseciones</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/repgast" className="nav-link">
-              Gastos
+              <i class="bi bi-credit-card-2-front-fill"> Gastos</i>
             </Link>
           </NavDropdown.Item>
 
           <NavDropdown.Item>
             <Link to="/repsala" className="nav-link">
-              Salario
+              <i class="bi bi-piggy-bank-fill"> Salario</i>
             </Link>
           </NavDropdown.Item>
         </NavDropdown>
