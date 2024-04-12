@@ -13,7 +13,8 @@ import {
   FormLabel,
   Card,
   ListGroup,
-  ListGroupItem,
+  ButtonGroup,
+  FloatingLabel,
 } from "react-bootstrap";
 import ComboVende from "./ComboVende";
 import axios from "axios";
@@ -28,7 +29,9 @@ export const ListGasto = () => {
   /*const URL = "Gasto/";
   const URL = "Gasto/";*/
 
-  const URLSAVE = "cliente/Update";
+  const URLSAVE = "gasto/save";
+  const UrlGasIdCount = "gasto/codcant";
+  const UrlGasIdMax = "gasto/codmax";
 
   const getData = async () => {
     const dire = URL + "Todos";
@@ -36,16 +39,36 @@ export const ListGasto = () => {
 
     return response;
   };
+
+  const getFecha = () => {
+    const fech = new Date();
+    const respu = `${fech.getFullYear()}/${
+      fech.getMonth() + 1
+    }/${fech.getDate()}`;
+    console.log(respu);
+    return respu;
+  };
+
   const [list, setList] = useState([]);
   const [showModal, setshowModal] = useState(false);
+  const [showModal2, setshowModal2] = useState(false);
   const [dataModal, setDataModal] = useState([]);
+  const [dataModal2, setDataModal2] = useState([]);
   const [total, setTotal] = useState(0);
   const [datos, setDatos] = useState([]);
+  const [vende, setVende] = useState([]);
+  const [idgast, setIdgast] = useState(0);
+  const [dateHoy, setDayHoy] = useState(getFecha());
 
   const handleCloseModal = (e) => {
     e.preventDefault();
     setshowModal(false);
   };
+
+  const handleCloseModal2 = (e) => {
+    setshowModal2(false);
+  };
+
   const handleOpenModal = (datos) => {
     const valo = {
       descrip: datos.descrip,
@@ -59,9 +82,23 @@ export const ListGasto = () => {
     setshowModal(true);
     setDataModal(valo);
   };
+
+  const handleOpenModal2 = (datos) => {
+    getIdGast();
+    // console.log(valo);
+    setshowModal2(true);
+  };
+
   const handleChangeModal = ({ target }) => {
     setDataModal({
       ...dataModal,
+      [target.name]: target.value,
+    });
+  };
+
+  const handleChangeModal2 = ({ target }) => {
+    setDataModal2({
+      ...dataModal2,
       [target.name]: target.value,
     });
   };
@@ -74,6 +111,49 @@ export const ListGasto = () => {
       }),
       1000
     );
+  };
+
+  const getIdGast = async () => {
+    try {
+      const response1 = await axios.get(UrlGasIdCount);
+
+      if (response1.length <= 0) {
+        setIdgast(1);
+      } else {
+        const response2 = await axios.get(UrlGasIdMax);
+        const id = response2.data;
+        setIdgast(id + 1);
+      }
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "hubo un error en la busqueda de gastos anteriores" + error,
+        "error"
+      );
+    }
+    //console.log(response.data);
+  };
+
+  const getIdCaja = async () => {
+    const UrlCajIdCount = "caja/canti";
+    const UrlCajIdMax = "caja/maxid";
+    try {
+      const response1 = await axios.get(UrlCajIdCount);
+      if (response1.length <= 0) {
+        return 1;
+      } else {
+        const response2 = await axios.get(UrlCajIdMax);
+        const id = response2.data;
+        return id + 1;
+      }
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "hubo un error en la busqueda de cajas anteriores" + error,
+        "error"
+      );
+    }
+    //console.log(response.data);
   };
 
   const totGast = async () => {
@@ -97,40 +177,80 @@ export const ListGasto = () => {
     return toto;
   };
 
-  const handleSave = async (e) => {
-    const response = await axios.put(URLSAVE, dataModal);
+  const handleSave2 = async (e) => {
+    // e.preventDefault();
+    const gasto = {
+      id_gasto: idgast,
+      descrip: dataModal2.descrip,
+      fecha: dataModal2.fecha,
+      monto: dataModal2.monto,
+      estado: "Activo",
+      docu: dataModal2.docu,
+      id_usu: vende,
+    };
+    //  console.log(gasto);
     try {
+      const response = await axios.post(URLSAVE, gasto);
       if (response.status === 200) {
-        await Swal(
-          "Actualizado",
-          "Los datos del cliente han sido actualizados con exito",
-          "success"
-        );
+        if (saveCaja(gasto)) {
+          await Swal("Ingresado", "El gasto ha sido registrado", "success");
+        } else {
+          await Swal(
+            "No guardado!",
+            "No se pudo guardar los datos en caja",
+            "error"
+          );
+        }
       } else {
         await Swal(
-          "No actualizado",
-          "Los datos del cliente no pudieron ser actualizados",
+          "No guardado!",
+          "No se pudo guardar los datos del gasto",
           "error"
         );
       }
     } catch (error) {
       await Swal(
-        "No Actualizado",
-        "Los datos del cliente no pudieron ser actualizados" + error,
+        "Algo salio mal!",
+        "No se pudo guardar los datos del gasto" + error,
         "error"
       );
     }
   };
 
+  const saveCaja = async (datos) => {
+    const UrlCajSave = "caja/saveone";
+    try {
+      const caja = {
+        id_caja: await getIdCaja(),
+        operacion: "Salida",
+        monto: datos.monto,
+        detalle: "Gasto registrado",
+        fecha: datos.fecha,
+        estado: "Activo",
+        id_usu: vende,
+      };
+      console.log(caja);
+      const response = await axios.post(UrlCajSave, caja);
+      return response.status === 200;
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "No se pudo guardar el registro en caja" + error,
+        "error"
+      );
+      return false;
+    }
+  };
+
   const cargaGasto = async () => {
     //console.log(datos);
-    const dire =
-      URL1 + "/" + datos.fechai + "/" + datos.fechaf + "/" + datos.id_usu;
+    const dire = URL1 + "/" + datos.fechai + "/" + datos.fechaf + "/" + vende;
+    //  console.log(dire);
     const response = await axios.get(dire);
-    //console.log(dire);
+
     if (response.data.length <= 0) {
       await Swal(
-        "Si registo",
+        "Sin registos",
         "No se encontraron registros de gastos para el usuario seleccionado",
         "warning"
       );
@@ -163,7 +283,7 @@ export const ListGasto = () => {
               <Row>
                 <Col>
                   <div>
-                    <ComboVende vend={handleChange} />
+                    <ComboVende vend={setVende} />
                   </div>
                 </Col>
                 <Col>
@@ -181,10 +301,18 @@ export const ListGasto = () => {
               </Row>
             </Container>
           </ListGroup.Item>
+          <ListGroup.Item>
+            <ButtonGroup className="me-2" aria-label="">
+              <Button variant="success" onClick={() => handleOpenModal2()}>
+                <i className="bi bi-cash"> Agregar Gasto </i>
+              </Button>
+            </ButtonGroup>
+          </ListGroup.Item>
 
           <ListGroup.Item>
             <div>
               <h1> Listado de Gastos</h1>
+
               <Table striped bordered hover size="sm">
                 <thead>
                   <tr>
@@ -202,7 +330,7 @@ export const ListGasto = () => {
                       <td>{index + 1}</td>
                       <td>{valu.descrip}</td>
                       <td>{moment(valu.fecha).format("DD/MM/yyyy")}</td>
-                      <td>{valu.monto}</td>
+                      <td>Q{valu.monto}</td>
                       <td># Documentacion {index + 33}</td>
                       <td>
                         <button
@@ -237,68 +365,144 @@ export const ListGasto = () => {
             </div>
           </ListGroup.Item>
         </ListGroup>
+
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header>
+            <ModalTitle>Actualizar Datos</ModalTitle>
+          </Modal.Header>
+          <Form onSubmit={handleCloseModal}>
+            <ModalBody>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="id_gasto"
+                  placeholder="Codigo"
+                  disabled
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="descrip"
+                  placeholder="Descripcion"
+                  value={dataModal.descrip}
+                  onChange={handleChangeModal}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="monto"
+                  placeholder="Monto"
+                  value={dataModal.monto}
+                  onChange={handleChangeModal}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="date"
+                  name="fecha"
+                  placeholder="Fecha"
+                  defaultValue={dataModal.fecha}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3"></Form.Group>
+            </ModalBody>
+            <ModalFooter>
+              <Button className="btn btn-success">Guardar cambios</Button>
+              <button
+                className="btn btn-danger"
+                onClick={() => setDataModal(false)}
+              >
+                Cerrar
+              </button>
+            </ModalFooter>
+          </Form>
+        </Modal>
+
+        <Modal show={showModal2} onHide={handleCloseModal2}>
+          <Modal.Header>
+            <ModalTitle>Ingresar gasto</ModalTitle>
+          </Modal.Header>
+          <Form>
+            <ModalBody>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="id_gasto"
+                  placeholder="Codigo"
+                  value={idgast}
+                  onChange={handleChangeModal2}
+                  disabled
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="descrip"
+                  placeholder="Descripcion"
+                  onChange={handleChangeModal2}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="number"
+                  name="monto"
+                  placeholder="Monto"
+                  onChange={handleChangeModal2}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="date"
+                  name="fecha"
+                  // value={new Date()}
+                  onChange={handleChangeModal2}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="estado"
+                  placeholder="Estado"
+                  onChange={handleChangeModal2}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Control
+                  type="text"
+                  name="docu"
+                  placeholder="Documento"
+                  onChange={handleChangeModal2}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <ComboVende vend={setVende} />
+              </Form.Group>
+
+              <Form.Group className="mb-3"></Form.Group>
+            </ModalBody>
+            <ModalFooter>
+              <Button className="btn btn-success" onClick={handleSave2}>
+                Guardar cambios
+              </Button>
+              <Button onClick={setshowModal2}>Cerrar</Button>
+            </ModalFooter>
+          </Form>
+        </Modal>
       </Card>
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header>
-          <ModalTitle>Actualizar Datos</ModalTitle>
-        </Modal.Header>
-        <Form onSubmit={handleCloseModal}>
-          <ModalBody>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="id_gasto"
-                placeholder="Codigo"
-                value={dataModal.id_gasto}
-                disabled
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="descrip"
-                placeholder="Descripcion"
-                value={dataModal.descrip}
-                onChange={handleChangeModal}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="monto"
-                placeholder="Monto"
-                value={dataModal.monto}
-                onChange={handleChangeModal}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="date"
-                name="fecha"
-                placeholder="Fecha"
-                defaultValue={dataModal.fecha}
-                onChange={handleChangeModal}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3"></Form.Group>
-          </ModalBody>
-          <ModalFooter>
-            <Button className="btn btn-success" onSubmit={() => handleSave()}>
-              Guardar cambios
-            </Button>
-            <button
-              className="btn btn-danger"
-              onClick={() => setDataModal(false)}
-            >
-              Cerrar
-            </button>
-          </ModalFooter>
-        </Form>
-      </Modal>
     </Container>
   );
 };

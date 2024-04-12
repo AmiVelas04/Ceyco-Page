@@ -84,14 +84,10 @@ export const MainVenta = () => {
           </Card.Body>
         </Card>
       </CardGroup>
-
       <br />
       <h3 className="text-center"> Listado de productos para venta</h3>
       <Card>{lista}</Card>
       <br />
-      <Button size="lg" variant="success">
-        Realizar Venta
-      </Button>
     </Container>
   );
 };

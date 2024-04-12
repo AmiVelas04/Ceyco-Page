@@ -14,13 +14,28 @@ export const MainPedi = () => {
 
   const Urlpcarga = "ruta/saverut";
   const UrlPupd = "ruta/saverutdet";
+  const URLgetpedi = "Pedido/pedvendexid/";
 
   const [datos, setDatos] = useState({ id_usu: 0 });
   const [prods, setProds] = useState([]);
   const [conte, setConte] = useState();
-  const [pedi, setPedi] = useState(1);
+  const [pedi, setPedi] = useState([]);
   const [vend, setVend] = useState(0);
+  const [encpedi, setEncpedi] = useState([]);
   // console.log(pedi);
+
+  const getPedi = async (idusu) => {
+    // console.log(idu);
+    if (idusu === undefined) {
+      // console.log("Usuario no definido: " + idu);
+      return;
+    }
+    var ruta = URLgetpedi + idusu;
+    console.log("Ruta para obtener pedido por usuario " + ruta);
+    const response = (await axios.get(ruta)).data;
+    // console.log(response);
+    return response;
+  };
 
   const handleChange = ({ target }) => {
     setTimeout(
@@ -30,15 +45,45 @@ export const MainPedi = () => {
       }),
       1000
     );
-    setVend(datos.id_usu);
+    console.log(datos.id_usu);
+    //setVend(datos.id_usu);
 
     //console.log("Este es el cambio de id que aparece: " + datos.id_usu);
+  };
+
+  const elegir = async (idusu) => {
+    // console.log(idusu);
+
+    //hacer alggo con esa respuesta
+    const devol = convtoArr(await getPedi(idusu));
+    //console.log(devol);
+    setEncpedi(devol);
+  };
+
+  const convtoArr = (ArrJson) => {
+    var Into = [{}];
+    //console.log(ArrJson);
+    for (let indi in ArrJson) {
+      //console.log(indi);
+
+      Into.push([
+        ArrJson[indi].iD_PED,
+        ArrJson[indi].iD_CLI,
+        ArrJson[indi].fecha,
+        ArrJson[indi].iD_USU,
+        ArrJson[indi].total,
+        ArrJson[indi].estado,
+      ]);
+    }
+    Into.splice(0, 1);
+    // console.log(Into);
+    return Into;
   };
 
   const produs = async () => {
     var temp = [];
     const UrlPpedi = "pedido/pedetanomxid/" + pedi;
-    console.log(pedi);
+    // console.log(pedi);
     const response = await axios.get(UrlPpedi);
     const datos = response.data;
     datos.forEach((elem) => {
@@ -53,9 +98,9 @@ export const MainPedi = () => {
       };
       temp.push(interm);
     });
-    console.log(temp);
+    //console.log(temp);
     setProds(temp);
-    console.log(prods);
+    //console.log(prods);
     setConte(<ListPedi pedid={pedi} gene={temp}></ListPedi>);
   };
 
@@ -73,10 +118,14 @@ export const MainPedi = () => {
             <Col>
               <Row>
                 <Col className="md col-6">
-                  <ComboVende vend={handleChange}></ComboVende>
+                  <ComboVende vend={elegir}></ComboVende>
                 </Col>
                 <Col className="md col6">
-                  <ComboPedi idu={vend} selecpedi={setPedi} />
+                  <ComboPedi
+                    idu={vend}
+                    selecpedi={setPedi}
+                    listaped={encpedi}
+                  />
                 </Col>
               </Row>
             </Col>

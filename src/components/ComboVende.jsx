@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, FormLabel, InputGroup } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  FormLabel,
+  InputGroup,
+  Button,
+} from "react-bootstrap";
 import axios from "axios";
 
 export const ComboVende = ({ vend }) => {
@@ -8,13 +14,28 @@ export const ComboVende = ({ vend }) => {
     const response = axios.get(URLget1);
     return response;
   };
-  // const [cli, setCli] = useState("1");
+  const [cli, setCli] = useState();
   const [vende, setVende] = useState([]);
 
   /*const handleChangeCli = (e) => {
     e.preventDefault();
     setCli(e.value);
+    console.log(e.value);
   };*/
+
+  const handleChangeCli = ({ target }) => {
+    setCli({
+      ...cli,
+      [target.name]: target.value,
+    });
+    //console.log(cli);
+    //selecto(target.value);
+  };
+
+  const selectVende = () => {
+    console.log("mostar el contenido de pedi " + cli.id_usu);
+    vend(cli.id_usu);
+  };
 
   useEffect(() => {
     //usefect body
@@ -34,13 +55,18 @@ export const ComboVende = ({ vend }) => {
             <InputGroup.Text>
               <i className="bi bi-person-fill"></i>
             </InputGroup.Text>
-            <Form.Select aria-label="" onChange={vend} name="id_usu">
+            <Form.Select aria-label="" onChange={handleChangeCli} name="id_usu">
               {vende.map((dato) => (
                 <option className="form-group" value={dato.id_usu}>
                   {dato.nombre}
                 </option>
               ))}
             </Form.Select>
+            <br></br>
+            <Button className="btn btn-success" onClick={selectVende}>
+              Elegir
+            </Button>
+            <br></br>
           </InputGroup>
         </Form.Group>
       </Form>

@@ -16,6 +16,9 @@ import { CargaVenta } from "../containers/CargaVenta";
 import { Compra } from "../containers/Compra";
 import { Pedido } from "../containers/Pedido";
 import { PedidoResum } from "../containers/PedidoResum";
+import { Caja } from "../containers/Caja";
+import { Salario} from "../containers/Salario.jsx";
+
   // <Route  exact path='/repcomp' element={<RepCompra/>}  ></Route>
 
 
@@ -41,6 +44,8 @@ function router() {
   <Route exact path='/comp' element={<Compra/>}></Route>
   <Route exact path='/pedi' element={<Pedido/>}></Route>
   <Route exact path="/presum" element={<PedidoResum/>}> </Route>
+  <Route exact path="/caja" element={<Caja/>}/>
+    <Route exact path="/salario" element={<Salario/>}/>
 
 
        

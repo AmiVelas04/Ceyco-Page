@@ -9,26 +9,18 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import moment from "moment";
-export const ComboPedi = ({ idu, selecpedi }) => {
-  const URLget1 = "Pedido/pedvendexid/";
+export const ComboPedi = ({ idu, selecpedi, listaped }) => {
   const UrlOne = "Pedido/onepednomxid/";
 
-  const [nompedi, setNompedi] = useState(["s/n", "s/n", "s/n", "s/n", "s/n"]);
+  const [nompedi, setNompedi] = useState([
+    "0",
+    "sn",
+    "sn",
+    "00-00-00",
+    "0",
+    "Sin",
+  ]);
   const [pedi, setPedi] = useState([]);
-  const [encpedi, setEncpedi] = useState([]);
-
-  const getPedi = async () => {
-    var idusu = 0;
-    if (idu === undefined) {
-      console.log("Usuario no definido: " + idu);
-      return;
-    }
-    idusu = idu;
-    var ruta = URLget1 + idusu;
-    console.log("Ruta para obtener pedido por usuario " + ruta);
-    const response = await axios.get(ruta);
-    return response;
-  };
 
   const datapedi = async (idp) => {
     if (idp === undefined) {
@@ -37,12 +29,12 @@ export const ComboPedi = ({ idu, selecpedi }) => {
       return;
     }
     let urlfull = UrlOne + idp;
-    console.log("Url para detalles de pedido" + urlfull);
+    //console.log("Url para detalles de pedido" + urlfull);
     const response = await axios.get(urlfull);
     var conv = convtoArrNom(response.data);
     setNompedi(conv);
     selecpedi(idp);
-    //console.log(conv);
+    //   console.log("Pedido " + idp);
     //return response;
   };
 
@@ -50,7 +42,7 @@ export const ComboPedi = ({ idu, selecpedi }) => {
     var Into = [{}];
     //console.log(ArrJson);
     for (let indi in ArrJson) {
-      // console.log(ArrJson.length);
+      //   console.log(ArrJson.length);
       Into.push([
         ArrJson[indi].iD_PED,
         ArrJson[indi].cli,
@@ -64,46 +56,20 @@ export const ComboPedi = ({ idu, selecpedi }) => {
     return Into;
   };
 
-  const convtoArr = (ArrJson) => {
-    var Into = [{}];
-    //console.log(ArrJson);
-    for (let indi in ArrJson) {
-      // console.log(ArrJson.length);
-      Into.push([
-        ArrJson[indi].iD_PED,
-        ArrJson[indi].iD_CLI,
-        ArrJson[indi].fecha,
-        ArrJson[indi].iD_USU,
-        ArrJson[indi].total,
-        ArrJson[indi].estado,
-      ]);
-    }
-    Into.splice(0, 1);
-    return Into;
-  };
-
   const handleSelecto = ({ target }) => {
     setPedi({
       ...pedi,
       [target.name]: target.value,
     });
+    // console.log(pedi);
+    //selecto(target.value);
   };
 
   const selecto = () => {
-    console.log("mostar el contenido de pedi " + pedi.iD_PED);
-    //let valor = ;
-    //datapedi(valor);
+    // console.log("mostar el contenido de pedi " + pedi.id_pedi);
+    let valor = pedi.id_pedi;
+    datapedi(valor);
   };
-
-  useEffect(() => {
-    //usefect body
-    console.log("Id del vendedor:" + idu);
-    getPedi().then((response) => {
-      //hacer alggo con esa respuesta
-      const devol = convtoArr(response.data);
-      setEncpedi(devol);
-    });
-  }, []);
 
   return (
     <div>
@@ -120,14 +86,14 @@ export const ComboPedi = ({ idu, selecpedi }) => {
                 onChange={handleSelecto}
                 name="id_pedi"
               >
-                {encpedi.map((dato) => (
+                {listaped.map((dato) => (
                   <option className="form-group" value={dato[0]} key={dato[0]}>
                     {dato[0]}
                   </option>
                 ))}
               </Form.Select>
               <br></br>
-              <Button className="btn btn-success" onClick={selecto()}>
+              <Button className="btn btn-success" onClick={selecto}>
                 Buscar
               </Button>
               <br></br>
@@ -143,14 +109,16 @@ export const ComboPedi = ({ idu, selecpedi }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>{nompedi[0][0]}</td>
-                    <td>{nompedi[0][1]}</td>
-                    <td>{nompedi[0][3]}</td>
-                    <td>{moment(nompedi[0][2]).format("DD-MM-yyyy")}</td>
-                    <td>Q.{nompedi[0][4]}</td>
-                    <td>{nompedi[0][5]}</td>
-                  </tr>
+                  {nompedi != null ? (
+                    <tr>
+                      <td>{nompedi[0][0]}</td>
+                      <td>{nompedi[0][1]}</td>
+                      <td>{nompedi[0][3]}</td>
+                      <td>{moment(nompedi[0][2]).format("DD-MM-yyyy")}</td>
+                      <td>Q.{nompedi[0][4]}</td>
+                      <td>{nompedi[0][5]}</td>
+                    </tr>
+                  ) : null}
                 </tbody>
               </Table>
             </InputGroup>

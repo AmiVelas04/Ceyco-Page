@@ -1,7 +1,13 @@
-import React,{ useState, useEffect } from "react";
-import { Table,Modal,ModalFooter,  ModalBody,  FloatingLabel,
+import React, { useState, useEffect } from "react";
+import {
+  Table,
+  Modal,
+  ModalFooter,
+  ModalBody,
+  FloatingLabel,
   ModalTitle,
-Form } from "react-bootstrap";
+  Form,
+} from "react-bootstrap";
 import Swal from "sweetalert";
 import moment from "moment";
 import axios from "axios";
@@ -9,29 +15,69 @@ import axios from "axios";
 export const ReporteGen = ({ datos, cabec, contenido }) => {
   const URL = "/producto/todos/";
   const URLSAVE = "/producto/updatepage/";
+  const UrlDetVen = "/Venta/LstProdVenDet/";
+
   const [showModal, setshowModal] = useState(false);
+  const [totVend, setTotVend] = useState(0);
   const [dataModal, setDataModal] = useState([]);
+  const [datosVend, setDatosVend] = useState([]);
 
   const handleCloseModal = () => {
     setshowModal(false);
   };
   const handleOpenModal = (datos) => {
     const valo = {
-      producto:datos[0],
-      cantidad:datos[1],
-      precio:datos[2],
-      subtotal:datos[3]
-       };
+      producto: datos[0],
+      cantidad: datos[1],
+      precio: datos[2],
+      subtotal: datos[3],
+    };
     setshowModal(true);
     setDataModal(valo);
   };
+
+  const cargaDetaVend = async (idven) => {
+    const detV = [];
+
+    const DatoVenUrl = UrlDetVen + idven;
+    const response = await axios.get(DatoVenUrl);
+    const recib = response.data;
+
+    // console.log(recib);
+    let items = 0;
+    let tot = 0;
+    recib.forEach((elem) => {
+      let conte = "";
+      if (elem.cant_caja === 1) {
+        conte = "Unidad";
+      } else {
+        conte = "Caja";
+      }
+      const intermed = {
+        idprod: elem.id_prod,
+        nombre: elem.nombre,
+        desc: elem.descrip,
+        cant: elem.cantidad,
+        precio: elem.pven,
+        subt: elem.precio_caja,
+        uni: conte,
+      };
+      items = items + 1;
+      tot = tot + elem.precio_caja;
+      detV.push(intermed);
+      setTotVend(tot);
+    });
+    setDatosVend(detV);
+    // console.log(items);
+    if (items > 0) setshowModal(true);
+  };
+
   const handleChangeModal = ({ target }) => {
     setDataModal({
       ...dataModal,
       [target.name]: target.value,
     });
   };
-
 
   const handleSave = async (e) => {
     try {
@@ -58,7 +104,7 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
       );
     }
   };
-  
+
   return (
     <div>
       <center>
@@ -74,214 +120,79 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
             <th>{cabec.h3}</th>
             <th>{cabec.h4}</th>
             <th>{cabec.h5}</th>
-
           </tr>
         </thead>
         {contenido.map((valo, index) => (
           <tbody>
             <tr>
               <td>{index + 1}</td>
-              <td>{valo.producto}</td>
+              <td>{valo.v1}</td>
               <td>{valo.v2}</td>
               <td>{valo.v3}</td>
               <td>{valo.v4}</td>
-                <td>
+              <td>
                 <button
-            className="btn bnt/ btn btn-primary"
-            onClick={() => handleOpenModal(valo)}
-          >
-            <i className="bi bi-eye"
-            > </i>
-            ver detalle
-          </button>
-                </td>
+                  className="btn btn-warning"
+                  onClick={() => cargaDetaVend(valo.v1)}
+                >
+                  <i className="bi bi-eye"> </i>
+                  Ver detalle
+                </button>
+              </td>
             </tr>
           </tbody>
         ))}
       </Table>
 
-      
-      <Modal show={showModal} onhide={handleCloseModal}>
+      <Modal show={showModal} onhide={handleCloseModal} size="lg">
         <Modal.Header>
-          <ModalTitle>Actualizar Datos del producto</ModalTitle>
+          <ModalTitle>Productos de venta #</ModalTitle>
         </Modal.Header>
         <Form>
           <ModalBody>
-
-            <Table>
             <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-          <th>Orden</th>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        {dataModal.map((valo, index) => (
-          <tbody>
-            <tr>
-              <td>{index + 1}</td>
-              <td>{valo}</td>
-              <td>{valo.v2}</td>
-              <td>{valo.v3}</td>
-              <td>{valo.v4}</td>
-           
-            </tr>
-          </tbody>
-        ))}
-      </Table>
+              <thead>
+                <tr>
+                  <th>Codigo</th>
+                  <th>Producto</th>
+                  <th>Descripcion</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Subtotal</th>
+                  <th>Unidad/Caja</th>
+                </tr>
+              </thead>
+              {datosVend.map((valo, index) => (
+                <tbody>
+                  <tr>
+                    <td>{valo.idprod}</td>
+                    <td>{valo.nombre}</td>
+                    <td>{valo.desc}</td>
+                    <td>{valo.cant}</td>
+                    <td>Q{valo.precio}</td>
+                    <td>Q{valo.subt}</td>
+                    <td>{valo.uni}</td>
+                  </tr>
+                </tbody>
+              ))}
+              <tfoot>
+                <tr className="md-6">Total Q{totVend}</tr>
+              </tfoot>
             </Table>
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Codigo de producto"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  name="id_prod"
-                  placeholder="Codigo de producto"
-                  value={dataModal.id_prod}
-                  disabled
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Nombre"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  name="nombre"
-                  placeholder="Nombre"
-                  value={dataModal.nombre}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Descripcion"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  name="descrip"
-                  placeholder="Descripcion"
-                  value={dataModal.descrip}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Costo del producto"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="number"
-                  name="costo"
-                  placeholder="Costo"
-                  value={dataModal.costo}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Precio de venta minimo"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="number"
-                  name="pmin"
-                  placeholder="Precio de venta minimo"
-                  value={dataModal.pmin}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Precio de venta"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="number"
-                  name="pven"
-                  placeholder="Precio de venta"
-                  value={dataModal.pven}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Cantidad"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="number"
-                  name="cantidad"
-                  placeholder="Cantidad del producto"
-                  value={dataModal.cantidad}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Fecha de caducidad"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="date"
-                  name="caduc"
-                  placeholder="fecha de caducidad"
-                  value={dataModal.caduc}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
           </ModalBody>
           <ModalFooter>
-          
-            <button
-              className="btn btn-danger"
-              onClick={() => setshowModal(false)}
-            >
+            <button className="btn btn-danger" onClick={handleCloseModal}>
+              <i className="bi bi-x"></i>
               Cerrar
+            </button>
+            <button className="btn btn-Info">
+              <i className="bi bi-filetype-pdf"></i>
+              Generar PDF
             </button>
           </ModalFooter>
         </Form>
       </Modal>
     </div>
-
-    
   );
 };
 

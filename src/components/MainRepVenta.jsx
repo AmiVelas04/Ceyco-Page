@@ -18,8 +18,8 @@ export const MainRepVenta = () => {
     h1: "Venta",
     h2: "Cliente",
     h3: "Fecha",
-    h4:"Total",
-    h5:"Acciones"
+    h4: "Total",
+    h5: "Acciones",
   });
 
   const buscarTodo = async () => {
@@ -50,7 +50,7 @@ export const MainRepVenta = () => {
     });
     console.log(temp);
     setConte(temp);
-    setVerRepo(!verRepo);
+    setVerRepo(true);
     setRetorno(
       <ReporteGen datos={dataForm} cabec={cabe} contenido={conte}></ReporteGen>
     );
@@ -88,11 +88,12 @@ export const MainRepVenta = () => {
         v3: moment(elem.fecha).format("DD/MM/yyyy"),
         v4: "Q." + elem.total,
       };
+      console.log(intermed);
       temp.push(intermed);
     });
 
     setConte(temp);
-    setVerRepo(!verRepo);
+    setVerRepo(true);
     setRetorno(
       <ReporteGen datos={dataForm} cabec={cabe} contenido={conte}></ReporteGen>
     );
@@ -111,7 +112,7 @@ export const MainRepVenta = () => {
   return (
     <Container>
       <br></br>
-      <Card border="dark" style={{ width: "80rem" }}>
+      <Card border="dark">
         <Card.Header>
           <div className="text-center">
             <h2>Reporte de ventas</h2>

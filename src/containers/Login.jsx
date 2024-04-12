@@ -73,7 +73,7 @@ export const Login = () => {
                   type="text"
                   className="form-control"
                   name="user"
-                  placeholder="Ingrese su usuario"
+                  placeholder="Usuario"
                   onChange={handleChange}
                 />
                 <br />
@@ -88,7 +88,7 @@ export const Login = () => {
                   type="password"
                   className="form-control"
                   name="pass"
-                  placeholder="Ingrese su contraseña"
+                  placeholder="Contraseña"
                   onChange={handleChange}
                 />
               </InputGroup>

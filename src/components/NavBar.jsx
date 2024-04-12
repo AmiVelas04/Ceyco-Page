@@ -6,7 +6,7 @@ import Cookies from "universal-cookie";
 
 export const NavBar = () => {
   return (
-    <Navbar expand="lg" bg="light" variant="warning" sticky="top">
+    <Navbar expand="md" bg="light" variant="warning" sticky="top">
       <Navbar.Brand>
         <Container>
           <img
@@ -46,6 +46,16 @@ export const NavBar = () => {
           <NavDropdown.Item>
             <Link to="/presum" className="nav-link">
               Resumen de pedidos
+            </Link>
+          </NavDropdown.Item>
+          <NavDropdown.Item>
+            <Link to="/caja" className="nav-link">
+              Caja
+            </Link>
+          </NavDropdown.Item>
+          <NavDropdown.Item>
+            <Link to="/salario" className="nav-link">
+              Salario
             </Link>
           </NavDropdown.Item>
         </NavDropdown>

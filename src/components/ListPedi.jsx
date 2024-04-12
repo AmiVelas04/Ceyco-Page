@@ -72,10 +72,13 @@ export const ListPedi = ({ pedid, gene }) => {
   };
 
   let conte = gene.map((pedis, index) => {
+    let empaque = pedis.unidad ? "Unidad(es)" : "Caja(s)";
     return (
       <tr key={index}>
         <td>{index + 1}</td>
+
         <td>{pedis.nombre}</td>
+        <td>{empaque}</td>
         <td>{pedis.cantidad}</td>
         <td>Q.{pedis.precio}</td>
         <td>Q.{pedis.subtotal}</td>
@@ -125,6 +128,7 @@ export const ListPedi = ({ pedid, gene }) => {
           <tr>
             <th>#</th>
             <th>Producto</th>
+            <th>Vendido por</th>
             <th>Cantidad</th>
             <th>Precio</th>
             <th>Subtotal</th>
