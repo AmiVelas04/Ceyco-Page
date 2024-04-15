@@ -38,7 +38,6 @@ function router() {
    <Route  exact path='/repgast' element={<RepGasto/>}  ></Route>
    <Route  exact path='/repven' element={<RepVenta/>}  ></Route>
    <Route  exact path='/repsala' element={<RepSalario/>}  ></Route>
-
    <Route  exact path='/repconse' element={<RepGasto/>}  ></Route>
    <Route  exact path='/carga' element={<CargaVenta/>}  ></Route>
   <Route exact path='/comp' element={<Compra/>}></Route>

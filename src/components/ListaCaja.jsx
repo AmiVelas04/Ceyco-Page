@@ -21,28 +21,52 @@ import Swal from "sweetalert";
 import moment from "moment/moment";
 
 export const ListaCaja = ({ gene }) => {
-  const URLSave = "Gasto/";
+  const URLSave = "Caja/saveone";
 
   const [showModal, setshowModal] = useState(false);
   const [datos, setDatos] = useState([]);
   const [dataModal, setDataModal] = useState([]);
+  const [idCaja, setIdCaja] = useState(0);
+
+  const getFecha = () => {
+    const fech = new Date();
+    const respu = `${fech.getFullYear()}/${
+      fech.getMonth() + 1
+    }/${fech.getDate()} ${fech.getHours()}: ${fech.getMinutes()}`;
+    return respu;
+  };
+
+  const getIdCaja = async () => {
+    const UrlCajIdCount = "caja/canti";
+    const UrlCajIdMax = "caja/maxid";
+    try {
+      const response1 = await axios.get(UrlCajIdCount);
+      if (response1.length <= 0) {
+        setIdCaja(1);
+      } else {
+        const response2 = await axios.get(UrlCajIdMax);
+        const id = response2.data;
+        setIdCaja(id + 1);
+      }
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "hubo un error en la busqueda de cajas anteriores" + error,
+        "error"
+      );
+    }
+    //console.log(response.data);
+  };
 
   const handleCloseModal = (e) => {
     e.preventDefault();
     setshowModal(false);
   };
   const handleOpenModal = (datos) => {
-    const valo = {
-      descrip: datos.descrip,
-      fecha: moment(datos.fecha).format("yyyy-MM-DD"),
-      monto: datos.monto,
-      estado: datos.estado,
-      id_gasto: datos.id_gasto,
-      id_usu: datos.id_usu,
-    };
     // console.log(valo);
     setshowModal(true);
-    setDataModal(valo);
+    // setDataModal(valo);
+    getIdCaja();
   };
 
   const handleChangeModal = ({ target }) => {
@@ -79,7 +103,15 @@ export const ListaCaja = ({ gene }) => {
 
   const handleSave = async (e) => {
     // e.preventDefault();
-    const gasto = {};
+    const gasto = {
+      id_caja: idCaja,
+      operacion: datos.operacion,
+      monto: datos.monto,
+      detalle: datos.detalle,
+      fecha: getFecha(),
+      estado: "Activo",
+      id_usu: 0,
+    };
     //  console.log(gasto);
     try {
       const response = await axios.post(URLSave, gasto);
@@ -158,9 +190,9 @@ export const ListaCaja = ({ gene }) => {
               >
                 <Form.Control
                   type="text"
-                  name="id_usu"
+                  name="id_caja"
                   placeholder="Codigo"
-                  value={dataModal.id_usu}
+                  value={idCaja}
                   disabled
                 />
               </FloatingLabel>
@@ -169,14 +201,13 @@ export const ListaCaja = ({ gene }) => {
             <Form.Group className="mb-3">
               <FloatingLabel
                 controlId="floatingInput"
-                label="Nombre"
+                label="Operacion"
                 className="mb-3"
               >
                 <Form.Control
                   type="text"
-                  name="nombre"
-                  placeholder="Nombre"
-                  value={dataModal.nombre}
+                  name="operacion"
+                  placeholder="Operacion"
                   onChange={handleChangeModal}
                   required
                 />
@@ -186,31 +217,13 @@ export const ListaCaja = ({ gene }) => {
             <Form.Group className="mb-3">
               <FloatingLabel
                 controlId="floatingInput"
-                label="Direccion"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  name="direccion"
-                  placeholder="Direccion"
-                  value={dataModal.direccion}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Telefono"
+                label="Monto"
                 className="mb-3"
               >
                 <Form.Control
                   type="number"
-                  name="telefono"
-                  placeholder="Telefono"
-                  value={dataModal.telefono}
+                  name="monto"
+                  placeholder="monto"
                   onChange={handleChangeModal}
                   required
                 />
@@ -220,31 +233,13 @@ export const ListaCaja = ({ gene }) => {
             <Form.Group className="mb-3">
               <FloatingLabel
                 controlId="floatingInput"
-                label="Usuario"
+                label="Detalle"
                 className="mb-3"
               >
                 <Form.Control
                   type="text"
-                  name="usu"
-                  placeholder="Usuario"
-                  value={dataModal.usu}
-                  onChange={handleChangeModal}
-                  required
-                />
-              </FloatingLabel>
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Contraseña"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  name="pass"
-                  placeholder="Contraseña"
-                  value={dataModal.pass}
+                  name="detalle"
+                  placeholder="detalle"
                   onChange={handleChangeModal}
                   required
                 />
@@ -253,7 +248,7 @@ export const ListaCaja = ({ gene }) => {
           </ModalBody>
           <ModalFooter>
             <Button className="btn btn-success" onClick={() => handleSave()}>
-              Guardar cambios
+              Guardar nueva operacion de caja
             </Button>
             <Button
               className="btn btn-danger"

@@ -40,7 +40,9 @@ export const NavBar = () => {
           </row>
           <row>
             <ListGroup horizontal>
-              <ListGroup.Item>Usuario: {usua.nombre}</ListGroup.Item>
+              <ListGroup.Item style={{ backgroundColor: "#e3f2fd" }}>
+                Usuario: {usua.nombre}
+              </ListGroup.Item>
             </ListGroup>
           </row>
         </div>

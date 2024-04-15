@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/login.css";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { Button, Form, InputGroup, Container } from "react-bootstrap";
+import { Button, Form, InputGroup, Container, Image } from "react-bootstrap";
 import { addUser } from "../redux/userSlice";
 
 import Loading from "../components/Loading";
@@ -25,7 +25,6 @@ export const Login = () => {
 
   const getData = async (comp) => {
     const response = axios.get(Url + comp);
-    // console.log(Url + comp);
     return response;
   };
 
@@ -40,33 +39,22 @@ export const Login = () => {
 
   const iniciarSesion = async () => {
     //   console.log(Url);
-
     try {
       setLog(true);
       const compl = state.user + "/" + state.pass;
-      //    const dire = Url + state.user + "/" + state.pass;
-      getData(compl).then((resp) => {
+      const respo = await getData(compl);
+      if (respo.data.length > 0) {
         const valo = [
-          resp.data[0].id_usu,
-          resp.data[0].nombre,
-          resp.data[0].rol,
+          respo.data[0].id_usu,
+          respo.data[0].nombre,
+          respo.data[0].rol,
         ];
-        // console.log(valo);
-        //  dispatch(addId(resp.data[0].id_usu));
         dispatch(addUser(valo));
-        //  dispatch(addNom(resp.data[0].nombre));
-      });
-      //Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
-
-      navigate("/Menu");
-      //  window.location.href = "./menu";
-
-      //  Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
-      if (true) {
+        navigate("/Menu");
       } else {
+        setLog(false);
+        Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
       }
-
-      //  console.log("Exito");
     } catch (err) {
       setLog(false);
       Swal(
@@ -98,11 +86,22 @@ export const Login = () => {
   };
 
   if (log) {
-    return <Loading></Loading>;
+    return (
+      <Container>
+        <center>
+          <img
+            src="/fondo.jpg"
+            width="500"
+            height="500"
+            className="d-inline-block align-top"
+            alt=""
+          />
+        </center>
+      </Container>
+    );
   } else {
     return (
       <Container>
-        valor del nombre;{}
         <Form>
           <div className="login">
             <div className="containerPrincipal">
