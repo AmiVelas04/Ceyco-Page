@@ -3,12 +3,12 @@ import "../css/login.css";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { Button, Form, InputGroup, Container } from "react-bootstrap";
-import { addNom, addNivel, showName, addUser, addId } from "../redux/userSlice";
+import { addUser } from "../redux/userSlice";
 
 import Loading from "../components/Loading";
 import Swal from "sweetalert";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const Url = "/Usuario/log/";
@@ -21,6 +21,7 @@ export const Login = () => {
     pass: "",
     nivel: "",
   });
+  const navigate = useNavigate();
 
   const getData = async (comp) => {
     const response = axios.get(Url + comp);
@@ -50,13 +51,15 @@ export const Login = () => {
           resp.data[0].nombre,
           resp.data[0].rol,
         ];
-        console.log(valo);
+        // console.log(valo);
         //  dispatch(addId(resp.data[0].id_usu));
         dispatch(addUser(valo));
         //  dispatch(addNom(resp.data[0].nombre));
       });
-      Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
-      window.location.href = "./menu";
+      //Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
+
+      navigate("/Menu");
+      //  window.location.href = "./menu";
 
       //  Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
       if (true) {
@@ -145,16 +148,6 @@ export const Login = () => {
       </Container>
     );
   }
-};
-
-const mapStateToProps = (state) => {
-  return {
-    nombre: state.nombre,
-  };
-};
-
-const mapDispatchToProps = (dispach) => {
-  return { mostrar: () => dispach(showName()) };
 };
 
 export default Login;

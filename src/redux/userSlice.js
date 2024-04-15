@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+
 const initialState={
     id_usu:"1",
     nombre:"Prueba",
-    rol:"Admini",
+    rol:"A",
 };
 
 
@@ -17,9 +18,7 @@ export const userSlice=createSlice({
             state.id_usu=id_usu;
             state.nombre=nombre;
             state.rol=rol;
-            console.log(state.id_usu)
-            console.log(state.nombre)
-            console.log(state.rol)
+        
         },
 
         addNom:(state,action)=>{
@@ -35,11 +34,13 @@ export const userSlice=createSlice({
         },
         showName:(state)=>{
             return state.nombre;
-        }
+        },
+
 
     
 
     }
 })
 export const{addUser,addId,addNom,addNivel,showName} = userSlice.actions;
+export const selectUsua =(state)=>state.user.name;
 export default userSlice.reducer;

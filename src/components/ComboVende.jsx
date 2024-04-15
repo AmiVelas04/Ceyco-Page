@@ -54,7 +54,7 @@ export const ComboVende = ({ vend }) => {
     <Container>
       <Form>
         <Form.Group className="md col-12">
-          <FormLabel>Vendedor {usua}</FormLabel>
+          <FormLabel>Vendedor </FormLabel>
           <InputGroup>
             <InputGroup.Text>
               <i className="bi bi-person-fill"></i>

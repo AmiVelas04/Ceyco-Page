@@ -6,12 +6,13 @@ import {
   NavDropdown,
   ListGroup,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export const NavBar = () => {
-  const usua = useSelector((state) => state.user.nombre);
+  const usua = useSelector((state) => state.user);
+  // console.log(usua.id_usu);
 
   return (
     <Navbar
@@ -33,12 +34,16 @@ export const NavBar = () => {
         </Container>
       </Navbar.Brand>
       <Container style={{ alignItems: "start" }}>
-        <h2>CEYCO</h2>
-
-        <ListGroup horizontal>
-          <ListGroup.Item>Usuario:{usua}</ListGroup.Item>
-          <ListGroup.Item></ListGroup.Item>
-        </ListGroup>
+        <div>
+          <row>
+            <h2>CEYCO</h2>
+          </row>
+          <row>
+            <ListGroup horizontal>
+              <ListGroup.Item>Usuario: {usua.nombre}</ListGroup.Item>
+            </ListGroup>
+          </row>
+        </div>
       </Container>
 
       <Nav className="me-auto">
