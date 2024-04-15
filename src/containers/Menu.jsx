@@ -5,10 +5,9 @@ import NavBar from "../components/NavBar";
 //import fond from "../Images/Fondo.jpg";
 
 export const Menu = () => {
-  const cookies = new Cookies();
   //console.log(cookies.get("user"));
   return (
-    <div style={{ backgroundImage: "url(./Images/Fondo.jpg)" }}>
+    <div style={{ backgroundImage: "./Images/Fondo.jpg" }}>
       <NavBar />
     </div>
   );

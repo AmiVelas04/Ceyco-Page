@@ -15,7 +15,7 @@ import Swal from "sweetalert";
 import FechaIni from "./FechaIni";
 import { FechaFin } from "./FechaFin";
 
-export const MainCaja = () => {
+export const MainCaja = (usera) => {
   const [vende, setVende] = useState([]);
   const [conte, setConte] = useState([]);
   const [datosF, setDatosF] = useState([]);

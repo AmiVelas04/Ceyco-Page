@@ -1,16 +1,25 @@
 import React from "react";
-import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
+import {
+  Container,
+  Navbar,
+  Nav,
+  NavDropdown,
+  ListGroup,
+} from "react-bootstrap";
 
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Cookies from "universal-cookie";
 
 export const NavBar = () => {
+  const usua = useSelector((state) => state.user.nombre);
+
   return (
     <Navbar
       expand="md"
       bg=""
       sticky="center"
       style={{ backgroundColor: "#e3f2fd" }}
+      className=" flex items-center justify-between"
     >
       <Navbar.Brand>
         <Container>
@@ -23,19 +32,25 @@ export const NavBar = () => {
           />
         </Container>
       </Navbar.Brand>
-      <Container>
-        <h4>CEYCO</h4>
+      <Container style={{ alignItems: "start" }}>
+        <h2>CEYCO</h2>
+
+        <ListGroup horizontal>
+          <ListGroup.Item>Usuario:{usua}</ListGroup.Item>
+          <ListGroup.Item></ListGroup.Item>
+        </ListGroup>
       </Container>
+
       <Nav className="me-auto">
         <NavDropdown title="Operaciones" id="navbarScrollingDropdown">
           <NavDropdown.Item>
             <Link to="/comp" className="nav-link">
-              <i class="bi bi-cart-check-fill"> Compras</i>
+              <i className="bi bi-cart-check-fill"> Compras</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/gast" className="nav-link">
-              <i class="bi bi-credit-card-2-back-fill"> Gastos</i>
+              <i className="bi bi-credit-card-2-back-fill"> Gastos</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
@@ -82,7 +97,7 @@ export const NavBar = () => {
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/prov" className="nav-link">
-              <i class="bi bi-person-fill-add"> Proveedores</i>
+              <i className="bi bi-person-fill-add"> Proveedores</i>
             </Link>
           </NavDropdown.Item>
         </NavDropdown>

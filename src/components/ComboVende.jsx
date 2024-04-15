@@ -7,13 +7,16 @@ import {
   Button,
 } from "react-bootstrap";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const ComboVende = ({ vend }) => {
+  const usua = useSelector((state) => state);
   const URLget1 = "Usuario/Usuvend";
   const getCli = async () => {
     const response = axios.get(URLget1);
     return response;
   };
+
   const [cli, setCli] = useState();
   const [vende, setVende] = useState([]);
 
@@ -41,6 +44,7 @@ export const ComboVende = ({ vend }) => {
     //usefect body
     getCli().then((response) => {
       //hacer alggo con esa respuesta
+
       setVende(response.data);
       //console.log(response.data);
     });
@@ -50,7 +54,7 @@ export const ComboVende = ({ vend }) => {
     <Container>
       <Form>
         <Form.Group className="md col-12">
-          <FormLabel>Vendedor</FormLabel>
+          <FormLabel>Vendedor {usua}</FormLabel>
           <InputGroup>
             <InputGroup.Text>
               <i className="bi bi-person-fill"></i>
