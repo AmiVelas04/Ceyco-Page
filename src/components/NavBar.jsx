@@ -138,7 +138,7 @@ export const NavBar = () => {
         </NavDropdown>
         <NavDropdown title="Opciones" id="navbarScrollingDropdown">
           <NavDropdown.Item>
-            <Link to="/repven" className="nav-link">
+            <Link to="/" className="nav-link">
               Salir
             </Link>
           </NavDropdown.Item>

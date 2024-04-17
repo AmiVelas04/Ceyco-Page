@@ -57,11 +57,7 @@ export const Login = () => {
       }
     } catch (err) {
       setLog(false);
-      Swal(
-        "Error de inicio",
-        "No se ha podido iniciar sesion, porfavor verifique el error: \n" + err,
-        "warning"
-      );
+      Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
       // console.log("Error" + err);
     }
   };
