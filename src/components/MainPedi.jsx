@@ -45,7 +45,7 @@ export const MainPedi = () => {
       }),
       1000
     );
-    console.log(datos.id_usu);
+    //   console.log(datos.id_usu);
     //setVend(datos.id_usu);
 
     //console.log("Este es el cambio de id que aparece: " + datos.id_usu);

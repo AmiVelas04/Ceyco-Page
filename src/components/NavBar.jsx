@@ -85,6 +85,12 @@ export const NavBar = () => {
               <i class="bi bi-piggy-bank-fill"> Salario</i>
             </Link>
           </NavDropdown.Item>
+
+          <NavDropdown.Item>
+            <Link to="/credito" className="nav-link">
+              <i class="bi bi-wallet-fill"> Credito</i>
+            </Link>
+          </NavDropdown.Item>
         </NavDropdown>
         <NavDropdown title="Administracion" id="navbarScrollingDropdown">
           <NavDropdown.Item>

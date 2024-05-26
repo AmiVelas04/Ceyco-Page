@@ -57,7 +57,11 @@ export const Login = () => {
       }
     } catch (err) {
       setLog(false);
-      Swal("Error de inicio", "Verifique su usuario y contraseña", "warning");
+      Swal(
+        "Error de inicio",
+        "Verifique su usuario y contraseña " + err,
+        "warning"
+      );
       // console.log("Error" + err);
     }
   };

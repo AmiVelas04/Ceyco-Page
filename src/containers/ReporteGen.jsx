@@ -130,13 +130,18 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
               <td>{valo.v2}</td>
               <td>{valo.v3}</td>
               <td>{valo.v4}</td>
-              <td>
+              <td className="col-md-1">
                 <button
-                  className="btn btn-warning"
+                  className="btn btn-info"
                   onClick={() => cargaDetaVend(valo.v1)}
                 >
                   <i className="bi bi-eye"> </i>
                   Ver detalle
+                </button>
+
+                <button className="btn btn-danger">
+                  <i className="bi bi-trash-fill"> </i>
+                  Anular
                 </button>
               </td>
             </tr>
