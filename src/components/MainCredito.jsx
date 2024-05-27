@@ -18,11 +18,13 @@ import ComboCred from "./ComboCred";
 import Swal from "sweetalert";
 import axios from "axios";
 import ListPago from "./ListPago";
+import { useSelector } from "react-redux";
 
 export const MainCredito = () => {
   const URLgetcred = "Credito/credbyvende/";
   const URLSavePago = "PagoCre/SavePagoCre";
 
+  const usua = useSelector((state) => state.user);
   const [vende, setVende] = useState(0);
 
   const [conte, setConte] = useState([]);
@@ -127,7 +129,7 @@ export const MainCredito = () => {
       const valo = {
         id_pagoc: id,
         id_credito: cred,
-        id_usu: vende,
+        id_usu: usua,
         monto: dataModal.monto,
         fecha: getFecha(),
         detalle: "Pago de credito",
@@ -144,7 +146,7 @@ export const MainCredito = () => {
           detalle: "Abono de credito " + cred,
           fecha: getFecha(),
           estado: "Activo",
-          id_usu: 2,
+          id_usu: usua,
         };
         const respCaja = await axios.post(UrlCajSave, caja);
         if (respCaja.status === 200) {

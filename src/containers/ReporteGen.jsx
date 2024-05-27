@@ -15,14 +15,17 @@ import axios from "axios";
 export const ReporteGen = ({ datos, cabec, contenido }) => {
   const URL = "/producto/todos/";
   const URLSAVE = "/producto/updatepage/";
+  const UrlUpdVent = "/venta/updateventa/";
   const UrlDetVen = "/Venta/LstProdVenDet/";
+  const Url1Venta = "/Venta/venxid/";
 
   const [showModal, setshowModal] = useState(false);
   const [totVend, setTotVend] = useState(0);
   const [dataModal, setDataModal] = useState([]);
   const [datosVend, setDatosVend] = useState([]);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (e) => {
+    e.preventDefault();
     setshowModal(false);
   };
   const handleOpenModal = (datos) => {
@@ -34,6 +37,28 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
     };
     setshowModal(true);
     setDataModal(valo);
+  };
+
+  const cargaUniVen = async (idven) => {
+    try {
+      const DatoVenUrl = Url1Venta + idven;
+      const response = await axios.get(DatoVenUrl);
+      if (response.status === 200) {
+        return response.data[0];
+      } else {
+        await Swal(
+          "No Encontrado",
+          "No se encontraron los datos de la venta",
+          "error"
+        );
+      }
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "El producto no pudo ser actualizado",
+        "error"
+      );
+    }
   };
 
   const cargaDetaVend = async (idven) => {
@@ -105,6 +130,26 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
     }
   };
 
+  const anularv = async (idven) => {
+    try {
+      const unventa = await cargaUniVen(idven);
+      unventa.estado = "Anulada";
+      // console.log(unventa);
+      const response = await axios.put(UrlUpdVent, unventa);
+      if (response.status === 200) {
+        await Swal("Actualizado", "La venta has sido anulada", "success");
+      } else {
+        await Swal("No actualizado", "No se pudo anular la venta", "error");
+      }
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "No se ha podido cambiar el estado de la venta seleccionada" + error,
+        "error"
+      );
+    }
+  };
+
   return (
     <div>
       <center>
@@ -130,7 +175,7 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
               <td>{valo.v2}</td>
               <td>{valo.v3}</td>
               <td>{valo.v4}</td>
-              <td className="col-md-1">
+              <td className="col-md-3">
                 <button
                   className="btn btn-info"
                   onClick={() => cargaDetaVend(valo.v1)}
@@ -139,7 +184,10 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
                   Ver detalle
                 </button>
 
-                <button className="btn btn-danger">
+                <button
+                  className="btn btn-danger"
+                  onClick={() => anularv(valo.v1)}
+                >
                   <i className="bi bi-trash-fill"> </i>
                   Anular
                 </button>
@@ -149,7 +197,7 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
         ))}
       </Table>
 
-      <Modal show={showModal} onhide={handleCloseModal} size="lg">
+      <Modal show={showModal} size="lg">
         <Modal.Header>
           <ModalTitle>Productos de venta #</ModalTitle>
         </Modal.Header>

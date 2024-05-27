@@ -120,6 +120,13 @@ export const NavBar = () => {
               <i class="bi bi-cart-fill"> Ventas</i>
             </Link>
           </NavDropdown.Item>
+
+          <NavDropdown.Item>
+            <Link to="/descarga" className="nav-link">
+              <i class="bi bi-cart-fill"> Descargas</i>
+            </Link>
+          </NavDropdown.Item>
+
           <NavDropdown.Item>
             <Link to="/repcomp" className="nav-link">
               <i class="bi bi-bag-check-fill"> Compras</i>

@@ -48,11 +48,11 @@ export const MainRepVenta = () => {
       };
       temp.push(intermed);
     });
-    console.log(temp);
+    //console.log(temp);
     setConte(temp);
     setVerRepo(true);
     setRetorno(
-      <ReporteGen datos={dataForm} cabec={cabe} contenido={conte}></ReporteGen>
+      <ReporteGen datos={dataForm} cabec={cabe} contenido={temp}></ReporteGen>
     );
   };
 

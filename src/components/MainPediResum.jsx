@@ -92,16 +92,16 @@ export const MainPediResum = () => {
     const response1 = await axios.get(urlDicioCaja);
     const response2 = await axios.get(urlDiccioUni);
 
-    console.log(urlDicioCaja);
-    console.log(urlDiccioUni);
+    //console.log(urlDicioCaja);
+    //console.log(urlDiccioUni);
 
     const dresp1 = response1.data;
     const dresp2 = response2.data;
-    console.log(dresp1);
-    console.log(dresp2);
+    // console.log(dresp1);
+    //console.log(dresp2);
 
     dresp1.forEach((elem, index) => {
-      console.log(elem);
+      // console.log(elem);
 
       const interm = {
         id_prod: elem.id_prod,
@@ -114,7 +114,7 @@ export const MainPediResum = () => {
         cantidad: elem.cantidad,
         conte: "Caja",
       };
-      console.log(interm);
+      //  console.log(interm);
       temp.push(interm);
     });
 
@@ -133,7 +133,7 @@ export const MainPediResum = () => {
       temp.push(interm);
     });
 
-    console.log(temp);
+    // console.log(temp);
     // console.log(response.data);
     // const devol = convtoArr(temp);
     // console.log(devol);
@@ -142,7 +142,7 @@ export const MainPediResum = () => {
   };
 
   const elegir = async (idusu) => {
-    console.log(idusu);
+    //  console.log(idusu);
     setVende(idusu);
     //hacer alggo con esa respuesta
     // const devol = convtoArr(await getPedi(idusu));
