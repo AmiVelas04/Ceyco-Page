@@ -13,6 +13,7 @@ export const MainDescarga = () => {
   const [datos, setDatos] = useState([]);
   const [conte, setConte] = useState([]);
   const [produs, setProdus] = useState([]);
+  const [nomVende, setNomVende] = useState("(No seleccionado)");
   const [tot, setTot] = useState(0);
 
   const handleChange = ({ target }) => {
@@ -21,6 +22,15 @@ export const MainDescarga = () => {
       [target.name]: target.value,
     });
     //console.log(datos);
+  };
+
+  const nomUsu = async (idusu) => {
+    const urlusu = "Usuario/usubyid/" + idusu;
+    const response = await axios.get(urlusu);
+    const resp = response.data;
+    // console.log(resp[0].nombre);
+    setNomVende(resp[0].nombre);
+    return resp[0].nombre;
   };
 
   const allprodu = async () => {
@@ -41,16 +51,17 @@ export const MainDescarga = () => {
       );
       return;
     }
+    setNomVende(await nomUsu(vende));
     var temp = [];
     const ventaCaja = "Venta/VentacajaDate/" + datos.fechai + "/" + vende;
-    const ventaUni = "Venta/VentacajaDate/" + datos.fechai + "/" + vende;
+    const ventaUni = "Venta/VentauniDate/" + datos.fechai + "/" + vende;
     const urlDicioCaja =
       GetProdPedi + "DiccioCajaAll/" + datos.fechai + "/" + vende;
     const urlDiccioUni =
       GetProdPedi + "DiccioUniAll/" + datos.fechai + "/" + vende;
 
     //const UrlPedRes = urlpedpord;
-    console.log(ventaCaja);
+    //console.log(ventaCaja);
     const response1 = await axios.get(urlDicioCaja);
     const response2 = await axios.get(urlDiccioUni);
     const response3 = await axios.get(ventaCaja);
@@ -64,14 +75,17 @@ export const MainDescarga = () => {
     const dresp3 = response3.data;
     const dresp4 = response4.data;
 
-    // console.log(dresp1);
-    //console.log(dresp2);
+    // console.log(dresp2);
+    // console.log(dresp4);
 
     dresp1.forEach((elem, index) => {
-      // console.log(elem);
+      //console.log(elem);
       var sumatot = elem.cantidad;
       dresp3.forEach((eleg1, indice) => {
         if (elem.id_prod === eleg1.id_prod) {
+          console.log(elem.id_prod + "===" + eleg1.id_prod);
+          console.log(sumatot);
+          console.log(eleg1.cantidad);
           sumatot = sumatot - eleg1.cantidad;
         }
       });
@@ -87,6 +101,7 @@ export const MainDescarga = () => {
         cantidad: sumatot,
         conte: "Caja",
       };
+
       //  console.log(interm);
       temp.push(interm);
     });
@@ -96,6 +111,7 @@ export const MainDescarga = () => {
       dresp4.forEach((eleg2) => {
         if (elem1.id_prod === eleg2.id_prod) {
           sumatot = sumatot - eleg2.cantidad;
+          console.log(sumatot);
         }
       });
 
@@ -118,7 +134,13 @@ export const MainDescarga = () => {
     // const devol = convtoArr(temp);
     // console.log(devol);
     //setProdus(devol);
-    setConte(<ListDescarga todos={temp}></ListDescarga>);
+    setConte(
+      <ListDescarga
+        fecha={datos.fechai}
+        todos={temp}
+        nom={nomVende}
+      ></ListDescarga>
+    );
   };
 
   return (

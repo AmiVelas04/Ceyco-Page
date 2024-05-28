@@ -132,6 +132,13 @@ export const NavBar = () => {
               <i class="bi bi-bag-check-fill"> Compras</i>
             </Link>
           </NavDropdown.Item>
+
+          <NavDropdown.Item>
+            <Link to="/repcarga" className="nav-link">
+              <i class="bi bi-truck-flatbed"> Reporte de carga</i>
+            </Link>
+          </NavDropdown.Item>
+
           <NavDropdown.Item>
             <Link to="/repconce" className="nav-link">
               <i class="bi bi-person-up"> Conseciones</i>

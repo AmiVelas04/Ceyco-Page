@@ -31,13 +31,15 @@ export const ComboVende = ({ vend }) => {
       ...cli,
       [target.name]: target.value,
     });
-    //console.log(cli);
+    //  console.log(cli);
     //selecto(target.value);
   };
 
   const selectVende = () => {
-    console.log("mostar el contenido de pedi " + cli.id_usu);
+    //console.log("mostar el contenido de pedi " + cli.id_usu);
+    // console.log(cli.id_usu);
     vend(cli.id_usu);
+    //console.log(cli.id_usu);
   };
 
   useEffect(() => {
@@ -67,7 +69,7 @@ export const ComboVende = ({ vend }) => {
               ))}
             </Form.Select>
             <br></br>
-            <Button className="btn btn-success" onClick={selectVende}>
+            <Button className="btn btn-success" onClick={() => selectVende()}>
               Elegir
             </Button>
             <br></br>

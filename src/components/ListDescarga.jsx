@@ -14,8 +14,9 @@ import axios from "axios";
 import Swal from "sweetalert";
 import MyPDF from "../documents/PedidoPdf";
 import { PDFViewer } from "@react-pdf/renderer";
+import ResumVenDescarga from "../documents/ResumDescarga";
 
-export const ListDescarga = ({ todos }) => {
+export const ListDescarga = ({ fecha, todos, nom }) => {
   const URL = "pedido/pedtotusu/1900-01-01/0";
 
   const getData = async () => {
@@ -110,7 +111,11 @@ export const ListDescarga = ({ todos }) => {
       <Card>
         <CardGroup>
           <Card.Body>
-            <MyPDF conte={produs} fecha={datos.fechai}></MyPDF>
+            <ResumVenDescarga
+              conte={todos}
+              fecha={fecha}
+              Vende={nom}
+            ></ResumVenDescarga>
           </Card.Body>
         </CardGroup>
       </Card>

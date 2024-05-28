@@ -4,16 +4,18 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import { format } from "date-fns";
 
-const MyPDF = ({ conte, fecha }) => {
+const ResumVenPed = ({ conte, fecha, Vende }) => {
   const generarPDF = () => {
     const doc = new jsPDF();
-    console.log(fecha);
+    //console.log(fecha);
     //Encabezado
     let fech = format(new Date(fecha), "dd/MM/yyyy");
     //let ima = <img src="./Images/Fondo.jpg"></img>;
     // doc.addImage(ima, "JPEG", 20, 20, 2, 10, 10);
-    doc.text("Resumen de pedidos", 85, 10);
-    doc.text("Fecha: " + fech, 87, 15);
+    doc.text("CEYCO", 85, 10);
+    doc.text("Pedido por vendedor " + Vende, 62, 15);
+    doc.text("Fecha: " + fech, 78, 20);
+
     //tabla
     const encabe = [
       "Orden",
@@ -23,7 +25,7 @@ const MyPDF = ({ conte, fecha }) => {
       "Entrega",
       "Cantidad",
     ];
-    console.log(conte);
+    // console.log(conte);
     const filas = [];
     conte.forEach((elem, key) => {
       let ord = key + 1;
@@ -38,19 +40,19 @@ const MyPDF = ({ conte, fecha }) => {
       filas.push(sencillo);
     });
     doc.autoTable(encabe, filas, {
-      startY: 20,
+      startY: 23,
       showHead: "everyPage",
     });
-    doc.save("Reporte.pdf");
+    doc.save("Reporte pedido " + Vende + ", " + fecha + ".pdf");
   };
 
   return (
     <div>
-      <button className="btn btn-info" onClick={generarPDF}>
-        <i className="bi bi-file-earmark-pdf-fill">Descarga</i>
+      <button className="btn btn-dark" onClick={generarPDF}>
+        <i className="bi bi-file-earmark-pdf-fill"> Descarga</i>
       </button>
     </div>
   );
 };
 
-export default MyPDF;
+export default ResumVenPed;
