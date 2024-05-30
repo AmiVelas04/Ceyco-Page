@@ -28,7 +28,7 @@ export const MainRepCarga = () => {
   const [allVende, setAllVende] = useState([]);
   const [nomVende, setNomVende] = useState("(No seleccionado)");
 
-  const getCli = async () => {
+  const getvend = async () => {
     const response = axios.get("Usuario/Usuvend");
     return response;
   };
@@ -122,7 +122,7 @@ export const MainRepCarga = () => {
 
   useEffect(() => {
     //usefect body
-    getCli().then((response) => {
+    getvend().then((response) => {
       //hacer alggo con esa respuesta
       setAllVende(response.data);
       //console.log(response.data);

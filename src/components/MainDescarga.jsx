@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import ComboVende from "./ComboVende";
 import FechaIni from "./FechaIni";
@@ -12,9 +12,13 @@ export const MainDescarga = () => {
   const [vende, setVende] = useState([]);
   const [datos, setDatos] = useState([]);
   const [conte, setConte] = useState([]);
-  const [produs, setProdus] = useState([]);
+  const [allVende, setAllVende] = useState([]);
   const [nomVende, setNomVende] = useState("(No seleccionado)");
   const [tot, setTot] = useState(0);
+  const getvend = async () => {
+    const response = axios.get("Usuario/Usuvend");
+    return response;
+  };
 
   const handleChange = ({ target }) => {
     setDatos({
@@ -51,7 +55,7 @@ export const MainDescarga = () => {
       );
       return;
     }
-    setNomVende(await nomUsu(vende));
+
     var temp = [];
     const ventaCaja = "Venta/VentacajaDate/" + datos.fechai + "/" + vende;
     const ventaUni = "Venta/VentauniDate/" + datos.fechai + "/" + vende;
@@ -66,7 +70,8 @@ export const MainDescarga = () => {
     const response2 = await axios.get(urlDiccioUni);
     const response3 = await axios.get(ventaCaja);
     const response4 = await axios.get(ventaUni);
-
+    const mynombre = await nomUsu(vende);
+    setNomVende(mynombre);
     //console.log(urlDicioCaja);
     //console.log(urlDiccioUni);
 
@@ -138,10 +143,19 @@ export const MainDescarga = () => {
       <ListDescarga
         fecha={datos.fechai}
         todos={temp}
-        nom={nomVende}
+        nom={mynombre}
       ></ListDescarga>
     );
   };
+
+  useEffect(() => {
+    //usefect body
+    getvend().then((response) => {
+      //hacer alggo con esa respuesta
+      setAllVende(response.data);
+      //console.log(response.data);
+    });
+  }, []);
 
   return (
     <Container>
