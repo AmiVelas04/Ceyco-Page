@@ -7,9 +7,10 @@ import { FechaIni } from "./FechaIni";
 import { FechaFin } from "./FechaFin";
 import ReporteGen from "../containers/ReporteGen";
 import ReporteCompData from "./ReporteCompData";
+import ReporteCredito from "./ReporteCredData";
 
-export const MainRepCompra = () => {
-  const Url1 = "Reporte/CompTot";
+export const MainRepCredito = () => {
+  const Url1 = "Reporte/Creditoall";
 
   const [retorno, setRetorno] = useState(null);
   const [conte, setConte] = useState([]);
@@ -53,7 +54,7 @@ export const MainRepCompra = () => {
     setConte(temp);
     // setVerRepo(!verRepo);
     setRetorno(
-      <ReporteCompData datos={dataForm} cabec={cabe} contenido={conte} />
+      <ReporteCredito datos={dataForm} cabec={cabe} contenido={conte} />
     );
   };
 
@@ -70,7 +71,7 @@ export const MainRepCompra = () => {
       <Card border="dark" style={{ width: "80rem" }}>
         <Card.Header>
           <div className="text-center">
-            <h2>Reporte de compras</h2>
+            <h2>Reporte de creditos</h2>
           </div>
         </Card.Header>
 

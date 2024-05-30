@@ -6,9 +6,9 @@ import { MainProdu } from "../components/MainProdu.jsx";
 
 export const Producto = () => {
   return (
-    <Container>
+    <div>
       <NavBar></NavBar>
       <MainProdu></MainProdu>
-    </Container>
+    </div>
   );
 };

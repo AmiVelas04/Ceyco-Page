@@ -9,7 +9,7 @@ export const Compra = () => {
   const cookies = new Cookies();
   const id = cookies.get();
   return (
-    <div className="md-11">
+    <div>
       <NavBar></NavBar>
       <MainCompra idusu={id}></MainCompra>
     </div>

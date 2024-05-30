@@ -5,9 +5,9 @@ import { MainProve } from "../components/MainProve";
 
 export const Proveedor = () => {
   return (
-    <Container>
+    <div>
       <NavBar></NavBar>
       <MainProve></MainProve>
-    </Container>
+    </div>
   );
 };

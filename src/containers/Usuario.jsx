@@ -6,10 +6,10 @@ import { Container } from "react-bootstrap";
 
 export const Usuario = () => {
   return (
-    <Container>
+    <div>
       <NavBar></NavBar>
       <MainUsu></MainUsu>
-    </Container>
+    </div>
   );
 };
 

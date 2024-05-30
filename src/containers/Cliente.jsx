@@ -5,9 +5,9 @@ import { NavBar } from "../components/NavBar";
 
 export const Cliente = () => {
   return (
-    <Container>
+    <div>
       <NavBar></NavBar>
       <MainCli></MainCli>
-    </Container>
+    </div>
   );
 };

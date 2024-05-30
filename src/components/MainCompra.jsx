@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardGroup, Button } from "react-bootstrap";
+import { Container, Card, CardGroup, Button } from "react-bootstrap";
 import { BuscProd } from "./BuscProd";
 import { ListProdOp } from "./ListProdOp";
 
@@ -7,33 +7,52 @@ import { ComboProve } from "./ComboProve";
 import BuscProdCompra from "./BuscProdCompra";
 import axios from "axios";
 import Swal from "sweetalert";
-import Cookies from "universal-cookie";
+import { useSelector } from "react-redux";
 
 export const MainCompra = () => {
-  const cookies = new Cookies();
-  const UrlSgen = "/compra/incomp/";
-  const UrlSdet = "/Compra/IncompDet/";
+  const UrlSgen = "Compra/Incomp";
+  const UrlSdet = "Compra/IncompDet";
   const UrlElimDet = "/Compra/DelCompDet/";
   const UrlCantiProd = "producto/cantiprod/";
   const UrlUpdProd = "/Producto/Update";
   const idComp = "/compra/idComp/";
   const idCompDeta = "/compra/idCompDet/";
+  const usua = useSelector((state) => state.user);
 
   const [produ, setProdu] = useState([]);
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState(0);
   const [dataProve, setDataProve] = useState([]);
   const [lista, setLista] = useState(<ListProdOp prods={produ} />);
   const [user, setUser] = useState();
 
   const getFecha = () => {
     const fech = new Date();
-
-    const respu = `${fech.getDate()}-${
+    const respu = `${fech.getFullYear()}/${
       fech.getMonth() + 1
-    }-${fech.getFullYear()}`;
+    }/${fech.getDate()} ${fech.getHours()}: ${fech.getMinutes()}`;
     return respu;
   };
-
+  const getIdCaja = async () => {
+    const UrlCajIdCount = "caja/canti";
+    const UrlCajIdMax = "caja/maxid";
+    try {
+      const response1 = await axios.get(UrlCajIdCount);
+      if (response1.length <= 0) {
+        return 1;
+      } else {
+        const response2 = await axios.get(UrlCajIdMax);
+        const id = response2.data;
+        return id + 1;
+      }
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "hubo un error en la busqueda de cajas anteriores" + error,
+        "error"
+      );
+    }
+    //console.log(response.data);
+  };
   const handleChangeProve = ({ target }) => {
     setDataProve({
       ...dataProve,
@@ -75,41 +94,33 @@ export const MainCompra = () => {
 
   const preparar = async () => {
     var id = await ultiComp();
-    console.log("Proveedor: " + dataProve.id_prov);
+    //console.log("Proveedor: " + dataProve.id_prov);
     var idprov = parseInt(dataProve.id_prov);
-    let form = new FormData();
-    form.append("id_compra", id);
-    form.append("id_usu", user);
-    form.append("id_prov", idprov);
-    form.append("fecha", getFecha());
-    form.append("factura", "CF");
-    form.append("pago", total);
-    form.append("estado", "Activa");
+    var idusu = parseInt(usua.id_usu);
 
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
+    const ingre = {
+      Id_compra: id,
+      Id_usu: idusu,
+      Id_prov: idprov,
+      Fecha: getFecha(),
+      Factura: "CF",
+      Pago: total,
+      Estado: "Activa",
     };
-    axios
-      .post(UrlSgen, form, config)
-      .then((response) => {
-        // console.log(response);
-        if (saveDet(id)) {
+    //   console.log(ingre);
+    try {
+      const response = await axios.post(UrlSgen, ingre);
+      if (response.status === 200) {
+        console.log(response.status);
+        if (saveDet(id) && (await SaveCaja(id, total))) {
           Swal("Exito", "La compra ha sido registrada", "success");
         } else {
           Swal("No guardado", "La compra no pudo ser registrada", "error");
         }
-      })
-      .catch((error) => {
-        // console.log(error);
-        Swal(
-          "No guardado",
-          "La compra no pudo ser registrada " + error,
-          "error"
-        );
-      });
-    // setRuta({ ...ruta, [valo.name]: valo.value });
-    // console.log(valo);
-    // saveGen(options);
+      }
+    } catch (error) {
+      Swal("No guardado", "La compra no pudo ser registrada " + error, "error");
+    }
   };
 
   const saveGen = async (datos) => {
@@ -152,26 +163,17 @@ export const MainCompra = () => {
           precio = dato.pven;
           subto = dato.cantidad * dato.pven;
         });
+        const detval = {
+          detal_compr: id_det,
+          id_compra: compra,
+          id_prod: idprod,
+          cantidad: canti,
+          precio: precio,
+          subtotal: subto,
+        };
 
+        const repdeta = axios.post(UrlSdet, detval);
         // console.log(id_det);
-
-        let form = new FormData();
-        form.append("detal_compr", id_det);
-        form.append("id_compra", compra);
-        form.append("id_prod", idprod);
-        form.append("cantidad", canti);
-        form.append("precio", precio);
-        form.append("subtotal", subto);
-
-        axios
-          .post(UrlSdet, form, config)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
         //console.log(valor);
         /*const response = axios.post(, valor); const valor = {
           detal_compr: id_det,
@@ -210,26 +212,42 @@ export const MainCompra = () => {
         }*/
       });
     } catch (error) {
-      const resp = await axios.delete(UrlElimDet);
-      if (resp.status === 200) {
-        // console.log(produ);
-        await Swal(
-          "No guardado",
-          "No se pudieron guardar los productos de la ruta, verifique el estado del servidor" +
-            error,
-          "error"
-        );
-      } else {
-        await Swal(
-          "Sin reestablecer",
-          "se presentó un inconveniente al momento de reestablecer los datos",
-          "warning"
-        );
-      }
+      await Swal(
+        "Error en detalle",
+        "se presentó un error al guardar los detalles de la compra",
+        "error"
+      );
+
       //console.log(error);
       return false;
     }
     return true;
+  };
+
+  const SaveCaja = async (idcomp, monto) => {
+    const UrlCajSave = "caja/saveone";
+    var idusu = parseInt(usua.id_usu);
+    try {
+      const caja = {
+        id_caja: await getIdCaja(),
+        operacion: "Salida",
+        monto: monto,
+        detalle: "Compra no " + idcomp,
+        fecha: getFecha(),
+        estado: "Activo",
+        id_usu: idusu,
+      };
+      console.log(caja);
+      const response = await axios.post(UrlCajSave, caja);
+      return response.status === 200;
+    } catch (error) {
+      await Swal(
+        "Algo salio mal!",
+        "No se pudo guardar el registro en caja" + error,
+        "error"
+      );
+      return false;
+    }
   };
 
   /* const handleTot = () => {
@@ -301,12 +319,11 @@ export const MainCompra = () => {
   };
 
   useEffect(() => {
-    setUser(cookies.get("id"));
     setDataProve({ id_prov: 1 });
   }, []);
 
   return (
-    <div>
+    <Container>
       <h1 className="text-center"> Compras</h1>
       <CardGroup>
         <Card>
@@ -331,6 +348,6 @@ export const MainCompra = () => {
       <Button size="lg" variant="success" onClick={() => preparar()}>
         Proceder con la compra
       </Button>
-    </div>
+    </Container>
   );
 };
