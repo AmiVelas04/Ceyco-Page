@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 export const ComboVende = ({ vend }) => {
   const usua = useSelector((state) => state);
-  const URLget1 = "Usuario/Usuvend";
+  const URLget1 = "Usuario/todos";
   const getCli = async () => {
     const response = axios.get(URLget1);
     return response;

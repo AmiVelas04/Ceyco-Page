@@ -129,13 +129,13 @@ export const MainCredito = () => {
       const valo = {
         id_pagoc: id,
         id_credito: cred,
-        id_usu: usua,
+        id_usu: usua.id_usu,
         monto: dataModal.monto,
         fecha: getFecha(),
         detalle: "Pago de credito",
         estado: "Activo",
       };
-      //console.log(valo);
+      console.log(valo);
       const response = await axios.post(URLSavePago, valo);
       if (response.status === 200) {
         const UrlCajSave = "caja/saveone";
@@ -146,7 +146,7 @@ export const MainCredito = () => {
           detalle: "Abono de credito " + cred,
           fecha: getFecha(),
           estado: "Activo",
-          id_usu: usua,
+          id_usu: usua.id_usu,
         };
         const respCaja = await axios.post(UrlCajSave, caja);
         if (respCaja.status === 200) {
