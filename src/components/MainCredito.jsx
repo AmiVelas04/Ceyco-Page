@@ -46,7 +46,8 @@ export const MainCredito = () => {
     const UrlCajIdMax = "pagocre/maxid";
     try {
       const response1 = await axios.get(UrlCajIdCount);
-      if (response1.length <= 0) {
+
+      if (response1.data <= 0) {
         return 1;
       } else {
         const response2 = await axios.get(UrlCajIdMax);
