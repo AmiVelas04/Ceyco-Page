@@ -14,7 +14,8 @@ export const MainCompra = () => {
   const UrlSdet = "Compra/IncompDet";
   const UrlElimDet = "/Compra/DelCompDet/";
   const UrlCantiProd = "producto/cantiprod/";
-  const UrlUpdProd = "/Producto/Update";
+  const UrlUpdProd = "/Producto/UpdatePage";
+  const urlprodbyid = "producto/prodxcod";
   const idComp = "/compra/idComp/";
   const idCompDeta = "/compra/idCompDet/";
   const usua = useSelector((state) => state.user);
@@ -107,7 +108,7 @@ export const MainCompra = () => {
       Pago: total,
       Estado: "Activa",
     };
-    //   console.log(ingre);
+    console.log(ingre);
     try {
       const response = await axios.post(UrlSgen, ingre);
       if (response.status === 200) {
@@ -155,14 +156,13 @@ export const MainCompra = () => {
       id_det = 0;
     var id = await ultiCompDet();
     try {
-      produ.map((elem, index) => {
-        elem.map((dato, index) => {
-          id_det = id++;
-          idprod = dato.id_prod;
-          canti = dato.cantidad;
-          precio = dato.pven;
-          subto = dato.cantidad * dato.pven;
-        });
+      //  console.log(produ[0]);
+      for (let i = 0; i < produ[0].length; i++) {
+        id_det = id++;
+        idprod = produ[0][i].id_prod;
+        canti = produ[0][i].cantidad;
+        precio = produ[0][i].pven;
+        subto = produ[0][i].cantidad * produ[0][i].pven;
         const detval = {
           detal_compr: id_det,
           id_compra: compra,
@@ -171,46 +171,21 @@ export const MainCompra = () => {
           precio: precio,
           subtotal: subto,
         };
-
-        const repdeta = axios.post(UrlSdet, detval);
-        // console.log(id_det);
-        //console.log(valor);
-        /*const response = axios.post(, valor); const valor = {
-          detal_compr: id_det,
-          id_compra: compra,
-          id_prod: idprod,
-          cantidad: canti,
-          precio: precio,
-          subtotal: subto,
-        };*/
-
-        /*if (!response.status === 200) {
-          Swal(
-            "No guardado",
-            "No se pudieron guardar los productos de la ruta",
-            "error"
-          );
-          // return false;
-        } else {
-          const ruta = UrlCantiProd + valor.id_prod;
-          const RepCanti = axios.get(ruta);
-          let canti = RepCanti.data + valor.cantidad;
-          const datos = {
-            id_prod: valor.id_prod,
-            cantidad: canti,
-          };
-          console.log(response.data);
-          const respUpdProd = axios.patch(UrlUpdProd, datos);
-
-          if (!respUpdProd.status === 200) {
-            Swal(
-              "No actualizado",
-              "No se Pudo actualizar la cantidad de productos, porfavor verifique",
-              "error"
-            );
-          }
-        }*/
-      });
+        //  console.log(detval);
+        const repdeta = await axios.post(UrlSdet, detval);
+        if (repdeta.status === 200) {
+          const urlget1prod = urlprodbyid + "/" + detval.id_prod;
+          const prodante = await axios.get(urlget1prod);
+          const dataprod = prodante.data;
+          // console.log(dataprod[0]);
+          const cantchang =
+            parseInt(dataprod[0].cantidad) + parseInt(detval.cantidad);
+          dataprod[0].cantidad = cantchang;
+          //  console.log(dataprod[0]);
+          const updprods = await axios.put(UrlUpdProd, dataprod[0]);
+          //console.log(updprods);
+        }
+      }
     } catch (error) {
       await Swal(
         "Error en detalle",
