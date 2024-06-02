@@ -2,7 +2,7 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://localhost:5001/api",
+  "proxy": "http://amkdeveloper-002-site1.gtempurl.com/api",
   "dependencies": {
     "@react-pdf/renderer": "^3.4.2",
     "@reduxjs/toolkit": "^2.2.3",
