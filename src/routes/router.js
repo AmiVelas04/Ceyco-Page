@@ -21,6 +21,7 @@ import { Salario} from "../containers/Salario.jsx";
 import { Credito } from "../containers/Credito.jsx";
 import { Descarga } from "../containers/Descarga.jsx";
 import { RepCarga } from "../containers/RepCarga.jsx";
+import { RepCredito } from "../containers/RepCredito.jsx";
 
   // <Route  exact path='/repcomp' element={<RepCompra/>}  ></Route>
 
@@ -38,7 +39,11 @@ function router() {
    <Route  exact path='/usu' element={<Usuario/>}  ></Route>
    <Route  exact path='/prov' element={<Proveedor/>}  ></Route>
    <Route  exact path='/gast' element={<Gasto/>}  ></Route>
-      <Route  exact path='/repcomp' element={<RepCompra/>}  ></Route>
+   
+   
+    <Route  exact path='/repcomp' element={<RepCompra/>}  ></Route>
+    <Route  exact path='/repcredi' element={<RepCredito/>}></Route>
+
    <Route  exact path='/repgast' element={<RepGasto/>}  ></Route>
    <Route  exact path='/repven' element={<RepVenta/>}  ></Route>
    <Route  exact path='/repsala' element={<RepSalario/>}  ></Route>

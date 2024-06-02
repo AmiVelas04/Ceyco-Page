@@ -129,30 +129,35 @@ export const NavBar = () => {
 
           <NavDropdown.Item>
             <Link to="/repcomp" className="nav-link">
-              <i class="bi bi-bag-check-fill"> Compras</i>
+              <i class="bi bi-bag-check-fill">Reporte de Compras</i>
             </Link>
           </NavDropdown.Item>
 
           <NavDropdown.Item>
             <Link to="/repcarga" className="nav-link">
-              <i class="bi bi-truck-flatbed"> Reporte de carga</i>
+              <i class="bi bi-truck-flatbed"> Reporte de Carga</i>
             </Link>
           </NavDropdown.Item>
 
           <NavDropdown.Item>
             <Link to="/repconce" className="nav-link">
-              <i class="bi bi-person-up"> Conseciones</i>
+              <i class="bi bi-person-up"> Reporte de Conseciones</i>
+            </Link>
+          </NavDropdown.Item>
+          <NavDropdown.Item>
+            <Link to="/repcredi" className="nav-link">
+              <i class="bi bi-person-up"> Reporte de Creditos</i>
             </Link>
           </NavDropdown.Item>
           <NavDropdown.Item>
             <Link to="/repgast" className="nav-link">
-              <i class="bi bi-credit-card-2-front-fill"> Gastos</i>
+              <i class="bi bi-credit-card-2-front-fill"> Reporte de Gastos</i>
             </Link>
           </NavDropdown.Item>
 
           <NavDropdown.Item>
             <Link to="/repsala" className="nav-link">
-              <i class="bi bi-piggy-bank-fill"> Salario</i>
+              <i class="bi bi-piggy-bank-fill"> Reporte de Salario</i>
             </Link>
           </NavDropdown.Item>
         </NavDropdown>

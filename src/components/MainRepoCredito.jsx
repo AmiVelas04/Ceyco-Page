@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Card, ListGroup, Button, Col, Row } from "react-bootstrap";
 import moment from "moment";
 import axios from "axios";
 import Swal from "sweetalert";
 import { FechaIni } from "./FechaIni";
-import { FechaFin } from "./FechaFin";
-import ReporteGen from "../containers/ReporteGen";
-import ReporteCompData from "./ReporteCompData";
-import ReporteCredito from "./ReporteCredData";
+import { ReporteCeditoData } from "./ReporteCredData";
 
 export const MainRepCredito = () => {
   const Url1 = "Reporte/Creditoall";
@@ -15,46 +12,46 @@ export const MainRepCredito = () => {
   const [retorno, setRetorno] = useState(null);
   const [conte, setConte] = useState([]);
   const [dataForm, setDataForm] = useState([]);
+  const [allCredi, setAllCredi] = useState([]);
   const [verRepo, setVerRepo] = useState(false);
   const [cabe, setCabe] = useState({
-    titulo: "Compras",
-    h1: "Compra",
-    h2: "Descripción",
-    h3: "Fecha",
-    h4: "Monto",
+    titulo: "Creditos",
+    h1: "Credito",
+    h2: "Vendedor que autorizo",
+    h3: "Cliente",
+    h4: "Fecha",
+    h5: "Monto",
+    h6: "Estado",
   });
-  const buscarTodo = async () => {
-    if (dataForm.fechai == null) {
-      await Swal(
-        "Fechas!",
-        "No se ha seleccionado la fecha inicial",
-        "warning"
-      );
-      return;
-    } else if (dataForm.fechaf == null) {
-      await Swal("Fechas!", "No se ha seleccionado la fecha final", "warning");
-      return;
-    }
-    const temp = [];
-    const url = Url1 + "/" + dataForm.fechai + "/" + dataForm.fechaf;
+
+  const getAllCrediAct = async () => {
+    const url = "Credito/AllActiv";
     const response = await axios.get(url);
-    //setConte(response.data);
-    const datos = response.data;
+    //  console.log(response.data);
+    return response.data;
+  };
+
+  const buscarTodo = async () => {
+    const temp = [];
+
     // console.log(datos);
-    datos.forEach((elem) => {
+    allCredi.forEach((elem) => {
       const intermed = {
-        v1: elem.id,
-        v2: "Venta No. " + elem.id,
-        v3: moment(elem.fecha).format("DD/MM/yyyy"),
-        v4: "Q." + elem.total,
+        v1: elem.id_cred,
+        v2: elem.cli,
+        v3: elem.vende,
+        v4: moment(elem.fecha).format("DD/MM/yyyy"),
+        v5: "Q." + elem.total,
+        v6: elem.estado,
+        v7: elem.ven,
       };
       temp.push(intermed);
     });
-    //console.log(temp);
+    //  console.log(temp);
     setConte(temp);
     // setVerRepo(!verRepo);
     setRetorno(
-      <ReporteCredito datos={dataForm} cabec={cabe} contenido={conte} />
+      <ReporteCeditoData datos={dataForm} cabec={cabe} contenido={conte} />
     );
   };
 
@@ -64,6 +61,15 @@ export const MainRepCredito = () => {
       [target.name]: target.value,
     });
   };
+
+  useEffect(() => {
+    //usefect body
+    getAllCrediAct().then((respo) => {
+      //hacer alggo con esa respuesta
+      setAllCredi(respo);
+      //console.log(response.data);
+    });
+  }, []);
 
   return (
     <Container>
@@ -78,14 +84,7 @@ export const MainRepCredito = () => {
         <ListGroup variant="flush">
           <ListGroup.Item>
             <Container>
-              <Row>
-                <Col>
-                  <FechaIni fecha={handleChange}></FechaIni>
-                </Col>
-                <Col>
-                  <FechaFin fecha={handleChange}></FechaFin>
-                </Col>
-              </Row>
+              <Row></Row>
             </Container>
           </ListGroup.Item>
 
@@ -93,7 +92,7 @@ export const MainRepCredito = () => {
             <Container>
               <label> &nbsp;&nbsp;&nbsp;&nbsp; </label>
               <Button variant="success" onClick={() => buscarTodo()}>
-                Generar Reporte General
+                Generar Reporte
                 <i className="bi bi-layout-text-sidebar"></i>
               </Button>
             </Container>

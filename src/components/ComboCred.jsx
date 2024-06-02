@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import moment from "moment";
-export const ComboCred = ({ seleccred, listacred }) => {
+export const ComboCred = ({ seleccred, listacred, selemonto }) => {
   const UrlOne = "Credito/onecredDato/";
 
   const [nomcred, setNomcred] = useState([
@@ -32,7 +32,9 @@ export const ComboCred = ({ seleccred, listacred }) => {
     //console.log("Url para detalles de pedido" + urlfull);
     const response = await axios.get(urlfull);
     var conv = convtoArrNom(response.data);
+    //  console.log(conv[0][4]);
     setNomcred(conv);
+    selemonto(conv[0][4]);
     seleccred(idp);
     //   console.log("Pedido " + idp);
     //return response;

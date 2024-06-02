@@ -26,7 +26,9 @@ export const MainCredito = () => {
 
   const usua = useSelector((state) => state.user);
   const [vende, setVende] = useState(0);
+  const [monto, setMonto] = useState(0);
 
+  const [totalP, setTotalP] = useState(0);
   const [conte, setConte] = useState([]);
   const [cred, setCred] = useState([]);
   const [enccred, setEnccred] = useState([]);
@@ -136,7 +138,7 @@ export const MainCredito = () => {
         detalle: "Pago de credito",
         estado: "Activo",
       };
-      console.log(valo);
+      // console.log(valo);
       const response = await axios.post(URLSavePago, valo);
       if (response.status === 200) {
         const UrlCajSave = "caja/saveone";
@@ -181,7 +183,7 @@ export const MainCredito = () => {
 
   const convtoArr = (ArrJson) => {
     var Into = [{}];
-    console.log(ArrJson);
+    //  console.log(ArrJson);
     for (let indi in ArrJson) {
       //console.log(indi);
 
@@ -203,10 +205,17 @@ export const MainCredito = () => {
 
   const pagos = async () => {
     var temp = [];
+    var cTotal = 0.0;
+    if (monto > 0) {
+      cTotal = parseFloat(monto);
+      //  cTotal = Number(cTotal).toFixed(2);
+    }
+    console.log(monto);
     const UrlPpedi = "pagocre/Pagosbycred/" + cred;
     // console.log(pedi);
     const response = await axios.get(UrlPpedi);
     const datos = response.data;
+    var total = 0;
     //  console.log(datos);
     datos.forEach((elem) => {
       const interm = {
@@ -218,10 +227,13 @@ export const MainCredito = () => {
         detalle: elem.detalle,
         estado: elem.estado,
       };
+      total = total + elem.monto;
       temp.push(interm);
     });
+    total = cTotal - total;
+    total = Number(total).toFixed(2);
     //console.log(temp);
-    //  setProds(temp);
+    setTotalP(total);
     //console.log(prods);
     setConte(<ListPago cred={cred} gene={temp}></ListPago>);
   };
@@ -247,6 +259,7 @@ export const MainCredito = () => {
                       <ComboCred
                         seleccred={setCred}
                         listacred={enccred}
+                        selemonto={setMonto}
                       ></ComboCred>
                     </Col>
                   </Row>
@@ -285,7 +298,7 @@ export const MainCredito = () => {
                 justifyContent: "end",
               }}
             >
-              Saldo Q
+              Saldo Q{totalP}
             </Card.Body>
           </ListGroup.Item>
         </ListGroup>

@@ -165,6 +165,7 @@ export const ReporteCeditoData = ({ datos, cabec, contenido }) => {
             <th>{cabec.h3}</th>
             <th>{cabec.h4}</th>
             <th>{cabec.h5}</th>
+            <th>{cabec.h6}</th>
           </tr>
         </thead>
         {contenido.map((valo, index) => (
@@ -175,13 +176,15 @@ export const ReporteCeditoData = ({ datos, cabec, contenido }) => {
               <td>{valo.v2}</td>
               <td>{valo.v3}</td>
               <td>{valo.v4}</td>
+              <td>{valo.v5}</td>
+              <td>{valo.v6}</td>
               <td className="col-md-3">
                 <button
-                  className="btn btn-info"
-                  onClick={() => cargaDetaVend(valo.v1)}
+                  className="btn btn-outline-primary"
+                  onClick={() => cargaDetaVend(valo.v7)}
                 >
-                  <i className="bi bi-exclamation-circle-fill"> </i>
-                  Inahbilitado
+                  <i className="bi bi-eye-fill"> </i>
+                  Ver detalle
                 </button>
               </td>
             </tr>
@@ -189,9 +192,9 @@ export const ReporteCeditoData = ({ datos, cabec, contenido }) => {
         ))}
       </Table>
 
-      <Modal show={false} size="lg">
+      <Modal show={showModal} size="lg">
         <Modal.Header>
-          <ModalTitle>Productos de venta #</ModalTitle>
+          <ModalTitle>Listado de Productos del credito</ModalTitle>
         </Modal.Header>
         <Form>
           <ModalBody>
@@ -231,8 +234,7 @@ export const ReporteCeditoData = ({ datos, cabec, contenido }) => {
               Cerrar
             </button>
             <button className="btn btn-Info">
-              <i className="bi bi-filetype-pdf"></i>
-              Generar PDF
+              <i className=""></i>X
             </button>
           </ModalFooter>
         </Form>
