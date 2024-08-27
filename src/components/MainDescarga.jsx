@@ -9,6 +9,7 @@ import { ListDescarga } from "./ListDescarga";
 export const MainDescarga = () => {
   const GetProdPedi = "pedido/";
 
+
   const [vende, setVende] = useState([]);
   const [datos, setDatos] = useState([]);
   const [conte, setConte] = useState([]);
@@ -88,9 +89,9 @@ export const MainDescarga = () => {
       var sumatot = elem.cantidad;
       dresp3.forEach((eleg1, indice) => {
         if (elem.id_prod === eleg1.id_prod) {
-          console.log(elem.id_prod + "===" + eleg1.id_prod);
-          console.log(sumatot);
-          console.log(eleg1.cantidad);
+       //   console.log(elem.id_prod + "===" + eleg1.id_prod);
+        //  console.log(sumatot);
+         // console.log(eleg1.cantidad);
           sumatot = sumatot - eleg1.cantidad;
         }
       });
@@ -134,7 +135,7 @@ export const MainDescarga = () => {
       temp.push(interm);
     });
 
-    console.log(temp);
+   // console.log(temp);
     // console.log(response.data);
     // const devol = convtoArr(temp);
     // console.log(devol);

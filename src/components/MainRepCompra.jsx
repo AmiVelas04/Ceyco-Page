@@ -37,6 +37,7 @@ export const MainRepCompra = () => {
     const temp = [];
     const url = Url1 + "/" + dataForm.fechai + "/" + dataForm.fechaf;
     const response = await axios.get(url);
+    console.log(response.data);
     //setConte(response.data);
     const datos = response.data;
     // console.log(datos);

@@ -68,7 +68,7 @@ export const ReporteGen = ({ datos, cabec, contenido }) => {
     const response = await axios.get(DatoVenUrl);
     const recib = response.data;
 
-    // console.log(recib);
+    console.log(recib);
     let items = 0;
     let tot = 0;
     recib.forEach((elem) => {

@@ -69,6 +69,7 @@ export const MainRepCarga = () => {
     setNomVende(await nomUsu(vende));
     resp1.forEach((elem, index) => {
       // console.log(elem);
+      var pescaja= elem.cantidad*elem.peso;
       const interm = {
         id_prod: elem.id_prod,
         nombre: elem.nombre,
@@ -79,12 +80,14 @@ export const MainRepCarga = () => {
         caduc: "0",
         cantidad: elem.cantidad,
         conte: "Caja",
+        peso:pescaja
       };
       //  console.log(interm);
       temp.push(interm);
     });
 
     resp2.forEach((elem1) => {
+      var pesindi=elem1.peso*elem1.cantidad;
       const interm = {
         id_prod: elem1.id_prod,
         nombre: elem1.nombre,
@@ -95,6 +98,7 @@ export const MainRepCarga = () => {
         caduc: "0",
         cantidad: elem1.cantidad,
         conte: "Unidad",
+        peso:pesindi
       };
       temp.push(interm);
     });
@@ -116,6 +120,7 @@ export const MainRepCarga = () => {
         <td>{pedis.descrip}</td>
         <td> {pedis.conte}</td>
         <td>{pedis.cantidad}</td>
+        <td>{pedis.peso}</td>
       </tr>
     );
   });
@@ -175,6 +180,7 @@ export const MainRepCarga = () => {
                     <th>Descripcion</th>
                     <th>Unidad/Caja</th>
                     <th>Cantidad</th>
+                    <th>Peso</th>
                   </tr>
                 </thead>
                 <tbody>{conte}</tbody>

@@ -11,6 +11,7 @@ export const MainCarga = () => {
   //Url de direccion
   const UrlSgen = "ruta/saverut";
   const UrlSdet = "ruta/saverutdet";
+  const UnProdu ="producto/prod1cod/"
 
   //Obtener fecha actual
   const getFecha = () => {
@@ -88,7 +89,7 @@ export const MainCarga = () => {
         // console.log(valor);
         //console.log(valor);
         const response = axios.post(UrlSdet, valor);
-        if (!response.status === 200) {
+        if (!response.status === 200 && descargainventario(idprod,canti)) {
           Swal(
             "No guardado",
             "No se pudieron guardar los productos de la ruta",
@@ -111,6 +112,20 @@ export const MainCarga = () => {
   };
 
   const elimingre = () => {};
+
+  const descargainventario =async (id, cant)=>  {
+try {
+  const resprodu = axios.get(UnProdu+id);
+  var produ=convtoProd(resprodu);
+  produ[0].canti=produ[0].canti-cant;
+  const urlUpd = "/producto/updatepage/";
+  const response = await axios.put(urlUpd, produ);
+return response.status===200;
+} catch (error) {
+  return false;
+}
+
+  }
 
   const obtenProdu = (prod) => {
     produ.push(prod);
@@ -170,6 +185,28 @@ export const MainCarga = () => {
     setLista(
       <ListaProdCarga prods={produc} handleElim={elimProd} Edita={editProd} />
     );
+  };
+
+  const convtoProd = (ArrJson) => {
+    var Into = [{}];
+    //console.log(ArrJson);
+    for (let indi in ArrJson) {
+      // console.log(ArrJson.length);
+      Into.push([
+        ArrJson[indi].id_prod,
+        ArrJson[indi].nombre,
+        ArrJson[indi].descrip,
+        ArrJson[indi].costo,
+        ArrJson[indi].pmin,
+        ArrJson[indi].pven,
+        ArrJson[indi].cantidad,
+        ArrJson[indi].precio_caja,
+        ArrJson[indi].cant_caja,
+        ArrJson[indi].caduc,
+      ]);
+    }
+    Into.splice(0, 1);
+    return Into;
   };
 
   return (

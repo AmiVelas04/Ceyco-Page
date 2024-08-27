@@ -21,12 +21,15 @@ export const ListProdu = () => {
   // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
   const URL = "/producto/todos/";
   const URLSAVE = "/producto/updatepage/";
+  const UrlprodRut="producto/prodinPedido/";
 
   const getData = async () => {
     const response = axios.get(URL);
+    await crearCantRuta();
     return response;
   };
   const [mostra, setMostra] = useState([]);
+  const [stock, setStock] = useState([]);
   const [list, setList] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [dataModal, setDataModal] = useState([]);
@@ -47,6 +50,7 @@ export const ListProdu = () => {
       precio_caja: datos[7],
       cant_caja: datos[8],
       caduc: moment(datos[9].caduc).format("yyyy-MM-DD"),
+      peso:datos[10]
     };
     setshowModal(true);
     setDataModal(valo);
@@ -67,7 +71,14 @@ export const ListProdu = () => {
     setTotal(total);
   };
 
+  const crearCantRuta=async()=>{
+    const response = await axios.get(UrlprodRut);
+   console.log(response.data);
+    setStock(response.data);
+  }
+
   let conte = list.map((prod, index) => {
+   
     return (
       <tr key={index}>
         <td>{prod[0]}</td>
@@ -76,10 +87,11 @@ export const ListProdu = () => {
         <td>Q.{prod[3]}</td>
         <td>Q.{prod[4]}</td>
         <td>Q.{prod[5]}</td>
-        <td>{prod[6]}</td>
+        <td> <tr>Stock:{prod[6]}</tr> <tr>Ruta:{[prod[11]]}</tr>  </td>
         <td>Q{prod[7]}</td>
         <td>{prod[8]}</td>
         <td>{moment(prod[9]).format("DD/MM/yyyy")}</td>
+        <td>{prod[10]}</td>
         <td>
           <button
             className="btn btn-warning"
@@ -98,6 +110,13 @@ export const ListProdu = () => {
     //console.log(ArrJson);
     for (let indi in ArrJson) {
       // console.log(ArrJson.length);
+var suma=0;
+      for(let i=0;i< stock.length;i++)
+{
+ // console.log(stock[i]);
+if(stock[i].codigo===ArrJson[indi].id_prod)
+suma=stock[i].codigo;
+}
       Into.push([
         ArrJson[indi].id_prod,
         ArrJson[indi].nombre,
@@ -109,9 +128,12 @@ export const ListProdu = () => {
         ArrJson[indi].precio_caja,
         ArrJson[indi].cant_caja,
         ArrJson[indi].caduc,
+        ArrJson[indi].peso,
+        suma,
       ]);
     }
     Into.splice(0, 1);
+   
     return Into;
   };
 
@@ -146,6 +168,7 @@ export const ListProdu = () => {
     getData().then((response) => {
       //hacer alggo con esa respuesta
       const devol = convtoArr(response.data);
+      console.log(response.data);
       setList(devol);
     });
   }, []);
@@ -165,6 +188,7 @@ export const ListProdu = () => {
             <th>Precio por caja</th>
             <th>Cantidad por caja</th>
             <th>Fecha de caducidad</th>
+            <th>Peso Individual(lb)</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -356,6 +380,23 @@ export const ListProdu = () => {
                   name="caduc"
                   placeholder="fecha de caducidad"
                   value={dataModal.caduc}
+                  onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Peso individual"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="number"
+                  name="peso"
+                  placeholder="Peso individual"
+                  value={dataModal.peso}
                   onChange={handleChangeModal}
                   required
                 />

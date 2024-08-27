@@ -19,6 +19,7 @@ import ResumVenDescarga from "../documents/ResumDescarga";
 export const ListDescarga = ({ fecha, todos, nom }) => {
   const URL = "pedido/pedtotusu/1900-01-01/0";
 
+
   const getData = async () => {
     const response = axios.get(URL);
     return response;

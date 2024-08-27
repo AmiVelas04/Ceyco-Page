@@ -15,7 +15,7 @@ const ResumVenPed = ({ conte, fecha, Vende }) => {
     doc.text("CEYCO", 85, 10);
     doc.text("Pedido por vendedor " + Vende, 62, 15);
     doc.text("Fecha: " + fech, 78, 20);
-
+   
     //tabla
     const encabe = [
       "Orden",
@@ -24,9 +24,11 @@ const ResumVenPed = ({ conte, fecha, Vende }) => {
       "Descripcion",
       "Entrega",
       "Cantidad",
+      "Peso"
     ];
     // console.log(conte);
     const filas = [];
+    var sum=0;
     conte.forEach((elem, key) => {
       let ord = key + 1;
       const sencillo = [
@@ -36,16 +38,18 @@ const ResumVenPed = ({ conte, fecha, Vende }) => {
         elem.descrip,
         elem.conte,
         elem.cantidad,
+        elem.peso
       ];
       filas.push(sencillo);
+      sum=sum+elem.peso;
     });
+    doc.text("Peso total: "+sum+" lb", 85, 25);
     doc.autoTable(encabe, filas, {
-      startY: 23,
+      startY: 28,
       showHead: "everyPage",
     });
     doc.save("Reporte pedido " + Vende + ", " + fecha + ".pdf");
   };
-
   return (
     <div>
       <button className="btn btn-dark" onClick={generarPDF}>

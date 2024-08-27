@@ -16,13 +16,13 @@ export const ReporteCompData = ({ datos, cabec, contenido }) => {
   const URL = "/producto/todos/";
   const URLSAVE = "/producto/updatepage/";
   const UrlUpdVent = "/venta/updateventa/";
-  const UrlDetVen = "/Venta/LstProdVenDet/";
+  const UrlDetVen = "/compra/LstProdCompDet/";
   const Url1Venta = "/Venta/venxid/";
 
   const [showModal, setshowModal] = useState(false);
-  const [totVend, setTotVend] = useState(0);
+  const [totComp, setTotComp] = useState(0);
   const [dataModal, setDataModal] = useState([]);
-  const [datosVend, setDatosVend] = useState([]);
+  const [datosComp, setDatosComp] = useState([]);
 
   const handleCloseModal = (e) => {
     e.preventDefault();
@@ -61,14 +61,14 @@ export const ReporteCompData = ({ datos, cabec, contenido }) => {
     }
   };
 
-  const cargaDetaVend = async (idven) => {
+  const cargaDetaComp = async (idven) => {
     const detV = [];
 
     const DatoVenUrl = UrlDetVen + idven;
     const response = await axios.get(DatoVenUrl);
     const recib = response.data;
 
-    // console.log(recib);
+     console.log(recib);
     let items = 0;
     let tot = 0;
     recib.forEach((elem) => {
@@ -90,9 +90,9 @@ export const ReporteCompData = ({ datos, cabec, contenido }) => {
       items = items + 1;
       tot = tot + elem.precio_caja;
       detV.push(intermed);
-      setTotVend(tot);
+      setTotComp(tot);
     });
-    setDatosVend(detV);
+    setDatosComp(detV);
     // console.log(items);
     if (items > 0) setshowModal(true);
   };
@@ -178,10 +178,10 @@ export const ReporteCompData = ({ datos, cabec, contenido }) => {
               <td className="col-md-3">
                 <button
                   className="btn btn-info"
-                  onClick={() => cargaDetaVend(valo.v1)}
+                  onClick={() => cargaDetaComp(valo.v1)}
                 >
                   <i className="bi bi-exclamation-circle-fill"> </i>
-                  Inahbilitado
+                  Ver detalle
                 </button>
               </td>
             </tr>
@@ -189,7 +189,7 @@ export const ReporteCompData = ({ datos, cabec, contenido }) => {
         ))}
       </Table>
 
-      <Modal show={false} size="lg">
+      <Modal show={showModal} size="lg">
         <Modal.Header>
           <ModalTitle>Productos de venta #</ModalTitle>
         </Modal.Header>
@@ -207,7 +207,7 @@ export const ReporteCompData = ({ datos, cabec, contenido }) => {
                   <th>Unidad/Caja</th>
                 </tr>
               </thead>
-              {datosVend.map((valo, index) => (
+              {datosComp.map((valo, index) => (
                 <tbody>
                   <tr>
                     <td>{valo.idprod}</td>
@@ -221,7 +221,7 @@ export const ReporteCompData = ({ datos, cabec, contenido }) => {
                 </tbody>
               ))}
               <tfoot>
-                <tr className="md-6">Total Q{totVend}</tr>
+                <tr className="md-6">Total Q{totComp}</tr>
               </tfoot>
             </Table>
           </ModalBody>
