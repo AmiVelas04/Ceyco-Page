@@ -18,8 +18,8 @@ import Swal from "sweetalert";
 import axios from "axios";
 
 export const ListProdu = () => {
-  // const URL = "http://cloudfma2022-001-site1.itempurl.com/api/producto/todos";
-  const URL = "/producto/todos/";
+ 
+  const URL = "/producto/TodosWruta/";
   const URLSAVE = "/producto/updatepage/";
   const UrlprodRut="producto/prodinPedido/";
 
@@ -67,20 +67,25 @@ export const ListProdu = () => {
     list.forEach(function (num) {
       total += num[3] * num[6];
     });
-    // console.log(total);
+   // console.log(total);
     setTotal(total);
   };
 
   const crearCantRuta=async()=>{
     const response = await axios.get(UrlprodRut);
-   console.log(response.data);
+  // console.log(response.data);
     setStock(response.data);
   }
 
   let conte = list.map((prod, index) => {
-   
+    //console.log("Total en ruta:"+prod[11]);
+    var estilo={backgroundColor:'white', color:'black'};
+    if(prod[6]<=0)
+    {
+      estilo={ backgroundColor:'red', color:'white'};
+    }
     return (
-      <tr key={index}>
+      <tr key={index}  style={estilo}>
         <td>{prod[0]}</td>
         <td>{prod[1]}</td>
         <td>{prod[2]}</td>
@@ -110,30 +115,25 @@ export const ListProdu = () => {
     //console.log(ArrJson);
     for (let indi in ArrJson) {
       // console.log(ArrJson.length);
-var suma=0;
-      for(let i=0;i< stock.length;i++)
-{
- // console.log(stock[i]);
-if(stock[i].codigo===ArrJson[indi].id_prod)
-suma=stock[i].codigo;
-}
-      Into.push([
-        ArrJson[indi].id_prod,
-        ArrJson[indi].nombre,
-        ArrJson[indi].descrip,
-        ArrJson[indi].costo,
-        ArrJson[indi].pmin,
-        ArrJson[indi].pven,
-        ArrJson[indi].cantidad,
-        ArrJson[indi].precio_caja,
-        ArrJson[indi].cant_caja,
-        ArrJson[indi].caduc,
-        ArrJson[indi].peso,
-        suma,
-      ]);
+    
+
+Into.push([
+  ArrJson[indi].id_prod,
+  ArrJson[indi].nombre,
+  ArrJson[indi].descrip,
+  ArrJson[indi].costo,
+  ArrJson[indi].pmin,
+  ArrJson[indi].pven,
+  ArrJson[indi].cantidad,
+  ArrJson[indi].precio_caja,
+  ArrJson[indi].cant_caja,
+  ArrJson[indi].caduc,
+  ArrJson[indi].peso,
+ ArrJson[indi].ruta
+]);
     }
     Into.splice(0, 1);
-   
+  // console.log(Into);
     return Into;
   };
 
@@ -168,7 +168,7 @@ suma=stock[i].codigo;
     getData().then((response) => {
       //hacer alggo con esa respuesta
       const devol = convtoArr(response.data);
-      console.log(response.data);
+      //console.log(response.data);
       setList(devol);
     });
   }, []);
@@ -280,6 +280,7 @@ suma=stock[i].codigo;
                   value={dataModal.costo}
                   onChange={handleChangeModal}
                   required
+                  onWheel={() => document.activeElement.blur()}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -297,6 +298,7 @@ suma=stock[i].codigo;
                   value={dataModal.pmin}
                   onChange={handleChangeModal}
                   required
+                  onWheel={() => document.activeElement.blur()}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -314,6 +316,7 @@ suma=stock[i].codigo;
                   value={dataModal.pven}
                   onChange={handleChangeModal}
                   required
+                  onWheel={() => document.activeElement.blur()}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -331,6 +334,7 @@ suma=stock[i].codigo;
                   value={dataModal.cantidad}
                   onChange={handleChangeModal}
                   required
+                  onWheel={() => document.activeElement.blur()}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -348,6 +352,7 @@ suma=stock[i].codigo;
                   value={dataModal.precio_caja}
                   onChange={handleChangeModal}
                   required
+                  onWheel={() => document.activeElement.blur()}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -365,6 +370,7 @@ suma=stock[i].codigo;
                   value={dataModal.cant_caja}
                   onChange={handleChangeModal}
                   required
+                  onWheel={() => document.activeElement.blur()}
                 />
               </FloatingLabel>
             </Form.Group>
@@ -382,6 +388,7 @@ suma=stock[i].codigo;
                   value={dataModal.caduc}
                   onChange={handleChangeModal}
                   required
+                
                 />
               </FloatingLabel>
             </Form.Group>
@@ -399,6 +406,7 @@ suma=stock[i].codigo;
                   value={dataModal.peso}
                   onChange={handleChangeModal}
                   required
+                  onWheel={() => document.activeElement.blur()}
                 />
               </FloatingLabel>
             </Form.Group>
