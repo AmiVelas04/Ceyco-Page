@@ -28,7 +28,7 @@ export const ListProdOp = ({ prods, handleElim, Edita, Tota }) => {
 
   const handleCloseModal = (e) => {
     setshowModal(false);
-    setPrecio(dataModal.precio);
+    setPrecio(dataModal.precios);
     setCanti(dataModal.cant);
     //handleCamb(dataModal.id, dataModal.canti, dataModal.precios);
   };
@@ -76,7 +76,7 @@ export const ListProdOp = ({ prods, handleElim, Edita, Tota }) => {
   const handlePre = (valor) => {
     let resp = "";
     valor.map((val) => {
-      resp = val.pven;
+      resp = val.costo;
     });
     return resp;
   };
@@ -95,7 +95,7 @@ export const ListProdOp = ({ prods, handleElim, Edita, Tota }) => {
       tot = 0;
 
     valor.map((val) => {
-      n1 = val.pven;
+      n1 = val.costo;
       n2 = val.cantidad;
       tot = n1 * n2;
       // console.log(n1, n2, tot);
@@ -127,7 +127,7 @@ export const ListProdOp = ({ prods, handleElim, Edita, Tota }) => {
               <th>Codigo</th>
               <th>Producto</th>
               <th>Descripcion</th>
-              <th>Precio de venta</th>
+              <th>Precio</th>
               <th>Cantidad</th>
               <th>Total</th>
               <th>Acciones</th>

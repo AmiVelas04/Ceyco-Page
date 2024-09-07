@@ -108,12 +108,13 @@ export const MainCompra = () => {
       Pago: total,
       Estado: "Activa",
     };
-    console.log(ingre);
+   // console.log(ingre);
     try {
       const response = await axios.post(UrlSgen, ingre);
       if (response.status === 200) {
         console.log(response.status);
         if (saveDet(id) && (await SaveCaja(id, total))) {
+
           Swal("Exito", "La compra ha sido registrada", "success");
         } else {
           Swal("No guardado", "La compra no pudo ser registrada", "error");
@@ -153,7 +154,8 @@ export const MainCompra = () => {
       canti = 0,
       precio = 0,
       subto = 0,
-      id_det = 0;
+      id_det = 0,
+      costo=0;
     var id = await ultiCompDet();
     try {
       //  console.log(produ[0]);
@@ -162,13 +164,15 @@ export const MainCompra = () => {
         idprod = produ[0][i].id_prod;
         canti = produ[0][i].cantidad;
         precio = produ[0][i].pven;
-        subto = produ[0][i].cantidad * produ[0][i].pven;
+        subto = produ[0][i].cantidad * produ[0][i].costo;
+        costo=produ[0][i].costo;
         const detval = {
           detal_compr: id_det,
           id_compra: compra,
           id_prod: idprod,
           cantidad: canti,
           precio: precio,
+          costo:costo,
           subtotal: subto,
         };
         //  console.log(detval);
@@ -180,7 +184,9 @@ export const MainCompra = () => {
           // console.log(dataprod[0]);
           const cantchang =
             parseInt(dataprod[0].cantidad) + parseInt(detval.cantidad);
+            const precosto=(detval.costo);
           dataprod[0].cantidad = cantchang;
+          dataprod[0].costo=precosto;
           //  console.log(dataprod[0]);
           const updprods = await axios.put(UrlUpdProd, dataprod[0]);
           //console.log(updprods);
@@ -259,8 +265,8 @@ export const MainCompra = () => {
     let resp = "0";
     valor.map((val) => {
       if (id === val.id_prod) {
-        val.pven = prize;
-        resp = val.pven;
+        val.costo = prize;
+        resp = val.costo;
         return resp;
       }
     });
