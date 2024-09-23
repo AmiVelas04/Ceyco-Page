@@ -70,13 +70,14 @@ export const MainRepCarga = () => {
     resp1.forEach((elem, index) => {
       // console.log(elem);
       var pescaja= elem.cantidad*elem.peso;
+      var prom=elem.cantidad*elem.pven/elem.cantidad;
       const interm = {
         id_prod: elem.id_prod,
         nombre: elem.nombre,
         descrip: elem.descrip,
         costo: "0",
         pmin: "0",
-        pven: "0",
+        pven: prom,
         caduc: "0",
         cantidad: elem.cantidad,
         conte: "Caja",
@@ -88,13 +89,14 @@ export const MainRepCarga = () => {
 
     resp2.forEach((elem1) => {
       var pesindi=elem1.peso*elem1.cantidad;
+      var prom=elem1.cantidad*elem1.pven/elem1.cantidad;
       const interm = {
         id_prod: elem1.id_prod,
         nombre: elem1.nombre,
         descrip: elem1.descrip,
         costo: "0",
         pmin: "0",
-        pven: "0",
+        pven: prom,
         caduc: "0",
         cantidad: elem1.cantidad,
         conte: "Unidad",
@@ -121,6 +123,7 @@ export const MainRepCarga = () => {
         <td> {pedis.conte}</td>
         <td>{pedis.cantidad}</td>
         <td>{pedis.peso}</td>
+        <td>Q{pedis.pven}</td>
       </tr>
     );
   });
@@ -181,6 +184,7 @@ export const MainRepCarga = () => {
                     <th>Unidad/Caja</th>
                     <th>Cantidad</th>
                     <th>Peso</th>
+                    <th>Precio promedio</th>
                   </tr>
                 </thead>
                 <tbody>{conte}</tbody>

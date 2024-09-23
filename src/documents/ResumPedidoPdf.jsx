@@ -24,11 +24,14 @@ const ResumVenPed = ({ conte, fecha, Vende }) => {
       "Descripcion",
       "Entrega",
       "Cantidad",
-      "Peso"
+      "Peso",
+      "Precio Promedio Q"
     ];
     // console.log(conte);
     const filas = [];
     var sum=0;
+    var prome=0;
+ 
     conte.forEach((elem, key) => {
       let ord = key + 1;
       const sencillo = [
@@ -38,16 +41,21 @@ const ResumVenPed = ({ conte, fecha, Vende }) => {
         elem.descrip,
         elem.conte,
         elem.cantidad,
-        elem.peso
+        elem.peso,
+        elem.pven
       ];
       filas.push(sencillo);
       sum=sum+elem.peso;
+      prome=  prome+elem.pven;
+             //parseFloat(prome).toPrecision(2) +parseFloat(elem.pven).toPrecision(2) ;
     });
     doc.text("Peso total: "+sum+" lb", 85, 25);
+    doc.text("Total Promedio: Q"+prome.toFixed(2), 72, 30);
     doc.autoTable(encabe, filas, {
-      startY: 28,
+      startY: 32,
       showHead: "everyPage",
     });
+ 
     doc.save("Reporte pedido " + Vende + ", " + fecha + ".pdf");
   };
   return (
