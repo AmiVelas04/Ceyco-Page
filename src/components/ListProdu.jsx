@@ -12,24 +12,29 @@ import {
   FloatingLabel,
   Col,
   Row,
+  Image,
 } from "react-bootstrap";
 import moment from "moment";
 import Swal from "sweetalert";
 import axios from "axios";
+import { Producto } from "../containers/Producto";
 
 export const ListProdu = () => {
- 
-  const URL = "/producto/TodosWruta/";
+  const URLVar = "/producto/TodosWruta/";
   const URLSAVE = "/producto/updatepage/";
-  const UrlprodRut="producto/prodinPedido/";
-
+  const UrlprodRut = "producto/prodinPedido/";
+  const URLIMA = "/producto/imaup/";
+  const URLImaup2 = "https://api.imgbb.com/1/upload";
+  const apikey = "99e916f083221f9653eef58662f456e3";
   const getData = async () => {
-    const response = axios.get(URL);
+    const response = axios.get(URLVar);
     await crearCantRuta();
     return response;
   };
-  const [mostra, setMostra] = useState([]);
+
   const [stock, setStock] = useState([]);
+
+  const [filePath, setFilePath] = useState("");
   const [list, setList] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [dataModal, setDataModal] = useState([]);
@@ -38,6 +43,13 @@ export const ListProdu = () => {
   const handleCloseModal = () => {
     setshowModal(false);
   };
+
+  const devolimagen = async (data) => {
+    const imao = "data:image/png;base64," + data;
+    //console.log(imao);
+    return imao;
+  };
+
   const handleOpenModal = (datos) => {
     const valo = {
       id_prod: datos[0],
@@ -50,7 +62,8 @@ export const ListProdu = () => {
       precio_caja: datos[7],
       cant_caja: datos[8],
       caduc: moment(datos[9].caduc).format("yyyy-MM-DD"),
-      peso:datos[10]
+      peso: datos[10],
+      imagen: datos[12],
     };
     setshowModal(true);
     setDataModal(valo);
@@ -67,36 +80,48 @@ export const ListProdu = () => {
     list.forEach(function (num) {
       total += num[3] * num[6];
     });
-   // console.log(total);
+    // console.log(total);
     setTotal(total);
   };
 
-  const crearCantRuta=async()=>{
+  const crearCantRuta = async () => {
     const response = await axios.get(UrlprodRut);
-  // console.log(response.data);
+    // console.log(response.data);
     setStock(response.data);
-  }
+  };
 
   let conte = list.map((prod, index) => {
     //console.log("Total en ruta:"+prod[11]);
-    var estilo={backgroundColor:'white', color:'black'};
-    if(prod[6]<=0)
-    {
-      estilo={ backgroundColor:'red', color:'white'};
+    var estilo = { backgroundColor: "white", color: "black" };
+    if (prod[6] <= 0) {
+      estilo = { backgroundColor: "red", color: "white" };
     }
+
+    // console.log(prod[12]);
     return (
-      <tr key={index}  style={estilo}>
+      <tr key={index} style={estilo}>
         <td>{prod[0]}</td>
         <td>{prod[1]}</td>
         <td>{prod[2]}</td>
         <td>Q.{prod[3]}</td>
         <td>Q.{prod[4]}</td>
         <td>Q.{prod[5]}</td>
-        <td> <tr>Stock:{prod[6]}</tr> <tr>Ruta:{[prod[11]]}</tr>  </td>
+        <td>
+          <tr>Stock:{prod[6]}</tr> <tr>Ruta:{[prod[11]]}</tr>
+        </td>
         <td>Q{prod[7]}</td>
         <td>{prod[8]}</td>
         <td>{moment(prod[9]).format("DD/MM/yyyy")}</td>
         <td>{prod[10]}</td>
+        <td>
+          <img
+            src={prod[12]}
+            width="75px"
+            height="75px"
+            alt={`Imagen ${index + 1}`}
+            loading="lazy"
+          />
+        </td>
         <td>
           <button
             className="btn btn-warning"
@@ -110,36 +135,54 @@ export const ListProdu = () => {
     );
   });
 
-  const convtoArr = (ArrJson) => {
+  const convtoArr = async (ArrJson) => {
     var Into = [{}];
+
     //console.log(ArrJson);
     for (let indi in ArrJson) {
       // console.log(ArrJson.length);
-    
+      Into.push([
+        ArrJson[indi].id_prod,
+        ArrJson[indi].nombre,
+        ArrJson[indi].descrip,
+        ArrJson[indi].costo,
+        ArrJson[indi].pmin,
+        ArrJson[indi].pven,
+        ArrJson[indi].cantidad,
+        ArrJson[indi].precio_caja,
+        ArrJson[indi].cant_caja,
+        ArrJson[indi].caduc,
+        ArrJson[indi].peso,
+        ArrJson[indi].ruta,
+        ArrJson[indi].imagen,
+      ]);
 
-Into.push([
-  ArrJson[indi].id_prod,
-  ArrJson[indi].nombre,
-  ArrJson[indi].descrip,
-  ArrJson[indi].costo,
-  ArrJson[indi].pmin,
-  ArrJson[indi].pven,
-  ArrJson[indi].cantidad,
-  ArrJson[indi].precio_caja,
-  ArrJson[indi].cant_caja,
-  ArrJson[indi].caduc,
-  ArrJson[indi].peso,
- ArrJson[indi].ruta
-]);
+      // console.log(valo);
     }
     Into.splice(0, 1);
-  // console.log(Into);
+    //  console.log(images);
     return Into;
   };
 
   const handleSave = async (e) => {
     try {
-      const response = await axios.put(URLSAVE, dataModal);
+      const ima = await handleUploadima();
+      const datosSave = {
+        id_prod: dataModal.id_prod,
+        nombre: dataModal.nombre,
+        descrip: dataModal.descrip,
+        costo: dataModal.costo,
+        pven: dataModal.pven,
+        pmin: dataModal.pmin,
+        cantidad: dataModal.cantidad,
+        cant_caja: dataModal.cant_caja,
+        precio_caja: dataModal.precio_caja,
+        caduc: dataModal.caduc,
+        peso: dataModal.peso,
+        imagen: ima.data.url,
+      };
+      const response = await axios.put(URLSAVE, datosSave);
+
       if (response.status === 200) {
         await Swal(
           "Actualizado",
@@ -163,11 +206,68 @@ Into.push([
     }
   };
 
+  const handleShow = (e) => {
+    // const path = URL.createObjectURL(e.target.files[0]);
+    setFilePath(e.target.files[0]);
+  };
+
+  const handleUploadima = async () => {
+    let long = filePath.name.length;
+    //console.log(filePath.name);
+    long = long - 3;
+    let nom = filePath.name;
+    let extension = nom.toString().substring(long);
+    let completoNom = "prod" + dataModal.id_prod + "." + extension;
+
+    const urlGrab = URLIMA + completoNom;
+    // console.log(dataModal.ima);
+    //console.log(filePath);
+    var formData = new FormData();
+    var reader = new FileReader();
+    reader.readAsDataURL(filePath);
+    reader.onloadend = function () {
+      var base64data = reader.result;
+      // console.log(base64data);
+    };
+
+    formData.append("image", filePath);
+    formData.append("key", apikey);
+    formData.append("name", completoNom);
+
+    const response = await axios.post(URLImaup2, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    try {
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        await Swal(
+          "No subida",
+          "La imagen no pudo ser subida, codigo de operacion",
+          "error"
+        );
+      }
+    } catch (error) {
+      await Swal(
+        "No ingresado",
+        "El producto no pudo ser ingresado, verifique el estado del servidor" +
+          error,
+        "error"
+      );
+    }
+  };
+
   useEffect(() => {
     //usefect body
-    getData().then((response) => {
+    getData().then(async (response) => {
       //hacer alggo con esa respuesta
-      const devol = convtoArr(response.data);
+      //const respo = await axios.get("/producto/getimage/0");
+      // setImages(respo.data);
+      const devol = await convtoArr(response.data);
+      //      console.log(respo.data);
       //console.log(response.data);
       setList(devol);
     });
@@ -189,6 +289,7 @@ Into.push([
             <th>Cantidad por caja</th>
             <th>Fecha de caducidad</th>
             <th>Peso Individual(lb)</th>
+            <th>Imagen</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -388,7 +489,6 @@ Into.push([
                   value={dataModal.caduc}
                   onChange={handleChangeModal}
                   required
-                
                 />
               </FloatingLabel>
             </Form.Group>
@@ -407,6 +507,22 @@ Into.push([
                   onChange={handleChangeModal}
                   required
                   onWheel={() => document.activeElement.blur()}
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Imagen del producto"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="file"
+                  accept=".jpg"
+                  name="imagen"
+                  onChange={handleShow}
+                  required
                 />
               </FloatingLabel>
             </Form.Group>

@@ -13,6 +13,7 @@ import {
   ModalBody,
   ModalTitle,
 } from "react-bootstrap";
+
 import Swal from "sweetalert";
 import axios from "axios";
 
@@ -20,9 +21,12 @@ import ListaProdu from "./ListProdu";
 
 export const MainProdu = () => {
   const URLSAVE = "/producto/";
+  const URLIMA = "/producto/imaup/";
+  const URLImaup2 = "https://api.imgbb.com/1/upload";
   const [dataModal, setDataModal] = useState(null);
   const [showModal, setshowModal] = useState(false);
-
+  const [filePath, setFilePath] = useState("");
+  const apikey = "99e916f083221f9653eef58662f456e3";
   const handleCloseModal = () => {
     setshowModal(false);
   };
@@ -31,6 +35,7 @@ export const MainProdu = () => {
   };
 
   const handleChangeModal = ({ target }) => {
+    // console.log(target);
     setDataModal({
       ...dataModal,
       [target.name]: target.value,
@@ -39,7 +44,24 @@ export const MainProdu = () => {
 
   const handleSave = async (e) => {
     // alert(dataModal);
-    const response = await axios.post(URLSAVE, dataModal);
+    const ima = await handleUploadima();
+    //console.log(ima.data.url);
+    const datosSave = {
+      id_prod: dataModal.id_prod,
+      nombre: dataModal.nombre,
+      descrip: dataModal.descrip,
+      costo: dataModal.costo,
+      pven: dataModal.pven,
+      pmin: dataModal.pmin,
+      cantidad: dataModal.cantidad,
+      cant_caja: dataModal.cant_caja,
+      precio_caja: dataModal.precio_caja,
+      caduc: dataModal.caduc,
+      peso: dataModal.peso,
+      imagen: ima.data.url,
+    };
+    //  console.log(dataModal);
+    const response = await axios.post(URLSAVE, datosSave);
     try {
       if (response.status === 200) {
         await Swal(
@@ -51,6 +73,60 @@ export const MainProdu = () => {
         await Swal(
           "No ingresado",
           "El producto no pudo ser ingresado",
+          "error"
+        );
+      }
+    } catch (error) {
+      await Swal(
+        "No ingresado",
+        "El producto no pudo ser ingresado, verifique el estado del servidor" +
+          error,
+        "error"
+      );
+    }
+  };
+
+  const handleShow = (e) => {
+    // const path = URL.createObjectURL(e.target.files[0]);
+    setFilePath(e.target.files[0]);
+  };
+
+  const handleUploadima = async () => {
+    let long = filePath.name.length;
+    //console.log(filePath.name);
+    long = long - 3;
+    let nom = filePath.name;
+    let extension = nom.toString().substring(long);
+    let completoNom = "prod" + dataModal.id_prod + "." + extension;
+
+    const urlGrab = URLIMA + completoNom;
+    // console.log(dataModal.ima);
+    //console.log(filePath);
+    var formData = new FormData();
+    var reader = new FileReader();
+    reader.readAsDataURL(filePath);
+    reader.onloadend = function () {
+      var base64data = reader.result;
+      // console.log(base64data);
+    };
+
+    formData.append("image", filePath);
+    formData.append("key", apikey);
+    formData.append("name", completoNom);
+
+    const response = await axios.post(URLImaup2, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    try {
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        await Swal(
+          "No subida",
+          "La imagen no pudo ser subida, codigo de operacion",
           "error"
         );
       }
@@ -245,6 +321,22 @@ export const MainProdu = () => {
                   name="caduc"
                   placeholder="fecha de caducidad"
                   onChange={handleChangeModal}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Imagen del producto"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="file"
+                  accept=".jpg"
+                  name="imagen"
+                  onChange={handleShow}
                   required
                 />
               </FloatingLabel>
