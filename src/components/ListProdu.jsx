@@ -174,11 +174,11 @@ export const ListProdu = () => {
       //console.log("direccion de imagen cargada " + filePath.name);
       if (filePath.name === undefined) {
         dira = imaAnt;
-        //console.log("Direccion de imagen " + dira);
+        console.log("Direccion de imagen anterior" + dira);
       } else {
         ima = await handleUploadima();
         dira = ima.data.url;
-        console.log("Direccion de imagen " + dira);
+        console.log("Direccion de imagen nueva subida " + dira);
       }
       console.log(dira);
       //const ima =
