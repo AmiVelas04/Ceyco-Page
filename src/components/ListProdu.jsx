@@ -33,7 +33,7 @@ export const ListProdu = () => {
   };
 
   const [stock, setStock] = useState([]);
-
+  const [imaAnt, setImaAnt] = useState("");
   const [filePath, setFilePath] = useState("");
   const [list, setList] = useState([]);
   const [showModal, setshowModal] = useState(false);
@@ -63,8 +63,9 @@ export const ListProdu = () => {
       cant_caja: datos[8],
       caduc: moment(datos[9].caduc).format("yyyy-MM-DD"),
       peso: datos[10],
-      imagen: datos[12],
+      // imagen: datos[12],
     };
+    setImaAnt(datos[12]);
     setshowModal(true);
     setDataModal(valo);
   };
@@ -120,6 +121,7 @@ export const ListProdu = () => {
             height="75px"
             alt={`Imagen ${index + 1}`}
             loading="lazy"
+            value={prod[12]}
           />
         </td>
         <td>
@@ -166,7 +168,17 @@ export const ListProdu = () => {
 
   const handleSave = async (e) => {
     try {
-      const ima = await handleUploadima();
+      let ima = null;
+      let dira = "lol";
+
+      if (filePath.data == null) {
+        dira = imaAnt;
+      } else {
+        ima = await handleUploadima();
+        dira = ima.data.url;
+      }
+      console.log(dira);
+      //const ima =
       const datosSave = {
         id_prod: dataModal.id_prod,
         nombre: dataModal.nombre,
@@ -179,8 +191,9 @@ export const ListProdu = () => {
         precio_caja: dataModal.precio_caja,
         caduc: dataModal.caduc,
         peso: dataModal.peso,
-        imagen: ima.data.url,
+        imagen: dira,
       };
+      console.log(datosSave);
       const response = await axios.put(URLSAVE, datosSave);
 
       if (response.status === 200) {
