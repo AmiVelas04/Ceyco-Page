@@ -65,6 +65,7 @@ export const ListProdu = () => {
       peso: datos[10],
       // imagen: datos[12],
     };
+    console.log("Imagen anterior " + datos[12]);
     setImaAnt(datos[12]);
     setshowModal(true);
     setDataModal(valo);
@@ -170,12 +171,14 @@ export const ListProdu = () => {
     try {
       let ima = null;
       let dira = "lol";
-
-      if (filePath.data == null) {
+      //console.log("direccion de imagen cargada " + filePath.name);
+      if (filePath.name === undefined) {
         dira = imaAnt;
+        //console.log("Direccion de imagen " + dira);
       } else {
         ima = await handleUploadima();
         dira = ima.data.url;
+        console.log("Direccion de imagen " + dira);
       }
       console.log(dira);
       //const ima =
